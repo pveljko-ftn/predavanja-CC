@@ -1,0 +1,616 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="generator" content="pandoc">
+  <meta name="author" content="Veljko Petrović">
+  <title>Tehnologija</title>
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
+  <link rel="stylesheet" href="https://unpkg.com/reveal.js@^4//dist/reset.css">
+  <link rel="stylesheet" href="https://unpkg.com/reveal.js@^4//dist/reveal.css">
+  <style>
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    span.underline{text-decoration: underline;}
+    div.column{display: inline-block; vertical-align: top; width: 50%;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    ul.task-list{list-style: none;}
+  </style>
+  <link rel="stylesheet" href="https://unpkg.com/reveal.js@^4//dist/theme/night.css" id="theme">
+  <link rel="stylesheet" href="slides.css"/>
+</head>
+<body>
+  <div class="reveal">
+    <div class="slides">
+
+<section id="title-slide">
+  <h1 class="title">Tehnologija</h1>
+  <p class="author">Veljko Petrović</p>
+  <p class="date">Oktobar, 2022</p>
+</section>
+
+<section>
+<section id="tehnologije-računarstva-u-oblaku" class="title-slide slide level1">
+<h1>Tehnologije računarstva u oblaku</h1>
+<p>Hardversko/softverska pozadina</p>
+</section>
+<section id="svrha-predavanja" class="slide level2">
+<h2>Svrha predavanja</h2>
+<ul>
+<li>Ovo predavanja pokušava da prođe kroz osnove tehnologija koje čine računarstvo u oblaku mogućim</li>
+<li>Glavne tehnologije koje nas zanimaju su
+<ul>
+<li>Mrežne tehnologije visokog kapaciteta</li>
+<li>Tehnologije računarskih postrojenja</li>
+<li>Virtualizacija</li>
+<li>Web tehnologija</li>
+<li>Tehnologija višestruke upotrebe</li>
+<li>Tehnologija servisnih arhitektura</li>
+</ul></li>
+</ul>
+</section>
+<section id="šta-nije-svrha-predavanja" class="slide level2">
+<h2>Šta nije svrha predavanja</h2>
+<ul>
+<li>Nije svrha ovoga da se sve ove tehnologije u potpunosti nauče i razumeju ovde</li>
+<li>Prvo, nema vremena.</li>
+<li>Drugo, trebalo bi da dosta ovoga znate, barem na nekakvom nivou.</li>
+<li>Umesto toga, ovo nabrajanje, koje je nužno na visokom nivou i vrlo komprimovano služi da bi razumeli kako se sve ovo povezuje i kako čini računarstvo u oblaku i <em>mogućim</em> ali i ograničenim.</li>
+</ul>
+</section>
+<section id="ograničenost-i-mogućnost" class="slide level2">
+<h2>Ograničenost i mogućnost</h2>
+<ul>
+<li>Generalno bilo koja tehnologija koja omogućava nekakvu pod-oblast računarskih nauka, je takođe i glavna međa koja <em>ograničava</em> tu pod-oblast.</li>
+<li>Asinhrona priroda komunikacija u modernoj Web aplikaciji povezana sa DOM stablom kao univerzalnim jezikom prikaza (sa svim svojim ograničenjima) je glavni razlog zašto razvoj interfejsa izgleda kako izgleda i ima prioritete koje ima.</li>
+<li>Da su se svi browser alati dogovorili da imaju brz način piksel-savršene kontrole prikaza na vreme, na primer, situacija bi bila znatno drugačija.</li>
+</ul>
+</section></section>
+<section>
+<section id="mrežne-tehnologije-visokog-kapaciteta" class="title-slide slide level1">
+<h1>Mrežne tehnologije visokog kapaciteta</h1>
+<p>Kako se podaci kreću?</p>
+</section>
+<section id="oblak-zavisi-od-interneta" class="slide level2">
+<h2>“Oblak” zavisi od Interneta</h2>
+<ul>
+<li>Računarstvo u oblaku nikada ne bi uspelo da nije internet komunikacija</li>
+<li>Sa jedne strane Internet je vitalan da bi mogli da imamo dovoljno korisnika da nam uopšte <em>treba</em> CC</li>
+<li>Sa druge, samo Internet omogućava mrežnu fleksibilnost da koristimo računarske resurse distribuirane preko celog sveta</li>
+<li>Naravno, dovoljno velika firma bi mogla da ima potpuno lokalni oblak čiji su korisnici unutar firme i gde su sve veze preko LAN tehnologije.</li>
+</ul>
+</section>
+<section id="cc-bez-interneta" class="slide level2">
+<h2>CC bez Interneta</h2>
+<ul>
+<li>Kasnije kada budemo diskutovali arhitektonske šablone CC instalacija biće više reči o ovom pod-tipu</li>
+<li>Dovoljno je reći da
+<ul>
+<li>Nije dominantan: većina upotrebe CC je preko Interneta i to sa dobrim razlogom.</li>
+<li>Organizacija dovoljno velikog LANa će biti veoma slična onoj koja se koristi za Internet, barem danas.</li>
+</ul></li>
+</ul>
+</section>
+<section id="hijerarhija-isp" class="slide level2">
+<h2>Hijerarhija ISP</h2>
+<ul>
+<li>Internet nema gotovo nikakvo centralizovano upravljajuće telo izuzimajući ICANN (mada je čak i on onoliko koliko može biti distribuiran)</li>
+<li>Uprkos tome, Internet nije, baš, decentralizovan koliko je distribuiran</li>
+<li>On postoji kao kontinuirano povezivanje ogromnih mreža koje opslužuju (kao unificirajući entiteti)  Internet Service Provider  institucije prvog ranga</li>
+</ul>
+</section>
+<section id="hijerarhija-isp-1" class="slide level2">
+<h2>Hijerarhija ISP</h2>
+<ul>
+<li>Te ogromne mreže (često nacionalne ili čak trans-nacionalne) se sastoje uglavnom od velikih spojenih mreža</li>
+<li>Te velike mreže, često regionalnog karaktera, koje se spajaju su mreže koje stvaraju ISP drugog ranga</li>
+<li>A regionalne mreže se, pak, sastoje uglavnom od srednjih spojenih mreža: to su mreže ISP trećeg ranga i, iako su male u odnosu na mreže čiji konstituent čine, i dalje su velike.</li>
+<li>Bilo koji rang ISP može imati i obične, individualne klijente ili spajati mreže.</li>
+</ul>
+</section>
+<section id="hijerarhija-isp-2" class="slide level2">
+<h2>Hijerarhija ISP</h2>
+<ul>
+<li>Dok ste na FTN-u vi ste korisnici Akademske Računarske Mreže Univerziteta u Novom Sadu (ARMUNS) koja je za vas ISP</li>
+<li>Ceo ARMUNS se spaja sa ARMU-ovima drugih univerziteta u Srbiji da tvori akademsku mrežu cele Srbije, koja funkcioniše kao ISP za univerzitete i spaja njihove mreže.</li>
+<li>Dalje, ta akademska mreža Srbije je (verovatno) objedinjena sa drugim mrežama istog tipa u okviru nekakve objedinjene mreže Evrope, koja funkcioniše kao ISP za tu mrežu.</li>
+<li>Ova arhitektura je ugrubo</li>
+</ul>
+</section>
+<section id="zašto-nas-ovo-zanima" class="slide level2">
+<h2>Zašto nas ovo zanima?</h2>
+<ul>
+<li>Ovakva arhitektura Interneta pokazuje da postoji zanimljiva <em>lokalnost</em> u mrežama.</li>
+<li>Razdaljine nisu nužno geografski određene (mada tiranija brzine svetlosti i dalje opstaje) nego zavise u velikoj meri od broja skokova između uređaja neophodnih da se ode od jednog do drugog dela mreže.</li>
+<li>To znači da se određenim entitetima isplati da imaju direktno naloge kod provajdera prvog ranga</li>
+<li>Primer: Netflix</li>
+</ul>
+</section>
+<section id="priroda-internet-komunikacije" class="slide level2">
+<h2>Priroda Internet komunikacije</h2>
+<ul>
+<li>Internet komunikacija ne ide uvek istim putanjama</li>
+<li>Ako želimo da komuniciramo, recimo, sa drugim ARMUNS računarom šanse su ogromne da nikad nećemo napustiti ARMUNS mrežu i <em>najverovatnija</em> putanja je uz nivoe hijerarhije i onda horizontalno, to nije neophodno ili sigurno</li>
+<li>Sistem je konfigurisan tako da podaci mogu da idu bilo kojom putanjom od čvora do čvora dok ne stignu do svog odredišta, potencijalno istovremeno iz mnogo strana</li>
+<li>To znači da ako se neki link optereti ili prekine, mreža se ‘samoizleči’ i nađe se alternativna putanja</li>
+</ul>
+</section>
+<section id="kako-je-ovo-moguće" class="slide level2">
+<h2>Kako je ovo moguće?</h2>
+<ul>
+<li>Postoje dve fundamentalne tehnologije koje omogućavaju ovo ponašanje:
+<ul>
+<li>Datagramski paketni mrežni protokoli</li>
+<li>Dinamičko rutiranje</li>
+</ul></li>
+</ul>
+</section>
+<section id="datagramski-paketni-mrežni-protokoli" class="slide level2">
+<h2>Datagramski paketni mrežni protokoli</h2>
+<ul>
+<li>Svi podaci u ovakvoj mreži se pakuju u pakete sa maksimalnom dužinom i svim metapodacima neophodnim da podaci unutar paketa stignu na pravo odredište</li>
+<li>Paketi su numerisani i može se identifikovati pravi redosled paketa ako neki izostane ili stigne na odredište u pogrešnom redosledu</li>
+<li>Paketi su adresirani sa jedinstvenim identifikatorom odredišta
+<ul>
+<li>Na IP mrežama to je IP adresa koja je ili 32 ili 128 bita u zavisnosti da li govorimo o IPv4 ili $IPv6% adresama</li>
+<li>Na nižem nivou, unutar mreža Ethernet tipa to je MAC odnosno  Media Access Control  adresa koja je 48-bita i određena na nivou fizičkog uređaja.</li>
+<li>Kada podatak stigne na računar, softver odgovoran da obrađuje podatke se bira na osnovu <em>porta.</em> proste 16-bitne numeričke vrednosti koja se tipično označava kao broj od 1 do 65535</li>
+</ul></li>
+</ul>
+</section>
+<section id="slojevi" class="slide level2">
+<h2>Slojevi?</h2>
+<ul>
+<li>OSI mrežni model priznaje sedam slojeva
+<ul>
+<li>Fizički - Vodi računa o tome kako variranjem fizičkih veličina da se prenose binarni podaci (osmožilni kabl)</li>
+<li>Logičko-vezni - Vodi računa o tome kako da se tok bita prenese od jednog do drugog uređaja koji dele fizički medijum, jedinica transporta je <em>frejm</em> (Ethernet)</li>
+<li>Mrežni - Vodi računa o komunikaciji između različitih fizičkih medija, jedinica transporta je <em>paket</em> (IP)</li>
+<li>Transportni - Vodi računa o tome da svi podaci iz jednog pokušaja slanja odista stignu na drugu stranu i podpadnu pod kontrolu aplikacije koja je odgovorna za njih, jedinica transporta je <em>segment</em> (TCP)</li>
+<li>Sesijski - Vodi računa o tome da se zna koje komunikacije pripadaju kojoj sesiji i da se prati stanje konekcije, autorizacije i identiteta  (HTTP  ali vidi kasnije)</li>
+<li>Prezentacioni - Vodi računa o formatiranju podataka koji se šalju  (JSON/utf8) </li>
+<li>Aplikativni - Radi nešto korisno sa podacima  (REST  applikacija)</li>
+</ul></li>
+</ul>
+</section>
+<section id="slojevi-1" class="slide level2">
+<h2>Slojevi?</h2>
+<ul>
+<li>U praksi se koristi model koji proističe iz  TCP/IP  protokol seta i koji ima <em>pet</em> slojeva zato što su sesijski, prezentacioni, i aplikatinvi sloj kombinovani u samo jedan, aplikativni sloj.</li>
+<li>Zbog toga je ono sortiranje na prošlom slajdu imalo ‘vidi kasnije’ u sebi.</li>
+<li>U praksi odgovornosti zadnjih tri sloja su kombinovane</li>
+</ul>
+</section>
+<section id="kombinacija-slojeva" class="slide level2">
+<h2>Kombinacija slojeva</h2>
+<ul>
+<li>Ono što čini ovaj model moćnim jeste sposobnost slaganja mrežnih slojeva tako da Ethernet frejm sadrži IP paket koji sadrži TCP segment koji sadrži…</li>
+<li>Budući da svaki nivo ne zna šta znače bitovi koje prenosi (tj. IP ne zna da li su bitovi koje prenosi TCP ili UDP ili nešto sasvim novo), ovaj sistem može lako da se menja.</li>
+<li>Najintuitivnije je kako se isti  TCP/IP  stek prenosi i kroz bežične i žičane mreže</li>
+</ul>
+</section>
+<section id="tuneliranje" class="slide level2">
+<h2>Tuneliranje</h2>
+<ul>
+<li>To štu su sadržaji jedinica transporta proizvoljni setovi bajtova omogućava trik poznat kao <em>tuneliranje</em></li>
+<li>Ideja je da se u protokol višeg nivoa kao sadržaj umetnu podaci koji pripadaju nižem protokolu</li>
+<li>Onda se na stani primaoca softver konfiguriše tako da ekstrahuje te podatke i tretira ih kao da opisuju taj niži protokol</li>
+<li>Ovo je neverovano moćna tehnologija koja čini koncept VPN tehnologije mogućim</li>
+</ul>
+</section>
+<section id="tuneliranje-1" class="slide level2">
+<h2>Tuneliranje</h2>
+<ul>
+<li>Klasičan primer tuneliranja jeste upotreba SSH protokola (koji pripada aplikativnom sloju) da u svom sadržaju (gde normalno idu komande za udaljenu kontrolu računara) šalje pakete i segmente klasične  TCP/IP  veze</li>
+<li>Time je moguće da pristupate lokalnim mrežnim resursima udaljeng računara kroz mrežu na bezbedan način, budući da morate uspostaviti autorizovan enkriptovan kanal pre bilo kakve komunikacije.</li>
+<li>Ovakvi tuneli se mogu uspostaviti i protokolima namenjenim za baš ovo, ako je takva veza dugotrajna onda se ovo još i zovu virtualizovane privatne mreže, budući da se preko tog šifrovanog kanala formira veza koja omogućuje da se dve lokalne mreže objedine u jednu.</li>
+</ul>
+</section>
+<section id="dinamičko-rutiranje" class="slide level2">
+<h2>Dinamičko rutiranje</h2>
+<ul>
+<li>Ruter je mrežni uređaj (interno običan računar) koji ima više mrežnih interfejsa koji su deo različitih mreža</li>
+<li>Funkcija rutera je da više mreža objedini u jednu tako što usmerava (rutira) komunikaciju između tih mreža</li>
+<li>Ruter ne može da zna topologiju kompleksnog sistema u koji je uključen, nužno, ali mora da zna koje linkove ima i da ima nekakvo pravilo koje šalje pakete u jednom smeru ili drugom</li>
+<li>To ‘pravilo’ se tipično zove <em>tabela rutiranja</em></li>
+</ul>
+</section>
+<section id="dinamičko-rutiranje-1" class="slide level2">
+<h2>Dinamičko rutiranje</h2>
+<ul>
+<li>Neki uređaji imaju lak posao</li>
+<li>Vaš kućni ruter mora da pamti samo dva pravila
+<ul>
+<li>Ako adresa počinje sa, na primer, <code>192.168.1</code> i ima kao zadnji bajt bilo šta od 1 do 255, onda se to šalje na lokalni mrežni interfejs (za ovaj interfejs je često fabrički i neraskidivo vezan svič)</li>
+<li>Sve ostalo ide na WAN interfejs ka vašem provajderu.</li>
+</ul></li>
+<li>Kompleksniji ruteri imaju kompleksnija pravila ali statičke tabele rutiranja imaju ograničenu upotrebnu vrednost</li>
+</ul>
+</section>
+<section id="dinamičko-rutiranje-2" class="slide level2">
+<h2>Dinamičko rutiranje</h2>
+<ul>
+<li>Zamislite da vam je jako bitan internet protok i zato plaćate račune kod dva provajdera</li>
+<li>Onda vam treba ruter sa <em>tri</em> mrežna interfejsa</li>
+<li>Takođe vam treba pravilo kada koji paketi idu kroz koji link</li>
+<li>Oba WAN linka vode, potencijalno, ka celom ostatku interneta</li>
+<li>Pravilo zavisi od potreba sistema, uspostavljenih veza i brda drugih faktora</li>
+<li>Treba vam dinamičko rutiranje</li>
+</ul>
+</section>
+<section id="dinamičko-rutiranje-3" class="slide level2">
+<h2>Dinamičko rutiranje</h2>
+<ul>
+<li>Za provajdere situacija je još komplikovanija</li>
+<li>Imaju razne linkove ka raznim drugim mrežama</li>
+<li>Potencijalno imaju više linkova ka istoj drugoj mreži</li>
+<li>Svaki link je jednako dobar u smislu toga što će, eventualno, sve što pošalju da stigne tamo gde treba</li>
+<li>Ali koja putanja je adekvatno brza?</li>
+</ul>
+</section>
+<section id="dinamičko-rutiranje-4" class="slide level2">
+<h2>Dinamičko rutiranje</h2>
+<ul>
+<li>Ruteri u ovakvim situacijama koriste kompleksne algoritme koji na osnovu topologije veza i trenutnog stanja linkova dinamički biraju odredište za bilo koji specifičan paket</li>
+<li>Faktori koji utiču na ‘sudbinu’ paketa su, naravno, adresa, veličina, i tajming, baš kao i trenutno stanje mreže i njenog opterećenja</li>
+<li>Jednako bitno kao i sve ovo je i faktor poznat kao QoS</li>
+</ul>
+</section>
+<section id="quality-of-service" class="slide level2">
+<h2> Quality of Service </h2>
+<ul>
+<li>Ovaj termin se koristi u dva konteksta
+<ul>
+<li>Kvalitet komunikacije između neke dve tačke u mrežnom sistemu</li>
+<li><em>Traženi</em> kvalitet komunikacije</li>
+</ul></li>
+<li>Ako uređaj kaže da podržava QoS onda se misli na značenje 2</li>
+<li>Kada ima više paketa, sistem može birati da odabere neke kao hitnije u odnosu na druge</li>
+</ul>
+</section>
+<section id="uticaj-ovih-faktora-na-cc" class="slide level2">
+<h2>Uticaj ovih faktora na CC</h2>
+<ul>
+<li>Dva mrežna faktora su glavna u slučaju komunikacije za računarstvo u oblaku:
+<ul>
+<li>Protok</li>
+<li>Kašenjenje</li>
+</ul></li>
+<li>Protok je količina informacija koja teče između neke dve tačke (vašeg sistema u oblaku i krajnjeg korisnika)</li>
+<li>Kašenjenje je koliko vremena prođe od zahteva za podacima i prvih podataka koji stignu, tipično se meri u milisekundama</li>
+</ul>
+</section>
+<section id="uticaj-ovih-faktora-na-cc-1" class="slide level2">
+<h2>Uticaj ovih faktora na CC</h2>
+<ul>
+<li>Protok je problem ako komunikacija nadmaši kapacitet linka</li>
+<li>Ovo se može rešiti novčano, tako što se zakupi još kapaciteta</li>
+<li>Jedini rizik je u slučaju prenosa velikih količina podataka gde postoje i ekonomski faktori i faktori kapaciteta infrastrukture</li>
+<li>Kašnjenje je mnogo veći problem</li>
+</ul>
+</section>
+<section id="kašnjenje-i-otvoreni-internet" class="slide level2">
+<h2>Kašnjenje i otvoreni internet</h2>
+<ul>
+<li>Nemoguće je  a priori  ustanoviti kojom će putanjom da ide nekakav podatak kroz mrežu sa dinamičkim rutiranjem koja je dovoljno kompleksna.</li>
+<li>To znači da je kašnjenje bilo kog paketa nepredvidivo u zavisnosti od smera u kome dinamičko rutiranje pošalje neki ključan paket</li>
+<li>Čak i ako postoje QoS garancije, vrlo je teško održati te tokom prolaska kroz domene nekoliko različitih provajdera</li>
+<li>Ovo znači da je CC rešenje za probleme gde je potrebno vrlo malo kašnjenje neprikladno.</li>
+</ul>
+</section>
+<section id="moguća-rešenja" class="slide level2">
+<h2>Moguća rešenja</h2>
+<ul>
+<li>Jedini način da se utiče na kašnjenje jeste ako je moguće nešto uraditi povodom mrežne topologije obe strane komunikacije</li>
+<li>Dakle, ne u slučaju krajnjeg korisinika, ali možda u slučaju komuinikacije dva sistema</li>
+<li>Tajna može biti da se sistemi smeste bliže u kontekstu mrežne topologije</li>
+<li>Alternativa je upotreba više provajdera usluga računarstva u oblaku</li>
+</ul>
+</section></section>
+<section>
+<section id="tehnologije-računarskih-postrojenja" class="title-slide slide level1">
+<h1>Tehnologije računarskih postrojenja</h1>
+<p>Industrijalizacija računarskih postrojenja</p>
+</section>
+<section id="šta-je-računarsko-postrojenje" class="slide level2">
+<h2>Šta je računarsko postrojenje</h2>
+<ul>
+<li>Računarsko postrojenje jeste prostor, infrastruktura, i oprema koji su namenjeni za pružanje računarskih usluga na skali industrije</li>
+<li>To znači da je organizacija prostorija, prisutna infrastruktura, i korišćene tehnologije sva isključivo namenjena navedenoj svrsi, bez kompromisa</li>
+<li>Ovako nešto je neophodno da bi bilo isplativo da se održavaju dovoljno velike koncentracije računarskih kapaciteta da bi njihovo prodavanje kao usluge računarstva u oblaku imalo smisla.</li>
+</ul>
+</section>
+<section id="modifikacija-prostora" class="slide level2">
+<h2>Modifikacija prostora</h2>
+<ul>
+<li>Tipično za ovakav prostor je da očekujete posebno spuštene tavanice i podignute podove radi lakšeg provlačenja kablova i kontrolisanja sistema za hlađenje.</li>
+<li>Koriste se napredni protivpožarni sistemi koji ponekad koriste tehnike izmeštanja kiseonika</li>
+<li>Posebni sistemi napajanja</li>
+</ul>
+</section>
+<section id="modularizacija" class="slide level2">
+<h2>Modularizacija</h2>
+<ul>
+<li>Generalno svi računari u ovoj primeni su apsolutno standardizovanog oblika i napravljeni da idu na standardni rek za mrežnu opremu</li>
+<li>Standardni rek je 19 inča (482.6  mm)  u unutarnjoj širini i definiše ga međunarodni standard  IEC 60297 </li>
+<li>Isti standard specificira ‘rek jedinicu’ koja se tipično označava sa U</li>
+<li>Jedan U je 44.45 mm odnosno jedan i tri četvrt inča i jedinice visine na reku su umnožak ove vrednosti</li>
+<li>Standardni rek je 42U visok</li>
+</ul>
+</section>
+<section id="modularizacija-1" class="slide level2">
+<h2>Modularizacija</h2>
+<ul>
+<li>Ideja je da se hardver može smestiti optimizovanim radosledom i rasporedom bez brige da nešto neće stati</li>
+<li>Ovo je naročitno bitno zato što se očekuje da će delovi sistema morati brzo i lako da se menjaju, a standardizacija znači da je pristup individualnim koimponentama brz i relativno bezbolan.</li>
+</ul>
+</section>
+<section id="automatizacija-i-udaljen-rad" class="slide level2">
+<h2>Automatizacija i udaljen rad</h2>
+<ul>
+<li>Računarska postrojenja su maksimalno automatizovana i često mogu da operišu polu-autonomno, pokrećući još računara kada je to potrebno i gaseći one koji nisu</li>
+<li>Jednako automatizovano je i kreiranje novih sistema sa mehanizmima automatskog boot mehanizma preko mreže i headless instalacijama, što omogućava ne samo podizanje virtuelne mašine automatski nego čak i instalaciju na ‘metalu’</li>
+<li>Kada je i potrebna ljudska interakcija, ona je kade god je to moguće, odrađena udaljeno koristeći obezbeđen link za transfer komandi.</li>
+<li>Jedino mesto gde je ljudska interakcija neminovna jeste rešavanje hardverskih problema.</li>
+</ul>
+</section>
+<section id="pouzdanost" class="slide level2">
+<h2>Pouzdanost</h2>
+<ul>
+<li>Kada je u pitanju pravljenje računarskog postrojenja koje je jako otporno na otkaz, vodeće pravilo je  one is none </li>
+<li>Drugim rečima, ne dozvoljavaju se jedinstvene tačke otkaza  (SPOF)  i svi ključni sistemi su duplirani</li>
+<li>U slučaju, na primer, servera, tipično je imati dva potpuno odvojena, posebna napajanja gde jedno od njih služi manje-više isključivo da ima izvor struje spreman na licu mesta istog trenutka kada primarni izvor otkaže</li>
+</ul>
+</section>
+<section id="bezbednost" class="slide level2">
+<h2>Bezbednost</h2>
+<ul>
+<li>Budući da se računarski resursi (pa i podaci koje smeštaju i obrađuju) nalaze na jednom centralnom mestu lakše je fizički obezbediti uređaje</li>
+<li>Fizička zaštita servera je izuzeztno bitna</li>
+<li>Većina računarskih sistema nema nikakvu zaštitu od direktnog fizičkog pristupa</li>
+<li>Rešenja su rigorozna fizička bezednost, bezbednosni protokoli</li>
+<li>Podaci u mirovanju valja da budu enkriptovani da bi zaštitili sistem od krađe podataka direktnim putem</li>
+</ul>
+</section>
+<section id="prilagođen-primarni-hardver" class="slide level2">
+<h2>Prilagođen primarni hardver</h2>
+<ul>
+<li>Primarni hardver sistema su njegovi element sposobni za proračune</li>
+<li>Ovi su prilagođeni industrijskoj eksploataciji</li>
+<li>Veće performanse</li>
+<li> Hot-swap  mehanizmi</li>
+<li>Povećana pouzdanost</li>
+</ul>
+</section>
+<section id="prilagođen-hardver-za-čuvanje-podataka" class="slide level2">
+<h2>Prilagođen hardver za čuvanje podataka</h2>
+<ul>
+<li>Jedan od velikih poslova bilo kog računarskog centra je čuvanje ogromnih količina podataka</li>
+<li>Ovo zahteva posebnu tehnologije</li>
+<li>Prva stavka jeste kako će se uređaji za čuvanje podataka spojiti sa sistemom, glaven dve opcije su:
+<ul>
+<li> DAS (device attached storage)  što znači da je uređaj zakačen direktno za primarni hardver kroz  host bus adapter (HBA)  što odgovara klasičnom slučaju diska zakačenog za računar.</li>
+<li> NAS (network attached storage  - u širem smislu) što znači da je uređaj zakačen za nekakvu mrežu na koju se kače uređaji primarnog hardvera</li>
+</ul></li>
+</ul>
+</section>
+<section id="nas" class="slide level2">
+<h2>NAS</h2>
+<ul>
+<li>Ako pravimo mrežu diskova imamo izbor da li povezujemo <em>direktno</em> diskove i omogućavamo da se tom umreženom sistemu pristupa u blok-po-blok režimu ili da postoji poseban uređaj koji upravlja diskovima, a preko mreže se pristupa na nivou individualnog fajla.</li>
+<li>Prvi pristup se zove SAN  (storage area network)  i implementira se kroz tehnologije kao što je SCSI ili  Fibre Channel  ili  Fibre Channel over Ethernet  ili  InfiniBand </li>
+<li>Drugi pristup je NAS u užem smislu i koristi se ista mreža kao i za sve ostalo sa protokolima koji operišu na nivou fajla kao što su SMB ili NFS</li>
+</ul>
+</section>
+<section id="kombinacija-diskova" class="slide level2">
+<h2>Kombinacija diskova</h2>
+<ul>
+<li>Jedan disk nema zadovoljavajuće karakteristike kada je CC u pitanju</li>
+<li>Nije dovoljno velik, brz, ili pouzdan</li>
+<li>Srećom moguće je kombinovati diskove na načine koji povećavaju sve ove osobine</li>
+<li>%RAID%, JBOD ili napredni fajl sistemi kao što je btrfs</li>
+</ul>
+</section>
+<section id="prilagođen-mrežni-hardver" class="slide level2">
+<h2>Prilagođen mrežni hardver</h2>
+<ul>
+<li>Računarskim centrima je potreban jako brz mrežni pristup, kao što smo pričali</li>
+<li>To se rešava redudantnim vezama kao i jako brzim mrežnim tehnologijama</li>
+<li>Optika se jako često koristi gde se jedno optičko vlakno može koristiti da, multipleksirano, prenosi sav saobraćaj mnogo gigabitnih mrežnih linkova.</li>
+</ul>
+</section>
+<section id="mrežni-hardver-svestan-sadržaja" class="slide level2">
+<h2>Mrežni hardver svestan sadržaja</h2>
+<ul>
+<li>U potrebi za većom brzinom koriste se često posebni mrežni elementi koji služe da ubrzavaju web</li>
+<li>To se radi tako što se mrežni transport osposobi da razume šta paketi rade na aplikativnom nivou</li>
+<li>Ovo znači da se podaci mogu preprocesirati ili enkriptovati/dekriptovati još u mreži</li>
+<li>Naročito bitno je znati čemu su paketi namenjeni što omogućava da se radi efektno balansiranje opterećenja</li>
+</ul>
+</section></section>
+    </div>
+  </div>
+
+  <script src="https://unpkg.com/reveal.js@^4//dist/reveal.js"></script>
+
+  <!-- reveal.js plugins -->
+  <script src="https://unpkg.com/reveal.js@^4//plugin/notes/notes.js"></script>
+  <script src="https://unpkg.com/reveal.js@^4//plugin/search/search.js"></script>
+  <script src="https://unpkg.com/reveal.js@^4//plugin/zoom/zoom.js"></script>
+  <script src="https://unpkg.com/reveal.js@^4//plugin/math/math.js"></script>
+
+  <script>
+
+      // Full list of configuration options available at:
+      // https://revealjs.com/config/
+      Reveal.initialize({
+        // Display controls in the bottom right corner
+        controls: true,
+
+        // Help the user learn the controls by providing hints, for example by
+        // bouncing the down arrow when they first encounter a vertical slide
+        controlsTutorial: true,
+
+        // Determines where controls appear, "edges" or "bottom-right"
+        controlsLayout: 'bottom-right',
+
+        // Visibility rule for backwards navigation arrows; "faded", "hidden"
+        // or "visible"
+        controlsBackArrows: 'faded',
+
+        // Display a presentation progress bar
+        progress: true,
+
+        // Display the page number of the current slide
+        slideNumber: false,
+
+        // 'all', 'print', or 'speaker'
+        showSlideNumber: 'all',
+
+        // Add the current slide number to the URL hash so that reloading the
+        // page/copying the URL will return you to the same slide
+        hash: false,
+
+        // Start with 1 for the hash rather than 0
+        hashOneBasedIndex: false,
+
+        // Flags if we should monitor the hash and change slides accordingly
+        respondToHashChanges: true,
+
+        // Push each slide change to the browser history
+        history: false,
+
+        // Enable keyboard shortcuts for navigation
+        keyboard: true,
+
+        // Enable the slide overview mode
+        overview: true,
+
+        // Disables the default reveal.js slide layout (scaling and centering)
+        // so that you can use custom CSS layout
+        disableLayout: false,
+
+        // Vertical centering of slides
+        center: true,
+
+        // Enables touch navigation on devices with touch input
+        touch: true,
+
+        // Loop the presentation
+        loop: false,
+
+        // Change the presentation direction to be RTL
+        rtl: false,
+
+        // see https://revealjs.com/vertical-slides/#navigation-mode
+        navigationMode: 'default',
+
+        // Randomizes the order of slides each time the presentation loads
+        shuffle: false,
+
+        // Turns fragments on and off globally
+        fragments: true,
+
+        // Flags whether to include the current fragment in the URL,
+        // so that reloading brings you to the same fragment position
+        fragmentInURL: true,
+
+        // Flags if the presentation is running in an embedded mode,
+        // i.e. contained within a limited portion of the screen
+        embedded: false,
+
+        // Flags if we should show a help overlay when the questionmark
+        // key is pressed
+        help: true,
+
+        // Flags if it should be possible to pause the presentation (blackout)
+        pause: true,
+
+        // Flags if speaker notes should be visible to all viewers
+        showNotes: false,
+
+        // Global override for autoplaying embedded media (null/true/false)
+        autoPlayMedia: null,
+
+        // Global override for preloading lazy-loaded iframes (null/true/false)
+        preloadIframes: null,
+
+        // Number of milliseconds between automatically proceeding to the
+        // next slide, disabled when set to 0, this value can be overwritten
+        // by using a data-autoslide attribute on your slides
+        autoSlide: 0,
+
+        // Stop auto-sliding after user input
+        autoSlideStoppable: true,
+
+        // Use this method for navigation when auto-sliding
+        autoSlideMethod: null,
+
+        // Specify the average time in seconds that you think you will spend
+        // presenting each slide. This is used to show a pacing timer in the
+        // speaker view
+        defaultTiming: null,
+
+        // Enable slide navigation via mouse wheel
+        mouseWheel: false,
+
+        // The display mode that will be used to show slides
+        display: 'block',
+
+        // Hide cursor if inactive
+        hideInactiveCursor: true,
+
+        // Time before the cursor is hidden (in ms)
+        hideCursorTime: 5000,
+
+        // Opens links in an iframe preview overlay
+        previewLinks: false,
+
+        // Transition style (none/fade/slide/convex/concave/zoom)
+        transition: 'slide',
+
+        // Transition speed (default/fast/slow)
+        transitionSpeed: 'default',
+
+        // Transition style for full page slide backgrounds
+        // (none/fade/slide/convex/concave/zoom)
+        backgroundTransition: 'fade',
+
+        // Number of slides away from the current that are visible
+        viewDistance: 3,
+
+        // Number of slides away from the current that are visible on mobile
+        // devices. It is advisable to set this to a lower number than
+        // viewDistance in order to save resources.
+        mobileViewDistance: 2,
+
+        math: {
+          mathjax: 'https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js',
+          config: 'TeX-AMS_HTML-full',
+          tex2jax: {
+            inlineMath: [['\\(','\\)']],
+            displayMath: [['\\[','\\]']],
+            balanceBraces: true,
+            processEscapes: false,
+            processRefs: true,
+            processEnvironments: true,
+            preview: 'TeX',
+            skipTags: ['script','noscript','style','textarea','pre','code'],
+            ignoreClass: 'tex2jax_ignore',
+            processClass: 'tex2jax_process'
+          },
+        },
+
+        // reveal.js plugins
+        plugins: [
+          RevealMath,
+          RevealNotes,
+          RevealSearch,
+          RevealZoom
+        ]
+      });
+    </script>
+    </body>
+</html>
