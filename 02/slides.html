@@ -17,6 +17,69 @@
     div.column{display: inline-block; vertical-align: top; width: 50%;}
     div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
     ul.task-list{list-style: none;}
+    pre > code.sourceCode { white-space: pre; position: relative; }
+    pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+    pre > code.sourceCode > span:empty { height: 1.2em; }
+    .sourceCode { overflow: visible; }
+    code.sourceCode > span { color: inherit; text-decoration: inherit; }
+    div.sourceCode { margin: 1em 0; }
+    pre.sourceCode { margin: 0; }
+    @media screen {
+    div.sourceCode { overflow: auto; }
+    }
+    @media print {
+    pre > code.sourceCode { white-space: pre-wrap; }
+    pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+    }
+    pre.numberSource code
+      { counter-reset: source-line 0; }
+    pre.numberSource code > span
+      { position: relative; left: -4em; counter-increment: source-line; }
+    pre.numberSource code > span > a:first-child::before
+      { content: counter(source-line);
+        position: relative; left: -1em; text-align: right; vertical-align: baseline;
+        border: none; display: inline-block;
+        -webkit-touch-callout: none; -webkit-user-select: none;
+        -khtml-user-select: none; -moz-user-select: none;
+        -ms-user-select: none; user-select: none;
+        padding: 0 4px; width: 4em;
+        color: #aaaaaa;
+      }
+    pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+    div.sourceCode
+      {   }
+    @media screen {
+    pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+    }
+    code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+    code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+    code span.at { color: #7d9029; } /* Attribute */
+    code span.bn { color: #40a070; } /* BaseN */
+    code span.bu { } /* BuiltIn */
+    code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+    code span.ch { color: #4070a0; } /* Char */
+    code span.cn { color: #880000; } /* Constant */
+    code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+    code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+    code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+    code span.dt { color: #902000; } /* DataType */
+    code span.dv { color: #40a070; } /* DecVal */
+    code span.er { color: #ff0000; font-weight: bold; } /* Error */
+    code span.ex { } /* Extension */
+    code span.fl { color: #40a070; } /* Float */
+    code span.fu { color: #06287e; } /* Function */
+    code span.im { } /* Import */
+    code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+    code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+    code span.op { color: #666666; } /* Operator */
+    code span.ot { color: #007020; } /* Other */
+    code span.pp { color: #bc7a00; } /* Preprocessor */
+    code span.sc { color: #4070a0; } /* SpecialChar */
+    code span.ss { color: #bb6688; } /* SpecialString */
+    code span.st { color: #4070a0; } /* String */
+    code span.va { color: #19177c; } /* Variable */
+    code span.vs { color: #4070a0; } /* VerbatimString */
+    code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
   </style>
   <link rel="stylesheet" href="https://unpkg.com/reveal.js@^4//dist/theme/night.css" id="theme">
   <link rel="stylesheet" href="slides.css"/>
@@ -428,6 +491,611 @@
 <li>To se radi tako što se mrežni transport osposobi da razume šta paketi rade na aplikativnom nivou</li>
 <li>Ovo znači da se podaci mogu preprocesirati ili enkriptovati/dekriptovati još u mreži</li>
 <li>Naročito bitno je znati čemu su paketi namenjeni što omogućava da se radi efektno balansiranje opterećenja</li>
+</ul>
+</section></section>
+<section>
+<section id="virtualizacija" class="title-slide slide level1">
+<h1>Virtualizacija</h1>
+<p>Zamišljeni a stvarni računari.</p>
+</section>
+<section id="šta-je-virtualizacija" class="slide level2">
+<h2>Šta je virtualizacija</h2>
+<ul>
+<li>Virtualizaicja je mehanizam kojim se jedan fizički računar ponaša kao više nezavisnih računarskih sistema koji su potpuno odvojeni.</li>
+<li>Virzualizacija nema jako dobro rešenje zato što računari već decenijama rade ovaj trik na ovaj način ili onaj</li>
+<li>Procesi, na kraju krajeva, su barem delimično odeljeni i ponašaju se (donekle) kao ‘sami na svetu’ što se tiče memorije</li>
+<li>Još teže je konceptualno odvojiti virtuelizaciju od <em>emulacije</em></li>
+</ul>
+</section>
+<section id="emulacija-i-virtuelizacija" class="slide level2">
+<h2>Emulacija i virtuelizacija</h2>
+<ul>
+<li>Mogućnost jednog računarskog sistema da se pretvara da je drugi računarski sistem je nešto što je ugrađeno u same osnove ove oblasti</li>
+<li>Čerč-Tjuringova teza znači da, performanse i prostor na stranu, bilo koji računarski sistem se može u principu ponašati kao bilo koji drugi računarski sistem</li>
+<li>U najgorem slučaju, vi možete napisati emulator koji replicira ponašanje bilo kakvog digitalnog čipa u sistemu apsolutno tačno</li>
+<li>Čak i postoje emulatori za, npr. neke stare igračke mašine koje imaju ovaj nivo granualrnosti</li>
+</ul>
+</section>
+<section id="razlika-između-emulacije-i-virtualizacije" class="slide level2">
+<h2>Razlika između emulacije i virtualizacije</h2>
+<ul>
+<li>Razlika nije u nameni ili čak i efektu nego u tehnologiji i očekivanim performansama</li>
+<li>Ako nešto opisujemo kao virtuelizovano to znači da očekujemo performanse koje su uporedive sa performansama pravog sistema</li>
+<li>Sa druge strane, voljni smo da prihvatimo ograničenja</li>
+<li>PC može da <em>emulira</em> 6502 čip, ali ga nikad neće virtuelizovati</li>
+</ul>
+</section>
+<section id="najopštija-definicija-virtuelizacije" class="slide level2">
+<h2>Najopštija definicija virtuelizacije</h2>
+<ul>
+<li>Ova sekcija je uglavno o virtuelizaciji računarskih sistema</li>
+<li>Strikno govoreći skoro bilo koji servis se može ‘virtualizovati’</li>
+<li>Ova najšira forma virtuelizacije je mehanizam kojim se heterogeno polje resursa predstavlja krajnjem koisniku kao nešto homogeno</li>
+<li>Divan primer je elektrosnadbevanje: kranji potrošač ne zna da li je struja poreklom iz termoelekgrane, hidroelektrane, nuklearne elektrane…</li>
+<li>Ceo taj kapacitet generacije, skladištenja, transporta, itd. je apstrahovan kroz virtuelizaciju.</li>
+</ul>
+</section>
+<section id="bazična-arhitektura-virtualizacije" class="slide level2">
+<h2>Bazična arhitektura virtualizacije</h2>
+<ul>
+<li>Virtualna mašina (Od sada VM) se koncipira kao da je stvaran računar koji se u stvarnosti nalazi na nekvom fizičkom računaru koji se obično zove ‘domaćniski’ odnosno host računar.</li>
+<li>Za taj host računar kažemo i da ima host operativni sistem.</li>
+<li>Konsekventno, VM onda postaje računar-gost, odnosno guest računar i ima svoj, guest operativni sistem.</li>
+<li>Ključna osobina tehnike virtuelizacije jeste da guest operativni sistem i sav softver koji se izvršava na njemu <em>ne zna</em> da je na VM-u, a ne na fizičkom računaru.</li>
+</ul>
+</section>
+<section id="da-li-vm-zna-da-je-vm" class="slide level2">
+<h2>Da li VM zna da je VM?</h2>
+<ul>
+<li>Ovo nije 100% istina</li>
+<li>Tipično, sofver apsolutno ne zna da li je u virtuelnoj mašini ili ne</li>
+<li>Operativni sistemi, donekle, jesu svesni da su u promenjenom okruženju</li>
+<li>Ovo nije neophodno, ali se često operativni sistemi podifikuju ne bi li se dobile bolje performanse</li>
+<li>Tipićan primer: Guest Additions</li>
+</ul>
+</section>
+<section id="šta-omogućava-virtuelizaciju" class="slide level2">
+<h2>Šta omogućava virtuelizaciju?</h2>
+<ul>
+<li>Virtuelizacija je omogućena kroz mehanizam koji upravlja servisima virtuelizacije</li>
+<li>Ovaj mahanizam ima različita imena: Meandžer virtuelnih mašina, Monitor virtuelnih mašina, ali najčešće je poznat pod standardni industrijskim nazivom ‘Hipervizor’ (eng.  Hypervisor) </li>
+<li>Da bi razumeli ovaj malo čudni naziv valja napomenuti da se kernel operativnog sistema vrlo često zove supervisor</li>
+<li>Stoga nešto iznad super mora biti hyper</li>
+</ul>
+</section>
+<section id="tipovi-hipervizora" class="slide level2">
+<h2>Tipovi hipervizora</h2>
+<ul>
+<li>Hipervizori dolaze u dve glavne forme, hipervizori tipa 1, i hipervizori tipa 2</li>
+<li>Ovo se ponekad još zovu i hipervizori ‘golog metala’ i ‘ugošćeni’ hipervizori</li>
+<li>Engleski termini su  bare metal  i hosted</li>
+<li>Ova podela nije nužno iscrpna</li>
+</ul>
+</section>
+<section id="hipervizori-tipa-1" class="slide level2">
+<h2>Hipervizori tipa 1</h2>
+<ul>
+<li>Hipervizor tipa 1 se izvršava direktno na hardveru, bez bilo čega ispod sebe</li>
+<li>To znači da takav hipervizor ima određene osobine operativnog sistema, ali nije klasičan operativni sistem</li>
+<li>Ovo je najperformantnija forma zato što ima što manje između vritualne mašine i stvarnog hardvera</li>
+<li>Primeri hipervizora tipa 1 su Xen i VMware ESXi</li>
+</ul>
+</section>
+<section id="hipervizori-tipa-2" class="slide level2">
+<h2>Hipervizori tipa 2</h2>
+<ul>
+<li>Hipervizor tipa 2 se izvršava kao proces operativnog sistema</li>
+<li>Ovo ima bezbednosne prednosti (zato što je proces dodatno ograničen na način na koji hipervizor tipa 1 ne može biti), i olakšava primenu takvog sistema na računarima za ličnu upotrebu ili na računarima mešane upotrebe</li>
+<li>Glavna mana hipervizora tipa 2 jesu performanse: pošto svaki sistemski poziv esencijalo poziva emulirani sloj hardvera koji poziva sistemske pozive operativnog sisteam domaćina koji poziva stvarni hardver, generalno performanse hipervizora tipa 2 su <em>znatno</em> lošije</li>
+<li>Primer koji je vama <em>jako</em> poznat bi trebao da je VirtualBox</li>
+</ul>
+</section>
+<section id="hipervizori-tipa-1.5" class="slide level2">
+<h2>Hipervizori tipa… 1.5?</h2>
+<ul>
+<li>Ova podela izgleda iscrpno ali nije</li>
+<li>Šta recimo uraditi sa KVM mehanizmom</li>
+<li>KVM mehanizam je modul koji se dodaje u kernel Linux operativnog sistema koji efektivno pretvara Linux u hipervizor prvog tipa</li>
+<li>Drugim rečima dozvoljava aplikacijama koje se izvršavaju na nivou korisnika da zatraže da se nešto virtuelizuje na ‘metalu’ umesto u korisničkom prostoru (Tipična kombinacija i ona koja pokreće VM u kojem se pišu baš ove reči je  QEMU/KVM) </li>
+</ul>
+</section>
+<section id="pitanje-hardvera" class="slide level2">
+<h2>Pitanje hardvera</h2>
+<ul>
+<li>Ovaj mehanizam funkcioniše utoliko ukoliko može da izvršava kod odvojeno i može da drži memoriju odvojeno ali udara u problem čim treba da se uradi bilo šta vezano za ulaz/izlaz</li>
+<li>Nemoguće je jednostavno nekomplikovano premeštati ove stvari direktno u pravi hardver: ako imamo deset VM-ova i samo jedan disk, ko dobije da piše u superblok? Čiji je koji mrežni paket?</li>
+<li>Jedino rešenje jeste da se hardver emulira</li>
+</ul>
+</section>
+<section id="emulirani-hardver" class="slide level2">
+<h2>Emulirani hardver</h2>
+<ul>
+<li>Svi hardverski uređaji zakačeni za VM postoje kao emulirane softverske apstrakcije</li>
+<li>Tipičan primer je QEMU</li>
+<li>QEMU je emulator sistema (ima i druge funkcije, ali je ova najzanimljivija)</li>
+<li>Ono što ga čini posebno zanimljivim jeste da je to potpun emulator sa opcionom primenom hipervizora</li>
+</ul>
+</section>
+<section id="potpun-emulator-sa-opcionom-primenom-hipervizora" class="slide level2">
+<h2>Potpun emulator sa opcionom primenom hipervizora</h2>
+<ul>
+<li>Šta ovo znači?</li>
+<li>Znači da QEMU može <em>ili</em> da emulira sav hardver na računaru što uključuje i procesor <em>ili</em> da emulira sve osim procesora koji se onda virtuelizuje kroz neki hipervizor, recimo  KVM. </li>
+<li>Ovo znači da možemo da sastavimo virtuelnu konfiguraciju kada pokrećemo virtuelnu mašinu</li>
+</ul>
+</section>
+<section id="o-ilustraciji" class="slide level2">
+<h2>O ilustraciji</h2>
+<ul>
+<li>Svaka virtuelna mašina emulira <em>nešto</em></li>
+<li>Mi ovde koristimo kao primer nešto što je lako testirati u kućnoj radinosti</li>
+<li>Sve što vam treba je noviji Linux ali instaliran kao host operativni sistem</li>
+<li>Primer koji mi koristimo je KVM (kao hipervizor), QEMU kao emulator, i libvirt kao API sloj za upravljanje virtuelnim mašinama.</li>
+</ul>
+</section>
+<section id="libvirt" class="slide level2">
+<h2>Libvirt</h2>
+<ul>
+<li>libvirt nismo do ovog trenuka pominjali</li>
+<li>On sam po sebi ne daje neke nove sposobnosti, koliko pruža uniformni način da se specificira ponašanje virtuelnih mašina</li>
+<li>Obuhvata brdo elemenata i faktora, ali nas će najviše zanimati ugrađeni XML jezik za opis konfiguracije virtuelnih mašina</li>
+</ul>
+</section>
+<section id="domeni" class="slide level2">
+<h2>Domeni</h2>
+<ul>
+<li>Bilo šta što emulira, libvirt zove ‘Domen’</li>
+</ul>
+<div class="sourceCode" id="cb1"><pre class="sourceCode xml"><code class="sourceCode xml"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>&lt;<span class="kw">domain</span><span class="ot"> type=</span><span class="st">&#39;kvm&#39;</span><span class="ot"> id=</span><span class="st">&#39;1&#39;</span>&gt;</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>  &lt;<span class="kw">name</span>&gt;MyGuest&lt;/<span class="kw">name</span>&gt;</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>  &lt;<span class="kw">uuid</span>&gt;4dea22b3-1d52-d8f3-2516-782e98ab3fa0&lt;/<span class="kw">uuid</span>&gt;</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>  &lt;<span class="kw">genid</span>&gt;43dc0cf8-809b-4adb-9bea-a9abb5f3d90e&lt;/<span class="kw">genid</span>&gt;</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>  &lt;<span class="kw">title</span>&gt;A short description - title - of the domain&lt;/<span class="kw">title</span>&gt;</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>  &lt;<span class="kw">description</span>&gt;Some human readable description&lt;/<span class="kw">description</span>&gt;</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>  &lt;<span class="kw">metadata</span>&gt;</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>    &lt;<span class="kw">app1:foo</span><span class="ot"> xmlns:app1=</span><span class="st">&quot;http://app1.org/app1/&quot;</span>&gt;..&lt;/<span class="kw">app1:foo</span>&gt;</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>    &lt;<span class="kw">app2:bar</span><span class="ot"> xmlns:app2=</span><span class="st">&quot;http://app1.org/app2/&quot;</span>&gt;..&lt;/<span class="kw">app2:bar</span>&gt;</span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>  &lt;/<span class="kw">metadata</span>&gt;</span></code></pre></div>
+<p>(Primeri iz <a href="https://libvirt.org/formatdomain.html">https://libvirt.org/formatdomain.html</a>)</p>
+</section>
+<section id="emulacija-procesora" class="slide level2">
+<h2>Emulacija procesora</h2>
+<ul>
+<li>Za %Cloud Computing% nema velike koristi od emulacije procesora</li>
+<li>To je od koristi prilikom razvoja za egzotične platforme, eksperimenata, softverske arheologije…</li>
+<li>Prvi korak je promeniti tip domena tako da više ne koristi hipervizor, vrednost qemu recimo.</li>
+<li>Zatim se mora podesiti željeni oblik procesora</li>
+</ul>
+</section>
+<section id="željeni-oblik-procesora" class="slide level2">
+<h2>Željeni oblik procesora</h2>
+<div class="sourceCode" id="cb2"><pre class="sourceCode xml"><code class="sourceCode xml"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>&lt;<span class="kw">cpu</span><span class="ot"> match=</span><span class="st">&#39;exact&#39;</span>&gt;</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>  &lt;<span class="kw">model</span><span class="ot"> fallback=</span><span class="st">&#39;allow&#39;</span>&gt;core2duo&lt;/<span class="kw">model</span>&gt;</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>  &lt;<span class="kw">vendor</span>&gt;Intel&lt;/<span class="kw">vendor</span>&gt;</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>  &lt;<span class="kw">topology</span><span class="ot"> sockets=</span><span class="st">&#39;1&#39;</span><span class="ot"> dies=</span><span class="st">&#39;1&#39;</span><span class="ot"> cores=</span><span class="st">&#39;2&#39;</span><span class="ot"> threads=</span><span class="st">&#39;1&#39;</span>/&gt;</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>  &lt;<span class="kw">cache</span><span class="ot"> level=</span><span class="st">&#39;3&#39;</span><span class="ot"> mode=</span><span class="st">&#39;emulate&#39;</span>/&gt;</span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>  &lt;<span class="kw">maxphysaddr</span><span class="ot"> mode=</span><span class="st">&#39;emulate&#39;</span><span class="ot"> bits=</span><span class="st">&#39;42&#39;</span>/&gt;</span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>  &lt;<span class="kw">feature</span><span class="ot"> policy=</span><span class="st">&#39;disable&#39;</span><span class="ot"> name=</span><span class="st">&#39;lahf_lm&#39;</span>/&gt;</span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>&lt;/<span class="kw">cpu</span>&gt;</span></code></pre></div>
+</section>
+<section id="virtualizacija-kroz-hipervizor-i-procesor" class="slide level2">
+<h2>Virtualizacija kroz hipervizor i procesor</h2>
+<ul>
+<li>Kada želimo da ne emuliramo procesor no da koristimo onaj koji je već u mašini kao da je i u virtuelnoj mašini, barem što se tiče sposobnosti što se tiče, npr. pod-funkcionalnosti, onda moramo da kažemo da korsitimo isti procesor kao onaj koji je već na mašini</li>
+<li>Srećom postoji prečica za ovo</li>
+</ul>
+</section>
+<section id="prečica" class="slide level2">
+<h2>Prečica</h2>
+<div class="sourceCode" id="cb3"><pre class="sourceCode xml"><code class="sourceCode xml"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>&lt;<span class="kw">cpu</span><span class="ot"> mode=</span><span class="st">&quot;host-model&quot;</span><span class="ot"> check=</span><span class="st">&quot;partial&quot;</span>/&gt;</span></code></pre></div>
+<p>Ovo samo kopira ponašanje stvarnog fizičkog modela procesora na virtualizovani (ali ne emulirani) procesor</p>
+</section>
+<section id="alokacija-procesora" class="slide level2">
+<h2>Alokacija procesora</h2>
+<ul>
+<li>Ne valja da svaka virtuelna mašina nužno ima apsolutno iste resurse na raspolaganju</li>
+<li>Ponekad želimo da uradimo baš ono što nam CC obećava: agregiramo resurse na jednom mestu i particionišemo ih na drugom</li>
+<li>Srećom to je moguće: kod virtualizacije mogu da se sistemu dodele virtuelna procesorska jezgra, a da se ta virtuelna jezgra izvršavaju na onim jezgrima fizičkog procesora koja su odabrana</li>
+</ul>
+</section>
+<section id="primer-alokacije-virtuelnih-procesora" class="slide level2">
+<h2>Primer alokacije virtuelnih procesora</h2>
+<div class="sourceCode" id="cb4"><pre class="sourceCode xml"><code class="sourceCode xml"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>  &lt;<span class="kw">vcpu</span><span class="ot"> placement=</span><span class="st">&#39;static&#39;</span><span class="ot"> cpuset=</span><span class="st">&quot;1-4,^3,6&quot;</span><span class="ot"> current=</span><span class="st">&quot;1&quot;</span>&gt;2&lt;/<span class="kw">vcpu</span>&gt;</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>  &lt;<span class="kw">vcpus</span>&gt;</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>    &lt;<span class="kw">vcpu</span><span class="ot"> id=</span><span class="st">&#39;0&#39;</span><span class="ot"> enabled=</span><span class="st">&#39;yes&#39;</span><span class="ot"> hotpluggable=</span><span class="st">&#39;no&#39;</span><span class="ot"> order=</span><span class="st">&#39;1&#39;</span>/&gt;</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>    &lt;<span class="kw">vcpu</span><span class="ot"> id=</span><span class="st">&#39;1&#39;</span><span class="ot"> enabled=</span><span class="st">&#39;no&#39;</span><span class="ot"> hotpluggable=</span><span class="st">&#39;yes&#39;</span>/&gt;</span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>  &lt;/<span class="kw">vcpus</span>&gt;</span></code></pre></div>
+</section>
+<section id="primer-alokacije-virtuelnih-procesora-1" class="slide level2">
+<h2>Primer alokacije virtuelnih procesora</h2>
+<ul>
+<li>Ovo statički alocira 2 virtuelna procesora za koja su odgovorna fizička jezgra iz skupa 1-4, ne računajući jezgro 3, i dodatno jezgro 6.</li>
+<li>Zatim specificira detalje ponašanja oba virtuelna CPU-a.</li>
+</ul>
+</section>
+<section id="emulacija-blokovskih-uređaja" class="slide level2">
+<h2>Emulacija blokovskih uređaja</h2>
+<ul>
+<li>Procesori nisu problem, mnogo ozbiljnije pitanje jeste šta uraditi kada je u pitanju, recimo, disk</li>
+<li>Da bi instalirali vaš guest operativni sistem, morate imati nekakav disk</li>
+<li>libvirt će specificirati a QEMU emulirati onakav disk kakav vi odlučite da imate</li>
+</ul>
+</section>
+<section id="emulacija-blokovskih-uređaja-1" class="slide level2">
+<h2>Emulacija blokovskih uređaja</h2>
+<div class="sourceCode" id="cb5"><pre class="sourceCode xml"><code class="sourceCode xml"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>    &lt;<span class="kw">disk</span><span class="ot"> type=</span><span class="st">&quot;file&quot;</span><span class="ot"> device=</span><span class="st">&quot;disk&quot;</span>&gt;</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>      &lt;<span class="kw">driver</span><span class="ot"> name=</span><span class="st">&quot;qemu&quot;</span><span class="ot"> type=</span><span class="st">&quot;qcow2&quot;</span>/&gt;</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>      &lt;<span class="kw">source</span><span class="ot"> file=</span><span class="st">&quot;/putanja/do/fajla/gde/je/disk&quot;</span>/&gt;</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>      &lt;<span class="kw">target</span><span class="ot"> dev=</span><span class="st">&quot;vda&quot;</span><span class="ot"> bus=</span><span class="st">&quot;virtio&quot;</span>/&gt;</span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>      &lt;<span class="kw">address</span><span class="ot"> type=</span><span class="st">&quot;pci&quot;</span><span class="ot"> domain=</span><span class="st">&quot;0x0000&quot;</span><span class="ot"> bus=</span><span class="st">&quot;0x04&quot;</span><span class="ot"> slot=</span><span class="st">&quot;0x00&quot;</span><span class="ot"> function=</span><span class="st">&quot;0x0&quot;</span>/&gt;</span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>    &lt;/<span class="kw">disk</span>&gt;</span></code></pre></div>
+</section>
+<section id="emulacija-blokovskih-uređaja-2" class="slide level2">
+<h2>Emulacija blokovskih uređaja</h2>
+<ul>
+<li>Ovo je emuliran disk kome je na host mašini u pozadini običan fajl</li>
+<li>Specifično to je fajl tipa qcow2</li>
+<li>To je poseban format diska optimiziovan za ovaj slučaj</li>
+<li>Karakteriše ga odlična implementacija  copy on write  semantike</li>
+<li>Fajl se povećava tek kada postoji prava potreba za prostorom na disku što smanjuje bačen prostor</li>
+</ul>
+</section>
+<section id="problem-sa-emulacijom-hardvera" class="slide level2">
+<h2>Problem sa emulacijom hardvera</h2>
+<ul>
+<li>Emulacija hardvera je <em>spora</em></li>
+<li>Ovo je naročito nezgodno kod bilo koje  I/O  operacije</li>
+<li>Još je gore ako je VM namenjen za interaktivno korišćenje</li>
+<li>Postoje dva moguća rešenja:
+<ul>
+<li>Paravirtualizacija</li>
+<li>Prespoj na nivou uređaja</li>
+</ul></li>
+</ul>
+</section>
+<section id="paravirtualizacija" class="slide level2">
+<h2>Paravirtualizacija</h2>
+<ul>
+<li>Paravirtualizacija (PV) je tehnika gde, umesto da je proces virtuelizacije potpuno transparentan za operativni sistem - gost, taj operativni sistem je modifikovan da bi mogao lakše da se virtuelizuje</li>
+<li>Ovo ima dve forme
+<ul>
+<li>Potpuna paravirtuelizacija</li>
+<li>Parcijalna paravirtuelizacija</li>
+</ul></li>
+</ul>
+</section>
+<section id="potpuna-paravirtuelizacija" class="slide level2">
+<h2>Potpuna paravirtuelizacija</h2>
+<ul>
+<li>Ovde je ceo operativni sistem modifikovan na najdubljem nivou da funkcioniše u virtuelizovanom okruženju</li>
+<li>Takav operativni sistem operiše u potpuno ne-transparentnom okruženju i na mestima gde bi, npr, pričao sa hardverom on jednostavno poziva sistemske pozive hipervizora (ponekad se koristi termin hypercalls mada je on relativno redak)</li>
+<li>Takvi sistemi imaju i sekvencu pokretanja koja ‘zna’ da se ne pokreće prava mašina pa se ne bave nikavom inicijalizacijom hardvera (koji ne postoji) no se kod kernela pokreće istog trenutka</li>
+</ul>
+</section>
+<section id="potpuna-paravirtuelizacija-1" class="slide level2">
+<h2>Potpuna paravirtuelizacija</h2>
+<ul>
+<li>Potpuna paravirtualizacija je bila fantastično brza (komparativno) zato što, umesto da koristi osobine procesora i mikroarhitekture koje je relativno teško virtualizovati i emulirati, sistem jednostavno kaže hipervizoru šta želi i to se desi, veoma brzo i efektno</li>
+<li>Sistem je i dalje transparentan prema softveru u korisničkom prostoru zato što se onaj deo operativnog sistema koji pruža interfejs prema korisničkim aplikacijama ne menja</li>
+</ul>
+</section>
+<section id="smanjenje-važnosti-paravirtuelizacije" class="slide level2">
+<h2>Smanjenje važnosti paravirtuelizacije</h2>
+<ul>
+<li>Jedno vreme, jedini praktičan način da se dobiju prihvatljive performanse prilikom virtuelizacije je bilo da se ‘vara’ kroz PV</li>
+<li>Danas ovo više nije slučaj: potpuna PV je i dalje brza, kao i uvek, ali ju je alternativa (koja se često zove  HVM)  dostigla pa čak i prestigla u performansama</li>
+</ul>
+</section>
+<section id="smanjenje-važnosti-paravirtuelizacije-1" class="slide level2">
+<h2>Smanjenje važnosti paravirtuelizacije</h2>
+<ul>
+<li>Kako? Kroz tehnologiju procesora koje imaju posebne tehnike koje eliminišu potrebu da se neke stvari virtuelizuju u softveru</li>
+<li>Ovo znači da se može očuvati nepromenjen procesor i ipak ostvariti performanse koje su ekvivalentne perofrmansama procesora na ‘golom metalu.’</li>
+<li>PV je i dalje jedina praktična opcija ako nema hardverske podrške</li>
+</ul>
+</section>
+<section id="parcijalana-paravirtualizacija" class="slide level2">
+<h2>Parcijalana paravirtualizacija</h2>
+<ul>
+<li>Uprkos tome, paravirtualizacija se i dalje koristi samo u parcijalnoj formi</li>
+<li>Uprkos dobrim performansama koje postiže HVM i dalje postoji usko grlo koje nas je dovelo ovde: simulirani hardver</li>
+<li>Veliko je traćenje vremena što sistem mora da se pretvara da, na primer, priča sa potpuno fiktivnim hard diskom umesto da jednostavno pošalje zahtev za podacima koji su potrebni direktno hipervizoru koji to onda može proslediti gde treba</li>
+</ul>
+</section>
+<section id="parcijalana-paravirtualizacija-1" class="slide level2">
+<h2>Parcijalana paravirtualizacija</h2>
+<ul>
+<li>Uvid parcijalne paravirtualizacije (koja je još poznata pod terminom  PV on HVM  što je, recimo, kako to zove kompanija  Amazon)  jeste da je moguće promeniti samo <em>deo</em> operativnog sistema da bi dobili dobre performanse</li>
+<li>Koji to deo operativnog sistema može da se promeni relativno lako? <strong>Drajveri</strong></li>
+<li>Da stvar bude slađa, nama je potrebna paravirtuelizacija baš da bi radili  I/O  što, pak, se baš postiže kroz drajvere</li>
+</ul>
+</section>
+<section id="parcijalana-paravirtualizacija-2" class="slide level2">
+<h2>Parcijalana paravirtualizacija</h2>
+<ul>
+<li>Stoga, umesto da modifikujemo ceo operativni sistem, samo napišemo drajvere za naš virtuelni hardver koji, umesto da rade stvari sporo, rade stvari kroz paravirtuelizaciju i pozivaju hipervizorske sistemske pozive direktno</li>
+<li>Ovim se može postići najbolje od svih svetova: sve performanse sa maksimalnom fleksibilnošću</li>
+</ul>
+</section>
+<section id="primer-diska-opet" class="slide level2">
+<h2>Primer diska (opet)</h2>
+<div class="sourceCode" id="cb6"><pre class="sourceCode xml"><code class="sourceCode xml"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>    &lt;<span class="kw">disk</span><span class="ot"> type=</span><span class="st">&quot;file&quot;</span><span class="ot"> device=</span><span class="st">&quot;disk&quot;</span>&gt;</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>      &lt;<span class="kw">driver</span><span class="ot"> name=</span><span class="st">&quot;qemu&quot;</span><span class="ot"> type=</span><span class="st">&quot;qcow2&quot;</span>/&gt;</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>      &lt;<span class="kw">source</span><span class="ot"> file=</span><span class="st">&quot;/putanja/do/fajla/gde/je/disk&quot;</span>/&gt;</span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>      &lt;<span class="kw">target</span><span class="ot"> dev=</span><span class="st">&quot;vda&quot;</span><span class="ot"> bus=</span><span class="st">&quot;virtio&quot;</span>/&gt;</span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>      &lt;<span class="kw">address</span><span class="ot"> type=</span><span class="st">&quot;pci&quot;</span><span class="ot"> domain=</span><span class="st">&quot;0x0000&quot;</span><span class="ot"> bus=</span><span class="st">&quot;0x04&quot;</span><span class="ot"> slot=</span><span class="st">&quot;0x00&quot;</span><span class="ot"> function=</span><span class="st">&quot;0x0&quot;</span>/&gt;</span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>    &lt;/<span class="kw">disk</span>&gt;</span></code></pre></div>
+</section>
+<section id="primer-diska-opet-1" class="slide level2">
+<h2>Primer diska (opet)</h2>
+<ul>
+<li>Ovde je već angažovana tehnika parcijalne paravirtuelizacije</li>
+<li> QEMU/KVM  radi HVM virtuelizaciju, ali ima podršku za podsistem za parcijalni PV</li>
+<li>Zaj podsistem ze zove virtio i on je ovde uključen</li>
+</ul>
+</section>
+<section id="prespoj-na-nivou-uređaja" class="slide level2">
+<h2>Prespoj na nivou uređaja</h2>
+<ul>
+<li> HVM + PPV  je moćna kombinacija ali ona radi samo gde se hardver i dalje virtuelizuje</li>
+<li>Nekakav hardver nije baš tako lako virtuelizovati</li>
+<li>Klasičan primer je GPU</li>
+<li>Rešenje koje je formirano je korišćenje hardverskih funkcionalnosti (Ključne reči su  Vt-d  i  IOMMU  u zavisnosti od tehnologije) da se sva komunikacija između računara i fizičkog komada hardvera usmeri na jednu virtuelnu mašinu</li>
+</ul>
+</section>
+<section id="prespoj-na-nivou-uređaja-1" class="slide level2">
+<h2>Prespoj na nivou uređaja</h2>
+<ul>
+<li>Možete misliti o ovome kao o tehnici koja vam omogućava da ‘utaknete’ pravi hardver u virtuelnu mašinu</li>
+<li>Može se raditi na nivou individualne PCI kartice, tipično to je GPU uređaj, ali u praksi može i nešto drugo</li>
+<li>Može se raditi na nivou i individualnog USB uređaja kada se obično zove USB redirekcija</li>
+<li>Ovo je tehnologija koja omogućava, npr. da se dobiju CC instance sa grafikom</li>
+</ul>
+</section>
+<section id="moderni-standard" class="slide level2">
+<h2>Moderni standard</h2>
+<ul>
+<li>Današnji standard za virtualizaciju koji postiže performanse koje se vrlo teško razlikuju od performansi bez virtualizacije jeste
+<ul>
+<li>%HVM&amp; za glavninu posla</li>
+<li>PV parcijalno za emulirani hardver (Gde se emulira većina  I/O  hardvera)</li>
+<li>Prespoj na nivou uređaja za GPU uređaje ako su potrebni</li>
+</ul></li>
+<li>Ovaj standard je sada već dostupan na praktično svakom operativnom sistemu i u serverskom i u lično-računarskom okruženju</li>
+</ul>
+</section>
+<section id="kontejneri-i-virtuelne-mašine" class="slide level2">
+<h2>Kontejneri i virtuelne mašine</h2>
+<ul>
+<li>Tehnika virtuelizacije je neizbežna i korisna</li>
+<li>Ali za veliki broj slučajeva primećeno je da se VM tehnologija koristi da bi se u okviru operativnog sistema X pokreću druge instance istog operativnog sistema, samo da bi se individualne aplikacije držale ‘zatvorene’ u svojim okruženjima.</li>
+<li>Ovo znači da su sposobnosti virtuelne mašine, sva ta mogućnost simuliranog hardvera, drugih operativnih sistema, transparentnosti i svega toga, fundamentalno bačena.</li>
+</ul>
+</section>
+<section id="zašto-emulirati-linux-u-linux-u" class="slide level2">
+<h2>Zašto emulirati Linux u  Linux-u? </h2>
+<ul>
+<li>Glavni razlog zašto se u produkciji pokreće virtuelna mašina koja je identična svom ‘domaćinskom’ sistemu je
+<ul>
+<li>Portabilnost</li>
+<li>Ponovljivost</li>
+<li>Izolacija</li>
+</ul></li>
+</ul>
+</section>
+<section id="portabilnost" class="slide level2">
+<h2>Portabilnost</h2>
+<ul>
+<li>Da bi nekakva aplikacija radila potrebno je imati veliki broj potporno softvera: biblioteka, alata, servera, itd.</li>
+<li>To znači da je vrlo teško poslati nekome aplikaciju</li>
+<li>Kada je u pitanju distribucija aplikacija za korisničke sisteme često je potrebna ili kompleksna instalaciona procedura ili impersivno kompleksan sitem za menadžment paketima</li>
+<li>Situacija za servere je još gora jer, osim što je potrebno sve to, mimo toga je još problem konflikta zahteva serverskih aplikacija</li>
+</ul>
+</section>
+<section id="konflikt-zahteva" class="slide level2">
+<h2>Konflikt zahteva</h2>
+<ul>
+<li>Serverske aplikacije se često izvršavaju u paraleli na istim mašinama sa mnogo drugih serverskih aplikacija</li>
+<li>Problem sa ovim jeste što jedna aplikacija može da zahteva jednu verziju ključne biblioteke, a druga drugu</li>
+<li>Čija je onda ‘starija?’</li>
+<li>Čak i ako se taj problem reši kroz, recimo, virtualizaciju okruženja ili pakovanje zahteva, šta da se radi sa zahtevima sa različitim verzijama potpornog servera?</li>
+<li>Recimo: šta ako imamo dve Java aplikacije gde svaka zahteva drugačiju verziju <code>Tomcat</code> servera?</li>
+</ul>
+</section>
+<section id="konflikt-zahteva-1" class="slide level2">
+<h2>Konflikt zahteva</h2>
+<ul>
+<li>A čak i ako se reši taj problem, ostaje problem interfejsa koji se ne mogu nikako replicirati</li>
+<li>Šta raditi ako imamo dva web servera? Ko dobije portove 80 i 443?</li>
+<li>Ovo sve dovodi do toga da je nemoguće samo ‘pokrenuti’ neku aplikaciju na datom serveru, no je to produžen i mučan proces koji zahteva jako puno konfiguracije i kompromisa i ne može da se lako automatizuje.</li>
+<li>Budući da je ‘samo pokreni’ neophodan korak ako želimo CC u bilo kojoj formi, portabilnost kroz virtuelizaciju je neophodna</li>
+</ul>
+</section>
+<section id="ponovljivost" class="slide level2">
+<h2>Ponovljivost</h2>
+<ul>
+<li>Vrlo bitna stavka kada se softver nađe u produkciji jeste da ne može da se desi da se neki sitan element hardversko-softverske konfiguracije promeni i softver naprasno prestane da funkcioniše ili, možda još gore, počne da radi <em>drugačije</em></li>
+<li>Ovo je boljka dobro poznata svakome u ovoj oblasti i zove se “Ali radi na mojoj mašini”</li>
+<li>Stoga, pojavila se potreba da postoji nekakav recept (idealno takav da se može automatizovati) koji, ako se prati, proizvede <em>tačno</em> okruženje u kome aplikacija treba da radi</li>
+</ul>
+</section>
+<section id="izolacija" class="slide level2">
+<h2>Izolacija</h2>
+<ul>
+<li>Ne samo što želimo da sprečimo slučajne konflikte između aplikacije, takođe želimo da sprečimo namerne konflikte</li>
+<li>Ako neko uspešno izvrši napad na bilo koji serverski proces na nekom sistemu i dobije šansu da šalje udaljene komande, apsolutno svi procesi na tom sistemu su sada ugroženi</li>
+<li>Postoji separacija između procesa, ali ona (u podrazumevanom okruženju) je nesavršena
+<ul>
+<li>Što?</li>
+</ul></li>
+</ul>
+</section>
+<section id="izolacija-1" class="slide level2">
+<h2>Izolacija</h2>
+<ul>
+<li>Izolacija između virtuelnih mašina je znatno bolja</li>
+<li>I dalje je moguće, kako se to kaže, da se ‘pobegne’ iz virtuelne mašine, ali je ovo barem za red veličine teže i lakše za odbranu zato što je površina napada mnogo bolje definisana</li>
+<li>Tako se potencijalno maliciozan sadržaj može držati ‘zarobljen’ što povećava bezbednost celog sistema</li>
+</ul>
+</section>
+<section id="motivacija-za-konejnere" class="slide level2">
+<h2>Motivacija za konejnere</h2>
+<ul>
+<li>Budući da nam ne treba poseban hardver, ne treba egzotična CPU arhitektura, i ne trebe nikakav novi operativni sistem, virtuelizacija ima dosta bačenih resursa</li>
+<li>Da li bi mogla virtualizacija ali lakša po sistem, ograničena samo na separaciju userspace okruženja koja dele, nekako, kernel?</li>
+<li>Ako da, kako bi to radilo?</li>
+</ul>
+</section>
+<section id="opšta-ideja" class="slide level2">
+<h2>Opšta ideja</h2>
+<ul>
+<li>Opšta ideja ovog problema se zove virtualizacija na nivou operativnog sistema</li>
+<li>Umesto da se pretvaramo da imamo ceo nov računar, mi umesto toga ubedimo operativni sistem da se pretvara da je više različitih instalacija</li>
+<li>Onda još samo ubedimo operativni sistem da se pretvara da je druga instalacija prema drugim procesima i time obezbeđujemo potpunu izolaciju</li>
+</ul>
+</section>
+<section id="opšta-ideja-1" class="slide level2">
+<h2>Opšta ideja</h2>
+<ul>
+<li>Možemo ovo da uradimo zato što procesi u korisničkom prostoru u potpunosti zavisni od operativnog sistema da otkriju šta se dešava</li>
+<li>Ako operativni sistem ‘laže’ na sistemske pozive, program u korisničkom prostoru to ne može da otkrije</li>
+<li>Jedini izazov jeste kako ubediti operativini sistem da drži konzistentne skupove laži i da govori prave laži pravom softveru</li>
+<li>Zato se ovo uvek radi preko alata koji delimično imaju podršku na nivou kernela, a delimično kao alati u korisničkom prostoru.</li>
+</ul>
+</section>
+<section id="preteča-chroot" class="slide level2">
+<h2>Preteča – chroot</h2>
+<ul>
+<li>Najranija forma koja podseća na kontejner jeste koncept <code>chroot</code> u POSIX sistemima</li>
+<li>Ova komanda (i sistemski poziv) služi da, kada se pokrene neki proces, može da mu se promeni šta je to tačno <code>root</code> direktorijum za njega</li>
+<li>Ovo je način da se proces zarobi u hijerarhiju direktorijuma koja se odabere i taj proces ne može ni da imenuje (pa stoga ne može da otvori) fajlove fan te hijerarhije</li>
+<li>Ovo znači da možemo da napravimo mini Linux instalacije za svaku aplikaciju gde svaka ima svoje zahteve prema fajlovima ispunjene.</li>
+</ul>
+</section>
+<section id="ograničenja" class="slide level2">
+<h2>Ograničenja</h2>
+<ul>
+<li>Naravno <code>chroot</code> je stara ideja i esencijalno ima vrlo slabu bezbednost i nikakav način da se zaštiti bilo šta <em>osim</em> fajlova</li>
+<li>Uprkos tome, ovo je početak ove ideje i doveo je direktno to izuma, 1999, BSD <code>jail</code> komande koja omogućava da se sistem particioniše u ‘zatvore’ koji omogućavaju da se servisi sistema rigorozno odvoje jedni od drugih.</li>
+<li>Za razliku od <code>chroot</code>, <code>jail</code> komanda ima i bezbednosne komponente i predstavlja nešto veoma blizu modernim kontejnerima.</li>
+</ul>
+</section>
+<section id="tehnologija-iza-modernih-kontejnera" class="slide level2">
+<h2>Tehnologija iza modernih kontejnera</h2>
+<ul>
+<li>Najčešće korišćeni modenri kontejneri proističu iz mehanizma koji se nalazi u modernim Linux kernel-ima i koji se zove <em>sistemski prostori imena</em> (eng.  namespaces ) </li>
+<li>Ideja između sistemski prostora imena (SPI) jeste da je moguće definisati, unutar kernela, particije resursa sistema i prikazivati samo jednu particiju određenim procesima.</li>
+<li>To znači da možemo imati dva procesa koji vide dva potpuno disjunktna skupa resursa</li>
+</ul>
+</section>
+<section id="šta-se-može-sortirati-u-spi" class="slide level2">
+<h2>Šta se može sortirati u SPI</h2>
+<p>Linux poseduje osam tipova SPI: 1. <code>Cgroup</code> - Omogućava da svaki SPI vidi poseban set kontrolnih grupa koje Linux koristi da meri i ograničava resurse sistema 2. <code>IPC</code> - Omogućava da svaki SPI vidi poseban set resursa za komunikaciju između procesa 3. <code>Network</code> - Omogućava da svaki SPI vidi svoj sopstveni mrežni interfejs, pravila rutiranja, firewall i, generalno, ceo mrežni stek 4. <code>Mount</code> - Omogućava da svaki SPI vidi samo određeni podskup integrisanih sistema fajlova</p>
+</section>
+<section id="šta-se-može-sortirati-u-spi-1" class="slide level2">
+<h2>Šta se može sortirati u SPI</h2>
+<ol start="5" type="1">
+<li><code>PID</code> - Omogućava da svaki SPI ima naizgled svoju tabelu procesa u kojoj se procesi drugih SPI ne nalaze</li>
+<li><code>Time</code> - Omogućava da svaki SPI ima svoja podešavanja vezana za sistemsko vreme</li>
+<li><code>User</code> - Omogućava da svaki SPI ima potpuno svoj set korisnika uključujući i ‘svog’ <code>root</code> korisnika i svoju interpretaciju dozvola za svoj pod-domen fajlova</li>
+<li><code>UTS</code> - Omogućava da svaki SPI vidi potencijalno različit <code>hostname</code></li>
+</ol>
+</section>
+<section id="kako-odavde-do-kontejnera" class="slide level2">
+<h2>Kako odavde do kontejnera</h2>
+<ul>
+<li>Ako se resursi sistema rigorozno iseku na SPI i koristi se <code>chroot</code> da se neki proces zarobi u svoj pod-direktorijumu nešto što neodoljivo podseća na kontejner postaje moguće</li>
+<li>Ovo znači da je moguće maltene generisati kontejner koristeći prostu komandu kojai je deo <code>utils-linux</code> paketa</li>
+</ul>
+</section>
+<section id="unshare" class="slide level2">
+<h2>Unshare</h2>
+<div class="sourceCode" id="cb7"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="ex">unshare</span> <span class="at">-r</span> <span class="at">-i</span> <span class="at">-p</span> <span class="at">-f</span> <span class="at">--kill-child</span> <span class="at">-R</span> /home/veljko/tmp2 ./tst</span></code></pre></div>
+</section>
+<section id="objašnjenje" class="slide level2">
+<h2>Objašnjenje</h2>
+<ul>
+<li><code>-r</code> podešava da će se korisnik unutar ovog našeg kontejnera mapirati na ‘root’ korisnika</li>
+<li><code>-i</code> podešava da pravimo novi, odvojen IPC SPI</li>
+<li><code>-p</code> podešava da pravimo novi, odvojen PID SPI</li>
+<li><code>-f</code> podešava da pokrećemo potpuno nov proces sa ovom komandom za koji će biti podešeno sve što smo specificirali</li>
+<li><code>--kill-child</code> grozomorno nazvana opcija koja kaže da se svi procesi-potomci terminiraju kada se terminira <code>unshare</code></li>
+<li><code>-R</code> podešava nov <code>root</code> direktorijum za nov proces</li>
+</ul>
+</section>
+<section id="objašnjenje-1" class="slide level2">
+<h2>Objašnjenje</h2>
+<ul>
+<li>Sama ./tst komanda je trivijalni C program koji simulira ls komandu nad root direktorijumom</li>
+<li>Služi da se demonstrira da smo za ovaj naš nov proces <code>root</code> nešto sasvim drugo</li>
+</ul>
+</section>
+<section id="tst.c" class="slide level2">
+<h2> tst.c </h2>
+<div class="sourceCode" id="cb8"><pre class="sourceCode c"><code class="sourceCode c"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="pp">#include </span><span class="im">&lt;dirent.h&gt;</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="pp">#include </span><span class="im">&lt;stdio.h&gt;</span></span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a><span class="dt">int</span> main<span class="op">()</span> <span class="op">{</span></span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>  DIR <span class="op">*</span>d<span class="op">;</span></span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>  <span class="kw">struct</span> dirent <span class="op">*</span>dd<span class="op">;</span></span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>  d <span class="op">=</span> opendir<span class="op">(</span><span class="st">&quot;/&quot;</span><span class="op">);</span></span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> <span class="op">(</span>d<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a>    <span class="cf">while</span> <span class="op">((</span>dd <span class="op">=</span> readdir<span class="op">(</span>d<span class="op">))</span> <span class="op">!=</span> NULL<span class="op">)</span> <span class="op">{</span></span>
+<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a>      printf<span class="op">(</span><span class="st">&quot;%s</span><span class="sc">\n</span><span class="st">&quot;</span><span class="op">,</span> dd<span class="op">-&gt;</span>d_name<span class="op">);</span></span>
+<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a>    <span class="op">}</span></span>
+<span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a>    closedir<span class="op">(</span>d<span class="op">);</span></span>
+<span id="cb8-13"><a href="#cb8-13" aria-hidden="true" tabindex="-1"></a>  <span class="op">}</span><span class="cf">else</span><span class="op">{</span></span>
+<span id="cb8-14"><a href="#cb8-14" aria-hidden="true" tabindex="-1"></a>    fprintf<span class="op">(</span>stderr<span class="op">,</span> <span class="st">&quot;Ne mogu da otvorim korenski direktorijum.</span><span class="sc">\n</span><span class="st">&quot;</span><span class="op">);</span></span>
+<span id="cb8-15"><a href="#cb8-15" aria-hidden="true" tabindex="-1"></a>  <span class="op">}</span></span>
+<span id="cb8-16"><a href="#cb8-16" aria-hidden="true" tabindex="-1"></a>  <span class="cf">return</span> <span class="dv">0</span><span class="op">;</span></span>
+<span id="cb8-17"><a href="#cb8-17" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code></pre></div>
+</section>
+<section id="rezultat" class="slide level2">
+<h2>Rezultat</h2>
+<pre><code>.
+..
+chroot_works
+tst.c
+tst
+usr
+lib
+lib64</code></pre>
+</section>
+<section id="rezultat-1" class="slide level2">
+<h2>Rezultat</h2>
+<ul>
+<li>Izlistan, kao da je <code>root</code> je u stvari <code>tmp2</code> direktorijum</li>
+<li>Jedino ograničenje je to što, da bi sistem radio, mora imati pristup <code>glibc</code></li>
+<li>Stoga, radi jednostavnosti, direktorijumi sa bibliotekama su ulinkovani</li>
+<li>U praksi, mi bi koristili posebne alate koji zahtevaju malo biblioteka ili su kompajlirani u statičkoj formi</li>
+</ul>
+</section>
+<section id="šta-nam-ovo-govori" class="slide level2">
+<h2>Šta nam ovo govori?</h2>
+<ul>
+<li>Verovali ili ne, ovo je dovoljno da se počne razvoj vaše verzije alata Docker</li>
+<li>Naravno, Docker radi mnogo više stvari na mnogo kompleksniji način</li>
+<li>Centralna ideja, sa druge strane, stvarno jeste ista</li>
+<li>Umesto da se poziva komanda, poziva se sistemski poziv (isto ime), ali centralna ideja je identična</li>
+</ul>
+</section>
+<section id="šta-je-još-potrebno" class="slide level2">
+<h2>Šta je još potrebno?</h2>
+<ul>
+<li>Ako imamo sve ovo u običnoj korisnoj komandi, koji posao nam radi nešto kao što je Docker</li>
+<li>Jako puno stvari, naravno, ali jedna od glavnih je nešto preko čega sam je preskočio u primeru</li>
+<li>Linkovanje (Pomoću, ako vas zanima <code>mount -o bind</code> komande; bonus pitanje: zašto sam koristio <code>mount -o bind</code> umesto tvrdih linkova?) svih onih biblioteka nije trivijalan posao</li>
+<li>Veliki izazov je pripremiti okruženje za kontejner</li>
+</ul>
+</section>
+<section id="šta-je-još-potrebno-1" class="slide level2">
+<h2>Šta je još potrebno?</h2>
+<ul>
+<li>Okruženje za VM je komplikovano, ali je to barem nešto vrlo slično instalaciji operativnog sistema</li>
+<li>Znamo kako da radimo <em>to</em></li>
+<li>Kako napraviti instalaciju nečega što malo jeste poseban OS, a malo nije?</li>
+<li>Ovo se u svetu kontejnera tipično zove  image  odnosno slika i predstavlja neku vrstu ‘dehidriranog’ kontejnera</li>
+<li>Više o ovome kasnije</li>
 </ul>
 </section></section>
     </div>
