@@ -1,0 +1,734 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="generator" content="pandoc">
+  <meta name="author" content="Veljko Petrović">
+  <title>Bezbednost</title>
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
+  <link rel="stylesheet" href="https://unpkg.com/reveal.js@^4//dist/reset.css">
+  <link rel="stylesheet" href="https://unpkg.com/reveal.js@^4//dist/reveal.css">
+  <style>
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    span.underline{text-decoration: underline;}
+    div.column{display: inline-block; vertical-align: top; width: 50%;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    ul.task-list{list-style: none;}
+  </style>
+  <link rel="stylesheet" href="https://unpkg.com/reveal.js@^4//dist/theme/night.css" id="theme">
+  <link rel="stylesheet" href="slides.css"/>
+</head>
+<body>
+  <div class="reveal">
+    <div class="slides">
+
+<section id="title-slide">
+  <h1 class="title">Bezbednost</h1>
+  <p class="author">Veljko Petrović</p>
+  <p class="date">Novembar, 2022</p>
+</section>
+
+<section>
+<section id="bezbednost-računarsva-u-oblaku" class="title-slide slide level1">
+<h1>Bezbednost računarsva u oblaku</h1>
+<p>Obezbeđivanje sistema</p>
+</section>
+<section id="šta-je-bezbednost" class="slide level2">
+<h2>Šta je bezbednost?</h2>
+<ul>
+<li>Bezbednost, u najširem smislu, jeste da budemo slobodni opasnosti ili rizika štete</li>
+<li>Važi za sve: računare, materijalna dobra uopšte, ljudske živote…</li>
+<li>Praksa bezbednosti je postizanje tog stanja</li>
+<li>Za računarske sisteme ovo se deli na:
+<ul>
+<li>Fizičku bezbednost</li>
+<li>Sistemsku bezbednost</li>
+</ul></li>
+</ul>
+</section>
+<section id="sistemska-bezbednost" class="slide level2">
+<h2>Sistemska bezbednost</h2>
+<ul>
+<li>Sistemska bezbednost se odnosi na sisteme koje upravljaju informacijama i odnosi se na pravila i procedure koja omogućavaju tom sistemu da pruža nekakve bezbednosne garancije</li>
+<li>Ne mora biti isključivo računarski sistem</li>
+<li>Primeri ne-računarske bezbednosti:
+<ul>
+<li>Knjigovodstvo sa dvostrukim unosom</li>
+<li>Indeks</li>
+</ul></li>
+</ul>
+</section>
+<section id="fizička-bezbednost" class="slide level2">
+<h2>Fizička bezbednost</h2>
+<ul>
+<li>Fizička bezbednost se odnosi na fizičku nepovredivost materijalnih pomagala koja služe da obezbede pravila i procedure sistemske bezbednosti</li>
+<li>U slučaju računarskih sistema to je bezbednost fizičkih uređaja računara i njihove infrastrukture</li>
+<li>Manifestuje se u obezbeđenim, zaključanim serverskim sobama, obezbeđenim mrežnim vezama, odbranom od požara</li>
+<li>Postiže se osobljem i tehničkim pomagalima specijalizovanim za baš to</li>
+</ul>
+</section>
+<section id="menadžment-rizikom" class="slide level2">
+<h2>Menadžment rizikom</h2>
+<ul>
+<li>Jedan od glavnih poslova u praksi bezbednosti je menadžment rizikom</li>
+<li>Menadžment rizikom se sastoji od tri glavna koraka
+<ol type="1">
+<li>Identifikacija</li>
+<li>Ublažavanje</li>
+<li>Dokumentacija</li>
+</ol></li>
+<li><strong>Identifikacija</strong> je uočavanje rizika “Neko bi mogao da uđe kroz ovaj prozor.”</li>
+<li><strong>Ublažavanje</strong> je preduzimanje koraka da se neki rizik ublaži ili eliminiše “Trebalo bi da stavimo rešetke na prozor da bi sprečili bilo koga da uđe.”</li>
+<li><strong>Dokumentacija</strong> je, u slučaju zakazivanja bezbednosti, beleženje načinjene štete i atribucija te štete na identifikovan faktor rizika “Napadač je ušao kroz neobezbeđen prozor u prizemlju.”</li>
+</ul>
+</section>
+<section id="komponente-sistema" class="slide level2">
+<h2>Komponente sistema</h2>
+<ul>
+<li>Kada je u pitanju sistemska bezbednost, imamo dva tipa komponenti da posmatramo:
+<ul>
+<li>Funkcionalnosti</li>
+<li>Bezbednosne politike</li>
+</ul></li>
+<li>Možemo o njima misliti kao o ‘dobro’ i ‘loše’ našeg sistema</li>
+<li>Funkcionalnost je ono što želimo: operacije zbog kojih uopšte i imamo sistem</li>
+<li>Bezbednosne politke su zabranjena stanja i prelazi između stanja: ono što hoćemo da sprečimo ili, barem, pažljivo zabeležimo.</li>
+</ul>
+</section>
+<section id="forma-bezbednosne-politike" class="slide level2">
+<h2>Forma bezbednosne politike</h2>
+<ul>
+<li>Bezbednosnu politiku formiramo tipično iz tri dela:
+<ol type="1">
+<li>Akter (A)</li>
+<li>Zabranjeno stanje (Z)</li>
+<li>Resurs (R)</li>
+</ol></li>
+</ul>
+</section>
+<section id="primeri-bezbednosne-politke" class="slide level2">
+<h2>Primeri bezbednosne politke</h2>
+<ol type="1">
+<li>Ocena studenta (R) ne sme se prihvatiti bez potpisa nastavnika (A).</li>
+<li>Glasač (A) ne sme glasati (R) više od jednom (Z).</li>
+<li>Bilo koji korisnik koji nije <code>root</code> (A) ne sme modifikovati (Z) ovaj fajl (R).</li>
+</ol>
+</section>
+<section id="šta-bezbednosna-politika-treba-da-postigne" class="slide level2">
+<h2>Šta bezbednosna politika treba da postigne?</h2>
+<ul>
+<li>Na engleskom ciljevi se često označavaju kroz CIA sistem:
+<ol type="1">
+<li>Poverljivost odn. Confidentiality - Da podaci ostanu poznati samo onim licima kojima treba da budu poznati.</li>
+<li>Integritet odn. Integrity - Da se podaci ne mogu menjati osim od strane onih koji za to imaju prava</li>
+<li>Dostupnost odn. Availability - Da je sistem dostupan da obavlja svoj posao bez obzira na akcije lica neautorizovanih da raspolažu njegovim resursima.</li>
+</ol></li>
+</ul>
+</section>
+<section id="pid-sistem" class="slide level2">
+<h2>PID Sistem</h2>
+<ul>
+<li>P-rizik je da neko probije zaštitu i čita poslovne tajne firme.</li>
+<li>I-rizik je da neko probije zaštitu i promeni poslovne knjige firme tako da, recimo, ne duguje ništa za neku transakciju.</li>
+<li>D-rizik je da neko preoptereti servere i izazove prekid u pružanju legitimnih usluga.</li>
+</ul>
+</section>
+<section id="pid-i-cc" class="slide level2">
+<h2>PID i CC</h2>
+<ul>
+<li>PID se generalno odnosi na CC na isti način kao i na bilo koju drugu situaciju</li>
+<li>Imaju dve glavne razlike</li>
+<li>Prva glavna razlika jeste da je da postoji još jedna linija napada: ako napadač uspe da zaobiđe individualne virtuelizovane instance i umesto toga napadne hipervizor direktno to otvara mnogo veći i gadniji P i I rizik.</li>
+<li>Druga je da D rizik interaguje kompleksno sa okruženjem: sa jedne strane određeni D rizci se mogu lako nadjačati, zato što je uvek moguće angažovati više (ogromnih) kapaciteta CC provajdera, sa druge interakcija D rizika i elastičnog računarsva znači da uspešan D-napad može da košta jako puno novca.</li>
+</ul>
+</section>
+<section id="kako-politike-stupaju-na-snagu" class="slide level2">
+<h2>Kako politike stupaju na snagu</h2>
+<ul>
+<li>Bezbednosne politike su pravila</li>
+<li>Možemo ih istaći na oglasnu tablu, ali nam samo mogu upravljati rizikom ako imamo mehanizam kojim se to pravilo <em>sprovodi.</em></li>
+<li>Ovo se zovu bezbednosni mehanizmi ili bezbednosne kontrole</li>
+<li>Primeri:
+<ul>
+<li>Slojevi za pružanje bezbednosti u operativnim sistemima i hipervizorima</li>
+<li>Šifre za pristup</li>
+<li>Kriptografske tehnike uključujući: potpise, šifrovanja, i dokaze nultiog znanja</li>
+<li>Fizički bezbednosni mehanizmi kao što su mehanički ključevi, pametne kartice, i prenosivi kriptografski moduli</li>
+</ul></li>
+</ul>
+</section>
+<section id="tehnike-sprovođenja-bezbednosti" class="slide level2">
+<h2>Tehnike sprovođenja bezbednosti</h2>
+<ol type="1">
+<li>Prevencija</li>
+<li>Detekcija</li>
+<li>Oporavak</li>
+<li>Obeshrabrivanje</li>
+</ol>
+</section>
+<section id="prevencija" class="slide level2">
+<h2>Prevencija</h2>
+<ul>
+<li>Najbolje je koristiti prevenciju, ako je to moguće</li>
+<li>To znači da se bezbednosni mehanizmi primene tako da potpuno spreče da nastane bezbednosni pristup</li>
+<li>Ako smo šifrovali osetljiv fajl, i dali ključeve za dekripciju samo onima koji treba da imaju pristup, onda smo izkontrolisali P-rizik uspešno pod uslovom da ključevi ne procure i da je tehnika šifrovanja bez poznatih mana i tehnika zaobilaženja.</li>
+<li>Najuspešniji bezbednosni sistemi su nevidljivi zato što operišu na nivou prevencije.</li>
+</ul>
+</section>
+<section id="detekcija" class="slide level2">
+<h2>Detekcija</h2>
+<ul>
+<li>Ako ne možemo da sprečimo, sledeća najbolja stvar je da <em>primetimo</em></li>
+<li>To znači da svaki sistem koji nudi bezbednost mora da beleži svoje ponašanje, naročito ono koje se odnosi na bezbednosnu politiku sistema</li>
+<li>Ako je neko pristupio fajlu iz prethodnog primera, barem možemo da saznamo <em>kada</em> i <em>ko</em> i <em>kako</em> tako da se napad može sprečiti u budućnosti i tako da se napadač može lako uhvatiti.</li>
+</ul>
+</section>
+<section id="oporavak" class="slide level2">
+<h2>Oporavak</h2>
+<ul>
+<li>Kada se jednom desi proboj bezbednosti, oporavak znači da se identifikuje tačan način napada, da se taj vektor (i srodni) otklone za ubuduće, i da se šteta načinjena otkloni i omogući se da se sistem vrati u normalnu bezbednu operaciju.</li>
+<li>Vreme za planiranje ovih u-slučaju-propasti-razbiti-staklo praksi je <em>pre</em> bilo kakvog problema.</li>
+<li>U slučaju čitanja fajla koji je bio enkriptovan, mogu se promeniti tehnike šifrovanja ili rotirati ključevi</li>
+</ul>
+</section>
+<section id="obeshrabrivanje" class="slide level2">
+<h2>Obeshrabrivanje</h2>
+<ul>
+<li>Vrlo bitan faktor u slučaju bezbednosnog propusta jeste da se napadač identifikuje i, ako je to moguće, nekako goni: pravno, disciplinski, šta god da je već prikladno situaciji</li>
+<li>Ovo služi da obeshrabri, barem donekle, buduće napadače.</li>
+</ul>
+</section>
+<section id="protivnici" class="slide level2">
+<h2>Protivnici</h2>
+<ul>
+<li>Ko je to ko hoće da prekrši naše bezbednosne politike?</li>
+<li>Univerzalni termin za takve je ‘napadači’ ili ‘protivnici’</li>
+<li>Engleski termin je adversaries</li>
+<li>Bitan deo prakse bezbednosti je proučavanje protivnika</li>
+<li>Bez njih, polje bezbednosti ne bi postojalo: u svetu u kome su svi pošteni ne bi bilo razloga da šifre <em>postoje,</em> a kamoli drugi, kompleksniji mehanizimi bezbednosti
+<ul>
+<li>Primer: ITS</li>
+</ul></li>
+</ul>
+</section>
+<section id="motivacije-protivnika" class="slide level2">
+<h2>Motivacije protivnika</h2>
+<ul>
+<li>Ekonomska
+<ul>
+<li>Ovo je najprostija forma motivacije: probijanje bezbednosti donosi nekakvu finansijsku dobit</li>
+<li>Ovaj tip motivacije je dobar za procenu nivoa rizika: što je veća vrednost koju sistem štiti, to je rizik od ove vrste napadača veći</li>
+<li>Zahvaljujući  PoW  klasi blockchain sistema, ‘vrednost’ se može ovde odnositi i na računarsku moć</li>
+</ul></li>
+<li>Malicioznost
+<ul>
+<li>Ovde je motiv zloba ili osveta</li>
+<li>Arhetipski, ovo je, npr. bivši zaposleni</li>
+<li>Vrlo je teško predvideti zato što je, po svojoj prirodi, irracionalna</li>
+</ul></li>
+</ul>
+</section>
+<section id="motivacije-protivnika-1" class="slide level2">
+<h2>Motivacije protivnika</h2>
+<ul>
+<li>Politička
+<ul>
+<li>Ovo je motivacija kroz ideologiju ili politički konflikt</li>
+<li>Napad je ili simbolički ili predstavlja čin rata kroz računarsku bezbednost</li>
+<li>Napadi drugog tipa su često kroz NPP (o tome kasnije)</li>
+</ul></li>
+<li>Tehnička
+<ul>
+<li>Ovde motivacija nije ono što razbijanje zaštite omogućava nego samo razbijanje zaštite: tehnički izazov</li>
+<li>Ovo se može barem delimično rešiti kroz  bug bounty  program koji incentivizira ovakvog napadača da se ponaša odgovorno</li>
+</ul></li>
+</ul>
+</section>
+<section id="motivacije-protivnika-2" class="slide level2">
+<h2>Motivacije protivnika</h2>
+<ul>
+<li>Nihilistička
+<ul>
+<li>Ovo nema bolji termin: postoji (redak) tip napadača koji jednostavno želi da naudi što većem broju ljudi i veruje da je zloupotreba računarskih sistema relativno dobar način da se to učini.</li>
+<li>Velika većina pošasti virusa 1990-tih nije donela nikome nikakvu <em>korist.</em></li>
+<li>Većina nije čak ni imala neku poruku, jednostavno su uništavali zato što je to zabavljalo kreatore</li>
+<li>Ovo je teško predvideti i teško se odbraniti zato što je napad, naizlged, potpuno demotivisan.</li>
+</ul></li>
+</ul>
+</section>
+<section id="demotivisanje-napadača" class="slide level2">
+<h2>Demotivisanje napadača</h2>
+<ul>
+<li>Najbolja moguća odbrana jeste da se napadač demotiviše da uopšte napadne sistem</li>
+<li>Ako je u pitanju malicioznost ili politika ili tako nešto, demotivacija je nešto teža.</li>
+<li>Ekonomsku motivaciju je lako demotivisati: samo treba učiniti sistem <em>skupim</em> za napad.</li>
+<li>Napadač želi da profitira: ako postoje drugi sistemi negde drugde koji su lakša meta, a ovaj zahteva investiciju vremena i veštine i računarske infrastrukture koja je dovoljno velika da ‘pojede’ profit, onda će napadač preći na nekog drugog.</li>
+</ul>
+</section>
+<section id="klasifikacija-napadača-u-odnosu-na-metu" class="slide level2">
+<h2>Klasifikacija napadača u odnosu na metu</h2>
+<ul>
+<li>Eksterni
+<ul>
+<li>Napadač je eksteran u odnosu na sistem. To je dobro, zato što je šansa da ne zna internu strukturu sistema, i loše zato što napadač može biti bilo ko, bilo gde.</li>
+</ul></li>
+<li>Interni
+<ul>
+<li>Napadač je neko ko ima/je imao legitiman pristup sistemu. Ovo omogućava zloupotrebu kredencijala (napad ‘iznutra’) kao i poznavanje detalja sistema koji su normalno tajni.</li>
+</ul></li>
+</ul>
+</section>
+<section id="klasifikacija-napadača-u-odnosu-na-metu-1" class="slide level2">
+<h2>Klasifikacija napadača u odnosu na metu</h2>
+<ul>
+<li>Uprava
+<ul>
+<li>Napad iz uprave nastaje kada neko ko je operater sistema i u upravnim strukturama hoće da uradi nešto na način koji je tajan ili poreciv: ovde nije stvar da napadač pokušava da dobije pristup, napdač <em>ima</em> pristup, stvar je da napadač želi da iskoristi taj pristup, a da niko ne sazna</li>
+<li>Tipičan slučaj je lažiranje poslovnih podataka</li>
+</ul></li>
+<li>Snadbevač
+<ul>
+<li>Osoba koja pruža softversko/hardversko rešenje koje koristi neki sistem želi da taj sistem napadne, i pretvori svoj proizvod u ‘trojanski konj’</li>
+<li>Ovo je zastrašujuća forma napada zato što je odbrana u nekim slučajevima sasvim nemoguća</li>
+</ul></li>
+</ul>
+</section>
+<section id="klasifikacija-napadača-u-odnosu-na-resurse-i-mogućnosti" class="slide level2">
+<h2>Klasifikacija napadača u odnosu na resurse i mogućnosti</h2>
+<ul>
+<li>Pitanja koja valja postaviti vezana za napadača su:
+<ul>
+<li>Da li poseduje poznavanje interne operacije sistema?</li>
+<li>Da li poseduje izvorni kod?</li>
+<li>Da li poseduje pristup lozinkama, šiframa, ili kodovima koji pružaju pristup sistemu?</li>
+<li>Da li poseduje pristup osetljivim ličnim podacima operatora sistema?</li>
+<li>Koji je stepen tehničke sofisticiranosti napadača?</li>
+</ul></li>
+</ul>
+</section>
+<section id="klasifikacija-napadača-u-odnosu-na-resurse-i-mogućnosti-1" class="slide level2">
+<h2>Klasifikacija napadača u odnosu na resurse i mogućnosti</h2>
+<ul>
+<li>Da li je napadač sposoban za fizičku infiltraciju?</li>
+<li>Da li napdač ima kapacitete za računarstvo visokih performansi?</li>
+<li>Da li napadač ima sposobnost da presreće i modifikuje komunikaciju između sistema i ostatka sveta?</li>
+<li>Da li napadač ima sposobnost da ostvari subverziju eksternih aktera sistema?</li>
+<li>Da li napadač ima efektivno neograničeno vreme i strpljenje?</li>
+</ul>
+</section>
+<section id="napredna-perzistentna-pretnja" class="slide level2">
+<h2>Napredna Perzistentna Pretnja</h2>
+<ul>
+<li>Ovo je kalk engleskog  Advanced Persistent Threat </li>
+<li>Ovo je najgora klasifikacija napadača</li>
+<li>Ovde nije slučaj nekoga ko pravi ako prođe, prođe oportunistički napad na sistem (što je najčešća forma) ili proba šta zna i odustane ako (npr) niko ne klikne na phishing poruku.</li>
+<li>Ovde je slučaj nekoga ko odabere metu i potroši onoliko vremena i resursa koliko je neophodno da se pridobije pristup</li>
+</ul>
+</section>
+<section id="napredna-perzistentna-pretnja-1" class="slide level2">
+<h2>Napredna Perzistentna Pretnja</h2>
+<ul>
+<li>Ovo je retko osoba, češće je u pitanju grupa, još češće organizacija</li>
+<li>Najpoznatiji NPPovi su državne organizacije posvećene diverzantnskim napdima u računarskom prostoru</li>
+<li>Resursi takvih napadača su neretko, efektno, beskonačni, i zahtevaju apsolutno ogroman napor da bi se od njih odbranilo</li>
+</ul>
+</section></section>
+<section>
+<section id="neki-bezbednosni-principi" class="title-slide slide level1">
+<h1>Neki Bezbednosni Principi</h1>
+<p>Principi prakse i teorije bezbednosti</p>
+</section>
+<section id="princip-cena" class="slide level2">
+<h2>Princip cena</h2>
+<ul>
+<li><strong>Svaka bezbednosna mera će imati nekakvu cenu. Ta cena može biti direktno novčana, ili reflektovana u sporosti rada sistema, kompleksnosti rada sa njim, ograničene funkcionalnosti ili povećanih hardverskih zahteva.</strong></li>
+<li>Nemoguće je nazvati nešto bezbednim ili ne bez ustanovljenja skale pretnje i odbrane</li>
+<li>Brava koja je adekvatna za bicikl je neprihvatljiva za sef, a preterana za fioku u kojoj držite escajg</li>
+<li>Cena bezbednosti se mora skalirati sa verovatnoćom da će doći do pretnje i sa razmerom te pretnje kada se pojavi</li>
+</ul>
+</section>
+<section id="princip-metodološke-skromnosti" class="slide level2">
+<h2>Princip metodološke skromnosti</h2>
+<ul>
+<li><strong>Svaki sistem koji dizajnirate ili koristite može i hoće doživeti propust. Planirajte shodno tome.</strong></li>
+<li>Ništa nije, niti može biti, istinski bezbedno</li>
+<li>Umesto, postoje samo stepeni ranjivosti</li>
+<li>Ovo nije poziv na pesimizam: umesto, sistem ne treba dizajnirati tako da se oslanja sasvim da jedan mehanizam radi savršeno, ili da nešto neće imati nikakve greške: umesto sistem valja dizajnirati sa predpostavkom da bilo šta može da otkaže i sa nekakvim načinom da se od toga oporavi</li>
+<li>Da li CC ovome odgovara?</li>
+</ul>
+</section>
+<section id="pricip-lakoće-upotrebe" class="slide level2">
+<h2>Pricip lakoće upotrebe</h2>
+<ul>
+<li><strong>Bezbednosni sistem mora biti toliko lak za upotrebu da garantuje saradnju od strane krajnjeg korisnika.</strong></li>
+<li>Ako se ne prati ovaj savet desi se fijasko  Vista UAC  sistema</li>
+<li>Naravno, bezbednost uvek košta lakoću upotrebe, ali ovo je trošak koji se mora rigorozno kontrolisati</li>
+<li>Bezbednost <strong>zavisi</strong> od korisnika.</li>
+</ul>
+</section>
+<section id="princip-minimalne-privilegije" class="slide level2">
+<h2>Princip minimalne privilegije</h2>
+<ul>
+<li><strong>Nikada ne dati nekom korisniku, procesu, sistemu, ili bilo kom nosiocu prava u sistemu više privilegija nego što je apsolutno neophodno za njihov posao.</strong></li>
+<li>Zašto vaš internet pretraživač može da čita vaše dokumente?</li>
+<li>Ova minimizacija privilegije ne čini samo da se pristup sistemu teže zloupotrebi, nego još i smanjuje kompleksnost sistema tako da je napadačka povrišina manja.</li>
+</ul>
+</section>
+<section id="princip-podele-privilegije" class="slide level2">
+<h2>Princip podele privilegije</h2>
+<ul>
+<li><strong>Osetljive akcije u sistemu treba da uvek zahtevaju saradnju više nezavisnih aktera.</strong></li>
+<li>Sigruno ste na ekranu videli najdramatičniji primer ovoga gde se istovremenu okreću udaljeni ključevi ne bi li se obavilo nešto, uglavnom, apokaliptično.</li>
+<li>U malo manje dramatičnim sistemima, mogli bi imati situaciju gde je potreban administratorski korisnik da bi se inicirala promena bezbednosne politike, a onda <em>drugi</em> administratorski korisnik da bi se promena potvrdila.</li>
+<li>U sistemu sa kojim svi imate dosta iskustva, za osetljivu akciju ‘uspešna odbrana diplomskog rada’ potrebni su potpisi <em>tri</em> ‘administratora’ odn. nastavnika.</li>
+</ul>
+</section>
+<section id="princip-odbrane-u-dubinu" class="slide level2">
+<h2>Princip odbrane u dubinu</h2>
+<ul>
+<li><strong>Ništa nije bezbedno iza samo jednog mehanizma odbrane, bez obzira koliko je taj sistem dobar.</strong></li>
+<li>Kada su u pitanju sistemi bezbednosti važi stari inženjerski princip  one is none. </li>
+<li>Ako je to ikako moguće, svi osetljivi resursi treba da su iza više sistema odbrane koji imaju različit princip funkcionisanja.</li>
+<li>Ovo izbegava jedinstvene ‘tačke pucanja’</li>
+<li>Neophodnost interagovanja sa mnogo bezbednosnih sistema takođe povećava šansu da će prilikom napada biti zabeležen ključan podatak o napadaču</li>
+</ul>
+</section>
+<section id="princip-kompletne-medijacije" class="slide level2">
+<h2>Princip kompletne medijacije</h2>
+<ul>
+<li><strong>Svaki zahtev prema sistemu mora biti autentifikovan bez obzira na važnost ili posledicu.</strong></li>
+<li>Bez obzira što je korisnik uspešno obavio 30 zahteva, i zahtev 31 mora biti podvrgnut punoj proveri.</li>
+<li>Takođe, nije bitno ako je zahtev prema nečemu sasvim benginom (tj. O nama sekcija): i dalje je provera ključna</li>
+<li>Zašto? <em>Bilo šta što je dostupno je površina za napad.</em></li>
+<li>Naravno, neki servisi moraju biti otvoreni neautentifikovanim zahtevima, ali ako se mogu zatvoriti <em>treba</em> da budu zatvoreni</li>
+</ul>
+</section>
+<section id="princip-mekog-sletanja" class="slide level2">
+<h2>Princip mekog sletanja</h2>
+<ul>
+<li><strong>Sve podrazumevane vrednosti za sve opcije u sistemu moraju biti nameštene pod pretpostavkom da će greškom nešto biti postavljeno na podrazumevanu vrednost (umesto na onu koja je željena), te moraju biti podrazumevano bezbedne.</strong></li>
+<li>Čest oblik greške je gde neko napravi grešku u konfiguraciji i umesto da sistem ima neku odbranu, on u stvari dopušta sve akcije (pošto je to podrazumevano ponašanje)</li>
+<li>Ova podrazumevana ponašanja su napravljena tako ne iz nekompetentnosti nego zato što je mnogo lakše namestiti sistem ako se ne rvete sa bezbednošću</li>
+<li>Nažalost, bezbednost <em>nije</em> nešto što se ‘doda kasnije’ no mora ići prvo</li>
+<li>Stoga sve podrazumevane vrednosti i sve predpostavke sistema ako nešto nije u redu sa konfiguracijom moraju da greše u smeru veće bezbednosti, makar to dovelo do otkaza sistema: bolje bag koji otkrijete prilikom nameštanja sistema nego onaj o kome čitate na naslovnoj strani  Ars Technica </li>
+</ul>
+</section>
+<section id="princip-otvorenosti" class="slide level2">
+<h2>Princip otvorenosti</h2>
+<ul>
+<li><strong>Nijedna bezbednosna mera ne treba da se oslanja na tajnost mere da bi bila efektna.</strong></li>
+<li>Prvo, implementacioni detalji kompleksnih sistema su vrlo teški za sakrivanje, i vrlo laki da procure.</li>
+<li>Drugo, objavljivanje detalja bezbednosti može da bude vrlo <em>dobro</em> za bezbednost zato što se greške brzo nalaze ako je sistem pdodvrgnut javnom uvidu.</li>
+<li> Given enough eyes, all bugs are shallow </li>
+</ul>
+</section></section>
+<section>
+<section id="kratka-istorija-računarske-nebezbednosti" class="title-slide slide level1">
+<h1>Kratka istorija računarske (ne)bezbednosti</h1>
+<p>Rana istorija bezbednosti i lekcije koje nas uči</p>
+</section>
+<section id="prvi-računarski-zločini" class="slide level2">
+<h2>Prvi računarski zločini</h2>
+<ul>
+<li>Prvi računarski zločini su bili prilično dosadni, i sastojali su se od napada na računare</li>
+<li>1973 u Melburnu su demonstranti (protiv rata) pucali u računar sačmarom</li>
+<li>1978 je stradao IBM 3031 zato što je bio deo NAVSTAR programa koji je bio neka vrsta preteče GPS i to se nekom demonstrantu nije svidelo.</li>
+<li>Nisu svi napadi bili politički, 1974. računar u Šarlotu, Severna Karolina, SAD je frustrirani operater upucao
+<ul>
+<li>Hajde da budemo iskreni, svi smo to hteli jednom da uradimo…</li>
+</ul></li>
+</ul>
+</section>
+<section id="lekcije" class="slide level2">
+<h2>Lekcije?</h2>
+<ul>
+<li>Bez obzira koliko su vam dobre sistemkse zaštite, fizička bezbednost je jednako bitna. Nema tog operativnog sistema koji vas štiti od toga da neko uđe u serversku sobu sa automatskom puškom.</li>
+<li>Naročito, D-tip napada je, sa fizičkim pristupom mašini, moguće ostvariti sa apsolutno nultim stepenom tehničke sofisticiranosti</li>
+</ul>
+</section>
+<section id="početak-socijalnih-napada" class="slide level2">
+<h2>Početak socijalnih napada</h2>
+<ul>
+<li>Godine 1970. Džeri Nil Šnajder je počeo da analizira smeće Pacifičke Telefonsko-Telegrafske Kompanije i posle godinu dana rada je imao dovoljno insajderskih podataka i informacija da uverljivo lažira da je zaposleni.</li>
+<li>Godine 1971. je naručio 30 000 dolara opreme (oko 200 000 u današnjim dolarima) u ime kompanije, preuzeo je, i onda prodao.</li>
+<li>Pre nego što je uhvaćen, uspeo je da industrijalizuje ovaj posao sa sopstvenim zaposlenima i skladištem i uspeo je da ukrade oko milion ondašnjih dolara (6.4 miliona danas)</li>
+</ul>
+</section>
+<section id="lekcije-1" class="slide level2">
+<h2>Lekcije?</h2>
+<ul>
+<li>Ljudi su jako, jako dobri u laganju i interni znakovi za raspoznavanje su nepouzdani i lako cure: nikada ne treba imati sistem u kome bilo koji kranji korisnik mora da može da razlikuje da li je neko pošten ili ne: uvek treba da postoji provera kredencijala i ona mora da bude obavezna.</li>
+<li>Papiri ne smeju da izađu iz bezbedne instalacije a da pre toga nisu iseckani</li>
+<li>Moderni dodatak: socijalni mediji su još jedan ozbiljan vektor kroz koji cure informacije.</li>
+</ul>
+</section>
+<section id="telefonske-prevare" class="slide level2">
+<h2>Telefonske prevare</h2>
+<ul>
+<li>Momenta kada su telefonske mreže prešle sa ljudskih operatera na automatski sistem, postalo je moguće da se telefonski sistem prevari.</li>
+<li>Sve je počelo sa Jozefom Engressiom, slepim sedmogodišnjakom koji je 1957, kao apsolutni sluhista, naučio da oponaša <span class="math inline">\(2600Hz\)</span> signal koji je američki telefonski sistem koristio kao kontrolni i stekao sposobnost da nazove bilo koji telefonski broj koji želi besplatno.</li>
+<li>Ovaj podvik je ponovio Džon Drejper 1964 kada je primetio da istu sposobnost imaju besplatne zviždaljke koje su se delile uz  Cap’n Crunch  Rekreirao je to u formi elektronskog uređaja koji je postao poznat kao ‘plava kutija.’</li>
+</ul>
+</section>
+<section id="telefonske-prevare-1" class="slide level2">
+<h2>Telefonske prevare</h2>
+<ul>
+<li>Motivacija za ove zločine je delimično bila ekonomska (telefonski pozivi su bili <em>skupi</em>) ali uglavnom je bilo zadovoljstvo ovladavanja kompleksnim sistemom: u svetu pre interneta ništa nije bilo komplikovanije od međunarnodne telekomunikacione mreže</li>
+<li>Ovo se sudarilo sa računarskim sistemima kada je Kevin Polsen pobegao od zakona (jurili su ga zbog provale u navodno bezbedne sisteme na ranom ARPAnet-u za koje se ispostavilo da imaju lako dostupne telefonske pristupe) i uspeo da dugo bude korak ispred svojih progonitelja zato što je provalio u sisteme koje je FBI krostio za elektronski nadzor (a novac je dobijao tako što je industrijalizovano varao u raznim takmičenjima koje su organizovale radio stanice)</li>
+</ul>
+</section>
+<section id="lekcije-2" class="slide level2">
+<h2>Lekcije?</h2>
+<ul>
+<li>Postoje ljudi koji će razbiti vaš bezbednosni sistem samo zato što <em>mogu.</em></li>
+<li>Svaki komunikacioni sistem na koji povežete vaš sistem povećava napadačku površinu za red veličine.</li>
+<li>Ako vaš sistem može da obavlja svoj posao a da nije povezan na bilo šta javno <em>apsolutno ne treba da bude povezan na bilo šta javno.</em></li>
+</ul>
+</section>
+<section id="equity-funding-prevara" class="slide level2">
+<h2> Equity Funding  Prevara</h2>
+<ul>
+<li>Ovo je vrlo zanimljiv slučaj koji se odnosi na firmu poznatu kao  Equity Funding Corporation of America  dalje EFC</li>
+<li>Tu se desilo da ključan izveštaj nije mogao biti proizveden na vreme zbog računarske greške</li>
+<li>Direktor kompanije je ‘izlečio’ problem tako što je odlučio da je bilo oko deset miliona dolara profita i namestio sve ostale brojke da tako i ispadne</li>
+<li>Ideja je bila da je ovo bezazlena laž jer je firma u tom trenutku zaista bila profitabilna</li>
+</ul>
+</section>
+<section id="ne-tako-bezazleno" class="slide level2">
+<h2>Ne tako bezazleno</h2>
+<ul>
+<li>Kada su videli koliko je to lako, direktori kompanije su počeli da falsifikuju sve više i više podataka</li>
+<li>U početku to su bile samo lažne polise osiguranja (koje su naduvavale prijavljen profit), ali su se vrlo brzo, omamljeni pohlepom, direktori setili prevare kroz reosiguranje.</li>
+</ul>
+</section>
+<section id="reosiguranje" class="slide level2">
+<h2>Reosiguranje</h2>
+<ul>
+<li>Osiguravajuća polisa je rizik koji generiše profit</li>
+<li>Neko plaća fiksno, mesečno, ali vi kao osiguravajuća kuća rizikujete da morate da odjednom platite mnogo</li>
+<li>Statistički je situacija modelovana da gledano u globalu, isplata usled rizika je manja od plaćenih premija, tj. osiguravajući posao donosi profit.</li>
+<li>Ali statistika priča o tome šta se očekuje u slučaju da imate <em>beskonačno</em> polisa, šta ako vam se desi loša sreća da morate da isplatite deset velikih zaredom, recimo?</li>
+</ul>
+</section>
+<section id="reosiguranje-1" class="slide level2">
+<h2>Reosiguranje</h2>
+<ul>
+<li>Reosiguranje je trik gde se polisa koja donosi <span class="math inline">\(X\)</span> u premijama i ima rizik da se traži isplata do <span class="math inline">\(Y\)</span> podeli u <span class="math inline">\(n\)</span> jedinica gde svaka donosi <span class="math inline">\(\frac{X}{n}\)</span> u premijama, i rizikuje isplatu od <span class="math inline">\(\frac{Y}{n}\)</span></li>
+<li>Ovim tranšama se onda trguje na otvorenom tržištu</li>
+<li>Ovo postaje naročito zanimljivo ako zamislimo (idealizovan) slučaj gde imate populaciju od <span class="math inline">\(m\)</span> osiguranika <span class="math inline">\((m &gt; n)\)</span> i konstruišete Frankenštajn-polisu koja se sastoji od <span class="math inline">\(n\)</span> tranši različitih osiguranika. Pod pretpostavkom da svi imaju istu <span class="math inline">\((X,Y)\)</span> polisu dobili bi nešto što ima isti profit kao jedinstvena polisa, ali <em>dramatično</em> manji rizik.</li>
+</ul>
+</section>
+<section id="prevara-reosiguranjem" class="slide level2">
+<h2>Prevara reosiguranjem</h2>
+<ul>
+<li>Ako se izmisle lažne osiguravajuće polise one se mogu prodati u delićima za prave dolare</li>
+<li>Problem je u tome šta kada stignemo do onog ‘profitabilnog’ dela: šta bude kada treba da krenu da ‘kaplju’ premije?</li>
+<li>EFC je to rešio tako što je svoje lažne osiguranike lažno ubijao tik pred prvu premiju</li>
+<li>Ovo je radilo jako jako jako dugo: <em>zapanjujuće</em> dugo, uprkos tome što je barem jednom EFC uspeo da ubije osiguranika muškarca rakom materice.</li>
+</ul>
+</section>
+<section id="kraj-prevare" class="slide level2">
+<h2>Kraj prevare</h2>
+<ul>
+<li>Niko nije uspeo da uhvati ovu prevaru čak ni kada je kompanija počela vrtoglav rast (jedan od zaverenika je izračunao da stopom kojom su krenuli, do 1980 EFC bi se pretvarala da osigurava svaku osobu na planeti Zemlji)</li>
+<li>Umesto toga iznerviran programer koji je morao da radi prekovremeno automatizovajući razvoj lažnih izveštaja je otišao u finansijsku policiju i prijavio svoje šefove.</li>
+</ul>
+</section>
+<section id="lekcije-3" class="slide level2">
+<h2>Lekcije?</h2>
+<ul>
+<li>Ponekad napadač je <em>direktor</em></li>
+<li>Zahtevi da se naruši integritet podataka kada baze podataka i poslovne knjige uporno pokazuju nezgodne skupove činjenica su neobično česti i dobra je ideja da se učini jako teškim da se takvim zahtevima udovolji.</li>
+<li>Sam spoljašnji svet je demonstrirao nepoštovanje principa metodološke skromnosti i kompletne medijacije</li>
+<li>EFC je <em>delovala</em> dobro: imali su skupe kancelarije, i advokate, i jako puno ljudi u odelima. Podvrgavanje njihovih tvrdnji proveri i analizi bi bilo, pa, <em>neuljudno</em> i usporavalo bi biznis</li>
+<li>Trik je da se naprave sistemima u kojima je ‘nepoverenje’ algoritamsko, a dokazivanje tvrdnji automatizovano</li>
+<li>Da li vam nekakav takav sistem pada na pamet?</li>
+</ul>
+</section></section>
+    </div>
+  </div>
+
+  <script src="https://unpkg.com/reveal.js@^4//dist/reveal.js"></script>
+
+  <!-- reveal.js plugins -->
+  <script src="https://unpkg.com/reveal.js@^4//plugin/notes/notes.js"></script>
+  <script src="https://unpkg.com/reveal.js@^4//plugin/search/search.js"></script>
+  <script src="https://unpkg.com/reveal.js@^4//plugin/zoom/zoom.js"></script>
+  <script src="https://unpkg.com/reveal.js@^4//plugin/math/math.js"></script>
+
+  <script>
+
+      // Full list of configuration options available at:
+      // https://revealjs.com/config/
+      Reveal.initialize({
+        // Display controls in the bottom right corner
+        controls: true,
+
+        // Help the user learn the controls by providing hints, for example by
+        // bouncing the down arrow when they first encounter a vertical slide
+        controlsTutorial: true,
+
+        // Determines where controls appear, "edges" or "bottom-right"
+        controlsLayout: 'bottom-right',
+
+        // Visibility rule for backwards navigation arrows; "faded", "hidden"
+        // or "visible"
+        controlsBackArrows: 'faded',
+
+        // Display a presentation progress bar
+        progress: true,
+
+        // Display the page number of the current slide
+        slideNumber: false,
+
+        // 'all', 'print', or 'speaker'
+        showSlideNumber: 'all',
+
+        // Add the current slide number to the URL hash so that reloading the
+        // page/copying the URL will return you to the same slide
+        hash: false,
+
+        // Start with 1 for the hash rather than 0
+        hashOneBasedIndex: false,
+
+        // Flags if we should monitor the hash and change slides accordingly
+        respondToHashChanges: true,
+
+        // Push each slide change to the browser history
+        history: false,
+
+        // Enable keyboard shortcuts for navigation
+        keyboard: true,
+
+        // Enable the slide overview mode
+        overview: true,
+
+        // Disables the default reveal.js slide layout (scaling and centering)
+        // so that you can use custom CSS layout
+        disableLayout: false,
+
+        // Vertical centering of slides
+        center: true,
+
+        // Enables touch navigation on devices with touch input
+        touch: true,
+
+        // Loop the presentation
+        loop: false,
+
+        // Change the presentation direction to be RTL
+        rtl: false,
+
+        // see https://revealjs.com/vertical-slides/#navigation-mode
+        navigationMode: 'default',
+
+        // Randomizes the order of slides each time the presentation loads
+        shuffle: false,
+
+        // Turns fragments on and off globally
+        fragments: true,
+
+        // Flags whether to include the current fragment in the URL,
+        // so that reloading brings you to the same fragment position
+        fragmentInURL: true,
+
+        // Flags if the presentation is running in an embedded mode,
+        // i.e. contained within a limited portion of the screen
+        embedded: false,
+
+        // Flags if we should show a help overlay when the questionmark
+        // key is pressed
+        help: true,
+
+        // Flags if it should be possible to pause the presentation (blackout)
+        pause: true,
+
+        // Flags if speaker notes should be visible to all viewers
+        showNotes: false,
+
+        // Global override for autoplaying embedded media (null/true/false)
+        autoPlayMedia: null,
+
+        // Global override for preloading lazy-loaded iframes (null/true/false)
+        preloadIframes: null,
+
+        // Number of milliseconds between automatically proceeding to the
+        // next slide, disabled when set to 0, this value can be overwritten
+        // by using a data-autoslide attribute on your slides
+        autoSlide: 0,
+
+        // Stop auto-sliding after user input
+        autoSlideStoppable: true,
+
+        // Use this method for navigation when auto-sliding
+        autoSlideMethod: null,
+
+        // Specify the average time in seconds that you think you will spend
+        // presenting each slide. This is used to show a pacing timer in the
+        // speaker view
+        defaultTiming: null,
+
+        // Enable slide navigation via mouse wheel
+        mouseWheel: false,
+
+        // The display mode that will be used to show slides
+        display: 'block',
+
+        // Hide cursor if inactive
+        hideInactiveCursor: true,
+
+        // Time before the cursor is hidden (in ms)
+        hideCursorTime: 5000,
+
+        // Opens links in an iframe preview overlay
+        previewLinks: false,
+
+        // Transition style (none/fade/slide/convex/concave/zoom)
+        transition: 'slide',
+
+        // Transition speed (default/fast/slow)
+        transitionSpeed: 'default',
+
+        // Transition style for full page slide backgrounds
+        // (none/fade/slide/convex/concave/zoom)
+        backgroundTransition: 'fade',
+
+        // Number of slides away from the current that are visible
+        viewDistance: 3,
+
+        // Number of slides away from the current that are visible on mobile
+        // devices. It is advisable to set this to a lower number than
+        // viewDistance in order to save resources.
+        mobileViewDistance: 2,
+
+        math: {
+          mathjax: 'https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js',
+          config: 'TeX-AMS_HTML-full',
+          tex2jax: {
+            inlineMath: [['\\(','\\)']],
+            displayMath: [['\\[','\\]']],
+            balanceBraces: true,
+            processEscapes: false,
+            processRefs: true,
+            processEnvironments: true,
+            preview: 'TeX',
+            skipTags: ['script','noscript','style','textarea','pre','code'],
+            ignoreClass: 'tex2jax_ignore',
+            processClass: 'tex2jax_process'
+          },
+        },
+
+        // reveal.js plugins
+        plugins: [
+          RevealMath,
+          RevealNotes,
+          RevealSearch,
+          RevealZoom
+        ]
+      });
+    </script>
+    </body>
+</html>
