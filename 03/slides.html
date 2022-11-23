@@ -17,6 +17,69 @@
     div.column{display: inline-block; vertical-align: top; width: 50%;}
     div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
     ul.task-list{list-style: none;}
+    pre > code.sourceCode { white-space: pre; position: relative; }
+    pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+    pre > code.sourceCode > span:empty { height: 1.2em; }
+    .sourceCode { overflow: visible; }
+    code.sourceCode > span { color: inherit; text-decoration: inherit; }
+    div.sourceCode { margin: 1em 0; }
+    pre.sourceCode { margin: 0; }
+    @media screen {
+    div.sourceCode { overflow: auto; }
+    }
+    @media print {
+    pre > code.sourceCode { white-space: pre-wrap; }
+    pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+    }
+    pre.numberSource code
+      { counter-reset: source-line 0; }
+    pre.numberSource code > span
+      { position: relative; left: -4em; counter-increment: source-line; }
+    pre.numberSource code > span > a:first-child::before
+      { content: counter(source-line);
+        position: relative; left: -1em; text-align: right; vertical-align: baseline;
+        border: none; display: inline-block;
+        -webkit-touch-callout: none; -webkit-user-select: none;
+        -khtml-user-select: none; -moz-user-select: none;
+        -ms-user-select: none; user-select: none;
+        padding: 0 4px; width: 4em;
+        color: #aaaaaa;
+      }
+    pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+    div.sourceCode
+      {   }
+    @media screen {
+    pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+    }
+    code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+    code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+    code span.at { color: #7d9029; } /* Attribute */
+    code span.bn { color: #40a070; } /* BaseN */
+    code span.bu { } /* BuiltIn */
+    code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+    code span.ch { color: #4070a0; } /* Char */
+    code span.cn { color: #880000; } /* Constant */
+    code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+    code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+    code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+    code span.dt { color: #902000; } /* DataType */
+    code span.dv { color: #40a070; } /* DecVal */
+    code span.er { color: #ff0000; font-weight: bold; } /* Error */
+    code span.ex { } /* Extension */
+    code span.fl { color: #40a070; } /* Float */
+    code span.fu { color: #06287e; } /* Function */
+    code span.im { } /* Import */
+    code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+    code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+    code span.op { color: #666666; } /* Operator */
+    code span.ot { color: #007020; } /* Other */
+    code span.pp { color: #bc7a00; } /* Preprocessor */
+    code span.sc { color: #4070a0; } /* SpecialChar */
+    code span.ss { color: #bb6688; } /* SpecialString */
+    code span.st { color: #4070a0; } /* String */
+    code span.va { color: #19177c; } /* Variable */
+    code span.vs { color: #4070a0; } /* VerbatimString */
+    code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
   </style>
   <link rel="stylesheet" href="https://unpkg.com/reveal.js@^4//dist/theme/night.css" id="theme">
   <link rel="stylesheet" href="slides.css"/>
@@ -546,6 +609,706 @@
 <li>EFC je <em>delovala</em> dobro: imali su skupe kancelarije, i advokate, i jako puno ljudi u odelima. Podvrgavanje njihovih tvrdnji proveri i analizi bi bilo, pa, <em>neuljudno</em> i usporavalo bi biznis</li>
 <li>Trik je da se naprave sistemima u kojima je ‘nepoverenje’ algoritamsko, a dokazivanje tvrdnji automatizovano</li>
 <li>Da li vam nekakav takav sistem pada na pamet?</li>
+</ul>
+</section></section>
+<section>
+<section id="ranjivosti" class="title-slide slide level1">
+<h1>Ranjivosti</h1>
+<p>Ranjivosti, površine napada, i anatomija jedne slabosti</p>
+</section>
+<section id="svrha" class="slide level2">
+<h2>Svrha</h2>
+<ul>
+<li>Šta je svrha ovoga?</li>
+<li>Ako morate da se brinete o bezbednosti nekakvog cloud sistema, morate da se brinete oko dve stvari, fundamentalno:
+<ul>
+<li>Bezbednosti vaše implementacije i konfiguracije</li>
+<li>Bezbednosti softversko/hardverske infrastrukture</li>
+</ul></li>
+<li>Prvo je nešto što je sasvim vaš problem</li>
+<li>Drugo ne zavisi samo od vas: pre ili kasnije nešto na šta se oslanjate će imati nekakvu slabost</li>
+<li>Vaš posao je da o tome vodite računa</li>
+</ul>
+</section>
+<section id="primer" class="slide level2">
+<h2>Primer</h2>
+<p><strong>CVE-2020-0601</strong></p>
+</section>
+<section id="šta-to-znači" class="slide level2">
+<h2>Šta to znači?</h2>
+<ul>
+<li>Ovo je nekakav konfuzan alfanumerički string</li>
+<li>Šta je CVE?  Common vulnerabilities and exposures </li>
+<li>To je ime za deljen sistem gde se softver i hardver koji drugi koriste može da prijavi da ima problem</li>
+<li>Služi da bi imali lak, i mašinski i ljudski čitljiv metod da se bezbednosne slabosti softvera identifikuju.</li>
+<li>Ovo je deo deljene infrastrukture bezbednosti u kojoj su proizvođači, administratori, i stručnjaci u zaveri protiv napadača.</li>
+</ul>
+</section>
+<section id="standardno-ime" class="slide level2">
+<h2>Standardno ime</h2>
+<ul>
+<li>Standardno ime ranjivosti se sastoji, dakle od:
+<ul>
+<li>Prefiksa CVE</li>
+<li>Godine otkrića (ovde, dakle, 2020)</li>
+<li>Nasumične četiri cifre garantovano jedinstvene unutar te godine.</li>
+<li>Striktno govoreći, može da bude i više cifara, ali je trenutni standard 4</li>
+</ul></li>
+<li>Imamo i pod-standarde koji su odgovorni za ozbiljnost ranjivosti  (CVSS)  polja ranjivosti  (CWE)  i ranjive konfiguracije  (CPE) </li>
+</ul>
+</section>
+<section id="kako-da-znamo-šta-je-tačno-cve-2020-0601" class="slide level2">
+<h2>Kako da znamo šta je tačno  CVE-2020-0601? </h2>
+<ul>
+<li>Postoji zvanična lista koju održava  MITRE  korporacija</li>
+<li>Postoje mnoge metode da se ona pretraži, jedna standardna je da koristite mehanizam za pretragu koji omogućava američki NIST</li>
+<li><a href="https://nvd.nist.gov">nvd.nist.gov</a></li>
+<li>Šta bude ako pretražimo taj sajt sa stringom  CVE-2020-0601? </li>
+</ul>
+</section>
+<section id="rezultat-pretrage" class="slide level2">
+<h2>Rezultat pretrage</h2>
+<p><img data-src="img/2022-11-22-21-37-34.png" /></p>
+</section>
+<section id="a-kako-znamo-da-uopšte-pretražimo" class="slide level2">
+<h2>A kako znamo da uopšte pretražimo?</h2>
+<ul>
+<li>Možemo tek da se efektno koristimo ovom bazom podataka ako imamo ideju da treba da pretražujemo i koji string pretražujemo.</li>
+<li>Kako znamo da ima nešto da se traži?</li>
+<li>Delimično možemo da pratimo vesti: postoje specijalistički sajtovi koji se bave vestima o ovome.</li>
+<li>Ali za svaki slučaj tu je…  Twitter? </li>
+<li><code>@CVENew</code> nalog, verovali ili ne, ima pregled svake nove slabosti kako pristižu.</li>
+</ul>
+</section>
+<section id="cvenew" class="slide level2">
+<h2><code>@CVENew</code></h2>
+<p><img data-src="img/2022-11-22-22-04-28.png" /></p>
+</section>
+<section id="šta-možemo-da-saznamo-o-cve-2020-0601" class="slide level2">
+<h2>Šta možemo da saznamo o <code>CVE-2020-0601</code></h2>
+<ul>
+<li>Baza nudi standardna polja:
+<ul>
+<li><strong>Opis</strong> Tekstualni opis slabosti</li>
+<li><strong>Ozbiljnost</strong> Kodirana numerička oznaka stepena ozbilnosti ranjivosti.</li>
+<li><strong>Reference</strong> Linkovi, tipično prema post-u koji je ovo opisao, plus stranici proizvođača.<br />
+</li>
+<li><strong>Specifikacija slabosti</strong> Kodiran CWE zapis koji definiše na kom podsistemu je uočena slabost.</li>
+<li><strong>Specifikacija konfiguracije</strong> Kodiran CPE zapis koji definiše koji sistemi su osetljivi.</li>
+</ul></li>
+</ul>
+</section>
+<section id="opis" class="slide level2">
+<h2>Opis</h2>
+<p><img data-src="img/2022-11-22-22-09-39.png" /></p>
+</section>
+<section id="ozbiljnost" class="slide level2">
+<h2>Ozbiljnost</h2>
+<p><img data-src="img/2022-11-22-22-11-49.png" /></p>
+</section>
+<section id="vektor-ozbiljnosti" class="slide level2">
+<h2>Vektor ozbiljnosti</h2>
+<ul>
+<li>Uokvireno na slici je vektor ozbiljnosti</li>
+<li>Postoji naravno jedinstvena numerička vrednost koja služi da se na brzinu oceni koliko je užasna slabost</li>
+<li>Ovo je, nužno, veliko pojednostavljenje koje ponekad nije prigodno.</li>
+<li>Kada nam trebaju detalji, tu je šematski prikaz preko vektora ozbiljnosti.</li>
+</ul>
+</section>
+<section id="vektor-ozbiljnosti-1" class="slide level2">
+<h2>Vektor ozbiljnosti</h2>
+<ul>
+<li> AV—Attack vector  ‘Odakle’ dolazi napad</li>
+<li> AC—Attack complexity  Kompleksnost napada.</li>
+<li> PR—Privileges.  Koje privilegije mora imati napadač?</li>
+<li> UI—User interaction  Da li korisnik treba da nešto (pogrešno) uradi da bi napad uspeo.</li>
+</ul>
+</section>
+<section id="vektor-ozbiljnosti-2" class="slide level2">
+<h2>Vektor ozbiljnosti</h2>
+<ul>
+<li> S—Attack scope.  Da li se napad može korisiti da se kroz njega lansiraju i drugi napadi na zaštićene sisteme.</li>
+<li> C—Confidentiality.  Uticaj na ‘poverljivost’ komponentu PID sistema.</li>
+<li> I—Integrity  Uticaj na ‘integritet’ komponentu PID sistema.</li>
+<li> A—Availability  Uticaj na ‘dostupnost’ komponentu PID sistema.</li>
+</ul>
+</section>
+<section id="vektor-ozbiljnosti-cve-2020-0601" class="slide level2">
+<h2>Vektor ozbiljnosti <code>CVE-2020-0601</code></h2>
+<p><img data-src="img/2022-11-22-22-23-53.png" /></p>
+</section>
+<section id="reference" class="slide level2">
+<h2>Reference</h2>
+<p><img data-src="img/2022-11-22-22-24-08.png" /></p>
+</section>
+<section id="specifikacija-slabosti" class="slide level2">
+<h2>Specifikacija slabosti</h2>
+<p><img data-src="img/2022-11-22-22-24-49.png" /></p>
+</section>
+<section id="šta-je-tačno-specifikacija-slabosti" class="slide level2">
+<h2>Šta je tačno specifikacija slabosti?</h2>
+<ul>
+<li>Kada je stvar ispravke akutne slabosti zanima nas samo i isključivo jedan <code>CVE</code> onda nas toliko i ne zanima gde je nastala greška, samo nas zanima da otklonimo problem.</li>
+<li>Kada je cilj da softver bude, uopšteno govoreći, bezbedniji, onda je situacija drugačija i želimo da vidimo gde je tačno nastala ta slabost.</li>
+<li>Onda možemo da znamo, kada razvijamo sofver, gde treba biti oprezan i kako razvijati zaštite na nivou alata za razvoj i operativnih sistema koji pomažu.</li>
+<li>Napadači (i oni koji se pretvaraju u napadače istraživanja radi) tretiraju ovu listu kao odakle početi u napadu.</li>
+</ul>
+</section>
+<section id="šta-analiza-pokazuje-da-su-najčešće-greške" class="slide level2">
+<h2>Šta analiza pokazuje da su najčešće greške?</h2>
+<p><img data-src="img/2022-11-22-22-46-28.png" /></p>
+</section>
+<section id="specifikacija-konfiguracije" class="slide level2">
+<h2>Specifikacija konfiguracije</h2>
+<p><img data-src="img/2022-11-22-22-47-27.png" /></p>
+</section>
+<section id="cpe-standard" class="slide level2">
+<h2><code>CPE</code> standard</h2>
+<ul>
+<li>Ova specifikacija konfiguracije ima ekstremno praktičnu svrhu</li>
+<li>Čim saznate za slabost prvo, prirodno pitanje jeste, ‘da li treba da se brinem?’</li>
+<li>Ponekad ovo je lako zato što je slabost jako lokalizovana u jednu specifičnu verziju jednog specifičnog softvera</li>
+<li>Ponekad je čak i za jedan računar teško otkriti zato što, možda, slabost samo nastaje u interakciji više vrlo specifičnih verzija.</li>
+</ul>
+</section>
+<section id="cpe-standard-1" class="slide level2">
+<h2><code>CPE</code> standard</h2>
+<ul>
+<li>Stvar postaje još nezgodnija kada radite sa projektima koji ne poštuju <code>SemVer</code> standard i imaju kriptične oznake verzija plus <code>build</code> brojeva plus…</li>
+<li>A u cloud okruženju, situacija postaje znatno, znatno gora zato što radite ne sa par računara nego mnogo virtuelnih koji imaju raznolike konfiguracije</li>
+<li>Zbog toga, umesto da pogađate, možete da preuzmete <code>CPE</code> formu vaših mašina i da je, mašinski, uporedite sa <code>CPE</code> formom ranjivosti i znate odgovor odmah</li>
+</ul>
+</section>
+<section id="kako-radi-cpe" class="slide level2">
+<h2>Kako radi <code>CPE</code></h2>
+<ul>
+<li>Značenje je  Common platform enumeration </li>
+<li>Verzija 2.3 (koja je najsvežija i potiče iz 2011) svaki komad softvera se može specificirati kao WFN odnosno  Well-Formed CPE Name </li>
+<li>Ovo je apstraktan konstrukt koji se sastoji od ključeva i vrednosti</li>
+<li>Recimo: <code>wfn:[part="a",vendor="microsoft",product="internet_explorer",version="8\.0\.6001",update="beta"]</code></li>
+<li>Ovo je (vrlo) specifična verzija drevnog  Internet Explorer-a </li>
+</ul>
+</section>
+<section id="enkodiranje-cpe-wfn" class="slide level2">
+<h2>Enkodiranje <code>CPE WFN</code></h2>
+<ul>
+<li>Kao što smo rekli, u verziji 2.3 <code>WFN</code> je apstraktan: samo kombinacija ključeva i vrednosti.</li>
+<li>Može se enkodirati na više načina</li>
+<li>Verzija koja nas zanima je nešto što standard zove <code>formatted string binding</code></li>
+<li>Primer: <code>cpe:2.3:a:microsoft:internet_explorer:8.0.6001:beta:*:*:*:*:*:*</code></li>
+</ul>
+</section>
+<section id="zašto" class="slide level2">
+<h2>Zašto?</h2>
+<ul>
+<li>Ovo nam omogućava da smestimo određeni broj polja u unapred poznat redosled</li>
+<li>Šta ne znamo, može da se zameni sa <code>*</code> karakterom što odgovara bilo kojoj vrednosti</li>
+<li>To znači da jedna ovakva linija može da u stvari označava veliki broj verzija, što je zgodno.</li>
+<li>Ako imate iskustva sa alatima kao što je <code>Maven</code> ili <code>npm</code> ovo bi trebalo da je poznato</li>
+</ul>
+</section>
+<section id="automatizacija" class="slide level2">
+<h2>Automatizacija</h2>
+<ul>
+<li><code>CPE</code> omogućava ne samo da iščitamo koje su verzije ranjive, omogućava i programima da to urade i to lako</li>
+<li>To znači da možemo da imamo bazu podataka svih sistema kojima upravljamo i da automatski nove ranjivosti proveravamo sa tom bazom da znamo šta treba da uradimo</li>
+<li>Ovo se zove <code>VMS</code> odnosno  Vulnerability Management System </li>
+</ul>
+</section>
+<section id="primer-upotrebe-cpe-standarda" class="slide level2">
+<h2>Primer upotrebe <code>CPE</code> standarda</h2>
+<pre><code>$ pip install cpe</code></pre>
+</section>
+<section id="python-biblioteka" class="slide level2">
+<h2><code>Python</code> biblioteka</h2>
+<ul>
+<li><a href="https://pypi.org/project/cpe/">https://pypi.org/project/cpie/</a></li>
+<li><a href="https://cpe.readthedocs.io/en/latest/">https://cpe.readthedocs.io/en/latest/</a></li>
+</ul>
+</section>
+<section id="upotreba-bibloteke-za-trivijalan-primer" class="slide level2">
+<h2>Upotreba bibloteke za trivijalan primer</h2>
+<div class="sourceCode" id="cb2"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> cpe.cpe <span class="im">import</span> CPE</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> cpe.cpeset2_3 <span class="im">import</span> CPESet2_3</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>ff1_fs <span class="op">=</span> <span class="st">&#39;cpe:2.3:a:mozilla:firefox:105.0.1:*:osx:*:*:*:*:*&#39;</span></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>ff1 <span class="op">=</span> CPE(ff1_fs)</span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>ff2_fs <span class="op">=</span> <span class="st">&#39;cpe:2.3:a:mozilla:firefox:106.0.4:*:osx:*:*:*:*:*&#39;</span></span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>ff2 <span class="op">=</span> CPE(ff2_fs)</span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>s <span class="op">=</span> CPESet2_3()</span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>s.append(ff1)</span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>s.append(ff2)</span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a>ffx_fs <span class="op">=</span> <span class="st">&#39;cpe:2.3:a:mozilla:firefox:*:*:osx:*:*:*:*:*&#39;</span></span>
+<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a>ffx <span class="op">=</span> CPE(ffx_fs)</span>
+<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(s.name_match(ffx))</span>
+<span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a><span class="co">#True</span></span></code></pre></div>
+</section>
+<section id="šta-nam-govori-cpe-o-cve-2020-0601" class="slide level2">
+<h2>Šta nam govori <code>CPE</code> o <code>CVE-2020-0601</code></h2>
+<ul>
+<li>Ranjivi sistemi su:
+<ul>
+<li>Windows 10</li>
+<li>Windows Server 2016</li>
+<li>Windows Server 2019</li>
+</ul></li>
+<li>Sa brojevima verzija:
+<ul>
+<li>1607</li>
+<li>1709</li>
+<li>1803</li>
+<li>1809</li>
+<li>1903</li>
+<li>1909</li>
+<li>ne znamo verziju.</li>
+</ul></li>
+</ul>
+</section>
+<section id="šta-sad" class="slide level2">
+<h2>Šta sad?</h2>
+<ul>
+<li>Imamo sve informacije o ovoj ranjivosti koje su lako dostupne iz baze</li>
+<li>Sada su koraci:
+<ul>
+<li>Da li smo ranjivi?</li>
+<li>Ako jesmo, moramo razumeti ranjivost.</li>
+<li>Ako razumemo, moramo znati kako da iskoristimo ovo da napadnemo sistem, tek ako znamo da napadnemo, znamo da se odbranimo efektno.</li>
+<li>Ako smo napadom testirali sistem i vidimo da je ranjiv, moramo ili da ublažimo rizik ili uklonimo rizik.</li>
+</ul></li>
+<li>Veoma često se skače sa koraka 1 na korak 4, naročito ako je proizvođač bio tako fin da nam kaže šta da radimo dalje.</li>
+</ul>
+</section>
+<section id="par-reči-o-napadu-i-odbrani" class="slide level2">
+<h2>Par reči o napadu i odbrani</h2>
+<ul>
+<li>U ovom kursu samo ovlaš dodirujemo bezbednost</li>
+<li>Uprkos tome, bitno je naglasiti dva pravila:</li>
+<li><strong>Apsolutno nikada nemojte napadati sistem koga niste vlasnik ili nemate izričitu dozvolu vlasnika.</strong>
+<ul>
+<li>Ovo je razlika između ‘Priznat istraživač bezbednosti’ i ‘Od ranije poznat policji’</li>
+</ul></li>
+<li><strong>Apsolutno nikada nemojte napaditi vaš sistem od koga ste na neki način zavisni.</strong>
+<ul>
+<li>Ovde barem nećete nauditi nikome drugom osim sebi, ali definitvno možete nauditi</li>
+</ul></li>
+</ul>
+</section>
+<section id="par-reči-o-temi" class="slide level2">
+<h2>Par reči o temi</h2>
+<ul>
+<li><code>CVE-2020-0601</code> je odabran kao konceptualno jako interesantan zato što ilustruje kako slabost može da nastane ‘nevidljivo’ i ima dalekosežne posledice.</li>
+<li>On možda ne zvuči kao da je direktno primenjiv na  Cloud Computing  i istina je da se retko (mada ne nikad) koristi Windows u takvom okruženju</li>
+<li>Uprkos tome, <em>principi</em> eksploatacije su isti, a slični problemi apsolutno i dalje utiču na trenutne platforme u oblaku</li>
+<li>Recimo <code>openssl</code> je imao ekvivalentno užasan problem u novembru 2022.</li>
+</ul>
+</section></section>
+<section>
+<section id="kako-razumeti-cve-2020-0601" class="title-slide slide level1">
+<h1>Kako razumeti <code>CVE-2020-0601</code></h1>
+<p>Šta je uopšte ovde problem?</p>
+</section>
+<section id="problem-kratko-rečeno" class="slide level2">
+<h2>Problem, kratko rečeno</h2>
+<ul>
+<li>Određene (sada zastarele, srećom) verzije Windows operativnog sistema imaju fatalnu grešku u svojoj implementaciji <code>ECC</code> odnosno kriptografije eliptičnih krivih.</li>
+<li>Ova greška omogućava da se sistemu proture lažirani sertifikati</li>
+<li>Ti lažni sertifikati omogućavaju da se, npr. lažno predstavi sajt preko <code>HTTPS</code> odn. <code>TLS</code> protokola ili da se lažira potpis na izvršnim datotekama</li>
+<li>Da bi ovo razumeli moramo da znamo:
+<ul>
+<li>Šta je potpis?</li>
+<li>Šta je lanac sertifikata?</li>
+<li>Šta je <code>ECC?</code></li>
+</ul></li>
+</ul>
+</section>
+<section id="šta-je-digitalan-potpis" class="slide level2">
+<h2>Šta je digitalan potpis?</h2>
+<ul>
+<li>Fundamentalno, digitalan potpis je sekvenca bajtova koja na nekakav način omogućava da proverimo autentičnost proizvoljnih podataka</li>
+<li>U praksi, to je kombinacija bajtova potpisa, metode potpisa, metode identifikacije, metode verifikacije, i modela poverenja.</li>
+<li>Metod potpisa je kako uzmemo nekakve bajtove i napravimo potpis: najčešće ovo se radi tako što:
+<ul>
+<li>Bajtovi onoga što potpisujemo se proteraju kroz digest funkciju</li>
+<li>Rezultat toga se šifruje asimetričnom kriptografijom koristeći kao ključ šifrovanja <em>privatni</em> deo para ključeva.</li>
+</ul></li>
+</ul>
+</section>
+<section id="šta-je-digitalan-potpis-1" class="slide level2">
+<h2>Šta je digitalan potpis?</h2>
+<ul>
+<li>Metod identifikacije je način na koji neko ko potpisuje dokazuje da je osoba za koju se izdaje: to se tipično radi tako što identitet dokazuje poznavanje tajne</li>
+<li>Tajna koja se koristi u praktično svim slučajevima je nekakav privatan ključ</li>
+<li>Metod verifikacije je procedura kojom se proverava autentičnost podataka, tipično to je:
+<ul>
+<li>Izračunamo <code>digest</code> vrednost podataka</li>
+<li>Dešifrujemo potpis koristeći za to <em>javni</em> deo para ključeva</li>
+<li>Uporedimo vrednosti, ako se poklapaju, uspeh!</li>
+</ul></li>
+</ul>
+</section>
+<section id="šta-je-digitalan-potpis-2" class="slide level2">
+<h2>Šta je digitalan potpis?</h2>
+<ul>
+<li>Jedini preostali problem jeste kako znamo javni ključ?</li>
+<li>Naranvo on može biti (i jeste) uključen u poruku, ali kako znamo da je taj ključ verodostojan?</li>
+<li>To određuje naš model poverenja: sistem kojim se identiteti koji nas zanimaju (web URL, ime proizvođača) mapiraju na javne ključeve kojima možemo verovati</li>
+<li>Model poverenja koji nas zanima i koji se najčešće koristi jeste <em>lanac sertifikata</em></li>
+</ul>
+</section>
+<section id="praktična-primena-digitalnog-potpisa" class="slide level2">
+<h2>Praktična primena digitalnog potpisa</h2>
+<p><img data-src="img/2022-11-23-00-38-50.png" /></p>
+</section>
+<section id="praktična-primena-digitalnog-potpisa-1" class="slide level2">
+<h2>Praktična primena digitalnog potpisa</h2>
+<p><img data-src="img/2022-11-23-00-39-13.png" /></p>
+</section>
+<section id="lanac-sertifikata" class="slide level2">
+<h2>Lanac sertifikata</h2>
+<ul>
+<li>Uz svaku poruku koju pošaljemo mi u nekom standardnom formatu (Tipično se koristi <code>X509</code>) uključimo naš javni ključ i dokument koji opisuje ko smo.</li>
+<li>To je jednostavno struktuiran dokument koji identifikuje tog koji potpisuje: sajtovi kažu svoj URL, proizvođač ime, lokaciju, itd…</li>
+</ul>
+</section>
+<section id="primer-dela-sertifikata" class="slide level2">
+<h2>Primer (dela) sertifikata</h2>
+<pre><code>Certificate:
+    Data:
+        Version: 3 (0x2)
+        Serial Number:
+            10:e6:fc:62:b7:41:8a:d5:00:5e:45:b6
+        Signature Algorithm: sha256WithRSAEncryption
+        Issuer: C=BE, O=GlobalSign nv-sa, CN=GlobalSign Organization Validation CA - SHA256 - G2
+        Validity
+            Not Before: Nov 21 08:00:00 2016 GMT
+            Not After : Nov 22 07:59:59 2017 GMT
+        Subject: C=US, ST=California, L=San Francisco, O=Wikimedia Foundation, Inc., CN=*.wikipedia.org
+        Subject Public Key Info:
+            Public Key Algorithm: id-ecPublicKey
+                Public-Key: (256 bit)
+            pub: 
+                    00:c9:22:69:31:8a:d6:6c:ea:da:c3:7f:2c:ac:a5:
+                    af:c0:02:ea:81:cb:65:b9:fd:0c:6d:46:5b:c9:1e:
+                    9d:3b:ef
+                ASN1 OID: prime256v1
+                NIST CURVE: P-256</code></pre>
+<p>(Wikipedia serfifkat koji su okačili na relevatan članak u tekst formi)</p>
+</section>
+<section id="što-verovati-sertifkatu" class="slide level2">
+<h2>Što verovati sertifkatu?</h2>
+<ul>
+<li>Sam sertifikat sam po sebi ne nosi bezbednost, to je samo jedna tvrdnja.</li>
+<li>Kako znamo da je tačna?</li>
+<li>Zato što je sertifkat takođe potpisan.</li>
+<li>Kako možemo da verujemo tom potpisu? Lepo, uz potpis je uključen sertifikat entiteta koji potpisuje.</li>
+</ul>
+</section>
+<section id="ko-potpisuje-sertifkate" class="slide level2">
+<h2>Ko potpisuje sertifkate?</h2>
+<ul>
+<li>Onaj ko ih izdaje, to zovemo CA odn.  Certificate Authority </li>
+<li>A što verovati <em>njihovom</em> sertifikatu? Zato što je i on potpisan.</li>
+<li>Gde se ovaj lanac potpisa terminira?</li>
+</ul>
+</section>
+<section id="root-ca" class="slide level2">
+<h2> Root CA </h2>
+<ul>
+<li>Korenski sertifkati su oni kojima se podrazumevano veruje i oni koji mogu sami sebi potpisati sertifkat</li>
+<li>Mi im ‘podrazumevano verujemo’ tako što opertivni sistem održava bazu podataka poznato dobrih sertifikata</li>
+<li>Ovo je jedan od važnih poslova operativnog sistema i zato inače Windows 10 ima svoju implementaciju kriptografije</li>
+<li>Linux ima apsolutno istu stvar samo orgaizoivanu na drugi način.</li>
+</ul>
+</section>
+<section id="a-ecc" class="slide level2">
+<h2>A ECC?</h2>
+<ul>
+<li>Kritptografija eliptičnim krivama je jedna posebna forma asimetrične kriptografije koja je naročito bitna da je ovde razumemo.</li>
+<li>Moramo da je razumemo zato što u njoj postoji matematička slabost koju izlaže <em>tehnička</em> slabost koja predstavlja <code>CVE-2020-0601</code></li>
+</ul>
+</section></section>
+<section>
+<section id="veoma-brz-kurs-u-eliptičnim-krivama" class="title-slide slide level1">
+<h1>Veoma brz kurs u eliptičnim krivama</h1>
+<p>Brzo, ali neophodno skretanje sa teme</p>
+</section>
+<section id="šta-je-eliptična-kriva" class="slide level2">
+<h2>Šta je eliptična kriva?</h2>
+<ul>
+<li>Eliptična kriva, formalno, je dvodimenzionalna kriva koja zadovoljava ograničenje <span class="math inline">\(y^2 = x^3 + ax + b\)</span> sa pod-uslovom da <span class="math inline">\(4a^3 + 27b^2 \neq 0\)</span></li>
+<li>Primer je kriva <span class="math inline">\(y^2 = x^3 - 4x\)</span> koja, ako je iscrtate koristeći <code>matplotlib</code> izgleda ovako:</li>
+</ul>
+</section>
+<section class="slide level2">
+
+<p><img data-src="img/2022-11-23-00-56-19.png" /></p>
+</section>
+<section id="osobina-simetrije" class="slide level2">
+<h2>Osobina simetrije</h2>
+<ul>
+<li>Možete odmah primetiti da je svaki grafikon ovakve krive simetričan oko <span class="math inline">\(x\)</span> ose zato što uvek imaju dva <code>y</code> koja zadovoljavaju jednačinu</li>
+<li>Ovo sledi prirodno iz toga što <span class="math inline">\(y = \pm \sqrt{x^3 + ax + b}\)</span></li>
+</ul>
+</section>
+<section id="dodavanje-tačaka-na-eliptičnoj-krivoj" class="slide level2">
+<h2>Dodavanje tačaka na eliptičnoj krivoj</h2>
+<ul>
+<li>Možemo sabrati proizvoljni broj tačaka na eliptičnoj krivoj</li>
+<li>Ovo se može opisati i aritmetički i geometrijski</li>
+<li>Geometrijski algoritam sabiranja nekih <span class="math inline">\(P\)</span> i <span class="math inline">\(Q\)</span> <span class="math inline">\(P \neq Q\)</span> takvih da su na eliptičnoj krivoj je:
+<ul>
+<li>Nacrtati pravu <span class="math inline">\(i\)</span> između <span class="math inline">\(P\)</span> i <span class="math inline">\(Q\)</span></li>
+<li>Naći tačku <span class="math inline">\(R\)</span> na eliptičnoj krivoj takvu da krivu u toj tački seče prava <span class="math inline">\(i\)</span></li>
+<li>Formirati tačku <span class="math inline">\(R&#39;\)</span> reflektujućući <span class="math inline">\(R\)</span> oko ose <span class="math inline">\(x\)</span></li>
+<li>Onda <span class="math inline">\(P + Q = R&#39;\)</span></li>
+</ul></li>
+</ul>
+</section>
+<section id="dupliranje-tačke" class="slide level2">
+<h2>Dupliranje tačke</h2>
+<ul>
+<li>U slučaju da je <span class="math inline">\(P = Q\)</span> algoritam ne radi zato što ima beskonačno mogućih linija <span class="math inline">\(i\)</span></li>
+<li>U tom slučaju, definiciono, uzimamo da je <span class="math inline">\(i\)</span> ona iz tog skupa koja je u tački <span class="math inline">\(R\)</span> tangentna na eliptičnu krivu</li>
+<li>Od tog trenutka algoritam ide kao i ranije.</li>
+<li>Ovo se može videti ilustrovano na sledećem slajdu (Slika parcijalno bazirana na radu SuperManu [CC BY-SA (https://creativecommons.org/licenses/by-sa/3.0)] videti http://tiny.cc/d6s7iz)</li>
+</ul>
+</section>
+<section id="geometrijski-algoritam-ilustrovan" class="slide level2">
+<h2>Geometrijski algoritam ilustrovan</h2>
+<p><img data-src="img/2022-11-23-01-09-02.png" /></p>
+</section>
+<section id="aritmetički-algoritam-za-zbrajanje" class="slide level2">
+<h2>Aritmetički algoritam za zbrajanje</h2>
+<ul>
+<li>Akko <span class="math inline">\(P,Q \in ECC \wedge P \neq Q\)</span></li>
+<li>Onda <span class="math inline">\(R = P + Q = (x_r, y_r)\)</span></li>
+<li><span class="math inline">\(x_r = \lambda^2 - x_p - x_q\)</span></li>
+<li><span class="math inline">\(y_r = \lambda \cdot (xp - xr) - y_p\)</span></li>
+<li>Za <span class="math inline">\(\lambda = \frac{y_q - y_p}{x_q - x_p}\)</span></li>
+</ul>
+</section>
+<section id="sabiranje-tačke-same-sa-sobom" class="slide level2">
+<h2>Sabiranje tačke same sa sobom</h2>
+<ul>
+<li>Baš kao što je bio slučaj ranije, moramo posebno da tretiramo zbranje tačke same sa sobom</li>
+<li>U ovom slučaju, ako se obe strane standardne jednačine eliptične krive diferenciraju i umetne vrednost za tačku <span class="math inline">\(P\)</span> koju zbrajamu samu sa sobom, onda</li>
+<li><span class="math inline">\(\lambda = \frac{3x_p^2 + a}{2y_p}\)</span> gde je <span class="math inline">\(a\)</span> koeficijent iz jednačine krive</li>
+<li>Osim ovoga algoritam je identičan</li>
+</ul>
+</section>
+<section id="množenje-tačaka" class="slide level2">
+<h2>Množenje tačaka</h2>
+<ul>
+<li>Naravno mogli bi da postignemo množenje kroz najobičnije višestruko dodavanje</li>
+<li>Ovo je <em>spektakularno</em> sporo</li>
+<li>Kao rezultat u praksi se koristi trik za ubrzanje kroz konstrukciju tabele stepena broja dva</li>
+</ul>
+</section>
+<section id="trik-za-optimizaciju-množenja" class="slide level2">
+<h2>Trik za optimizaciju množenja</h2>
+<ul>
+<li>Neka prvo predpostavimo da ovo ne radimo u bilo kom skupu brojeva nego u skupu gde je svaki koeficijent iskaziv kao 256-bitna vrednost</li>
+<li>Ovo i nije strašno jer za kriptografiju baš ovo i želimo</li>
+<li>Uzmimo u obzir, dodatno, da je zbrajanje tačaka asocijativno (jeste)</li>
+<li>Onda možemo da postignemo ogromno ubrzanje formiranjem keš-tabele svih stepena broja dva tačke koju množimo</li>
+</ul>
+</section>
+<section id="kako" class="slide level2">
+<h2>Kako?</h2>
+<ul>
+<li>Množenje bilo koje tačke sa bilo kojim brojem, onda, je ekvivalent zbrajanja nekih stepena broja dva te tačke koju množimo</li>
+<li>Kojih stepena? Onih koji odgovaraju mestima gde ima ‘1’ u binarnoj reprezentaciji koeficijenta sa kojim množimo</li>
+<li>Tako da pomnožimo neku tačku <span class="math inline">\(G\)</span> sa 9 zahteva da saberemo <span class="math inline">\(8G\)</span> i <span class="math inline">\(1G\)</span> tj. one stepene 2 gde binarna reprezentacija 9 ima 1</li>
+<li>To znači da pretvaramo operaciju koja ima u najgorem slučaju <span class="math inline">\(2^{255}\)</span> operacija u operaciju koja, u najgorem slučaju, ima <span class="math inline">\(256\)</span> operacija</li>
+<li>Naravno, tek pošto smo napravili keš tabelu što traži <span class="math inline">\(32640\)</span> sabiranja, ali to moramo samo jednom.</li>
+</ul>
+</section>
+<section id="konačno-kriptografija." class="slide level2">
+<h2>Konačno, kriptografija.</h2>
+<ul>
+<li>Svaki asimetrični algoritam za enkripciju se bazira na nekoj operaciji koja je jako teška u jednom smeru, a jako laka u drugom, ta asimetrija omogućava asimetriju algoritma.</li>
+<li>Poznati RSA algoritam se vrti oko toga što je kada imate dva prosta broja <span class="math inline">\(p\)</span> i <span class="math inline">\(q\)</span> jako lako (za računar) da sračuna poluprost broj <span class="math inline">\(r = p \cdot q\)</span> ali obrnuto nije lako za velike brojeve.</li>
+<li>Eliptične krive se vrte oko toga što je jako lako, ako imamo neku tačku na krivi <span class="math inline">\(G\)</span> i neki celobrojni koeficijent <span class="math inline">\(x\)</span> da sračunamo <span class="math inline">\(Y = xG\)</span></li>
+<li>Ali, ako imamo <span class="math inline">\(Y\)</span> i <span class="math inline">\(G\)</span> nećemo lako dobiti <span class="math inline">\(x\)</span></li>
+<li>Štaviše nema efikasnijeg algoritma od višestrukog oduzimanja.</li>
+<li>To znači da računanje 256-bitnog <span class="math inline">\(x\)</span> zahteva, u proseku, oko <span class="math inline">\(2^{128}\)</span> operacija.</li>
+</ul>
+</section>
+<section id="digresija-o-kolosalnim-brojevima" class="slide level2">
+<h2>Digresija o kolosalnim brojevima</h2>
+<ul>
+<li><span class="math inline">\(2^{128}\)</span> možda ne zvuči kao ogroman broj</li>
+<li>To je: 340282366920938463463374607431768211456 što je dovoljno veliki broj da:
+<ul>
+<li>Ako bi imali hipotetički kompjuter koji radi po jednu proveru svake nanosekunde</li>
+<li>I ako bi imali milijardu takvih kompjutera koji rade u paraleli</li>
+<li>Onda bi nam razbijanje jednog ključa trajalo, u proseku, deset hiljada milijardi godina, odnosno taman do projektovane tačke kada u univerzumu prestaje formiranje novih zvezda</li>
+</ul></li>
+<li>To je 128 bita bezbednosti, danas se često gađa 256 bita bezbednosti. To bi naše tajne čuvalo nešto duže.</li>
+<li>Koliko duže? Otprilike pola puta do tačke kada sve crne rupe (sve što preostane u univerzumu u ovom trenutku) ispare usled Hokingovog zračenja.</li>
+</ul>
+</section>
+<section id="prilagođavanje-računarskim-ograničenjima" class="slide level2">
+<h2>Prilagođavanje računarskim ograničenjima</h2>
+<ul>
+<li>Naravno, ako bi koristili običnu eliptičnu krivu, vrlo brzo bi naleteli na problem gde, eventualno, vrednosti su veće od 256 bita ili koliko-god-već smo smislili</li>
+<li>Kao rezultat, mi nikada ne definišemo eliptične krive za kriptografiju nad poljem celih brojeva, umesto toga definišemo ih nad ograničenim poljima.</li>
+<li>Ko se seća diskretne matematike i linearne algebre?</li>
+<li>Ko je mislio da to nikada, ikada neće trebati?</li>
+</ul>
+</section>
+<section id="polja-i-eliptične-krive" class="slide level2">
+<h2>Polja i eliptične krive</h2>
+<ul>
+<li>Tipično se krive definišu u, npr. poljima reda prostih brojeva, <span class="math inline">\(\mathbb{Z}_p\)</span> što su posebni slučajevi aritmetičkih prstenova reda <span class="math inline">\(p\)</span> gde je <span class="math inline">\(p\)</span> prost broj.</li>
+<li>Ovo znači da se sve operacije vrše <span class="math inline">\(mod p\)</span> odnosno modulus to p. </li>
+<li>Alternativa je da se operacije rade u polju Galoa <span class="math inline">\(GF(n)\)</span> gde je <span class="math inline">\(n = p^k\)</span> za <span class="math inline">\(p\)</span> prost broj i <span class="math inline">\(k\)</span> prirodan broj.</li>
+<li>Ove dve opcije su, efektno, izomorfne.</li>
+</ul>
+</section>
+<section id="neobičnost-polja" class="slide level2">
+<h2>Neobičnost polja</h2>
+<ul>
+<li>Ovo znači da su one lepe slike glatkih krivih potpuna laž</li>
+<li>U kriptografiji grafikon eliptične krive izgleda kao naizgled užasavajuće nasumičan vrtlog nepovezanih tačaka</li>
+<li>Uprkos tome zato što i dalje važe osobine polja, <em>sve što smo smislili za eliptične krive i dalje važi.</em></li>
+<li>Ovaj trik, uzgred, je zašto apstraktna algebra postoji.</li>
+</ul>
+</section>
+<section id="kako-ovo-iskoristiti-za-potpis" class="slide level2">
+<h2>Kako ovo iskoristiti za potpis</h2>
+<ul>
+<li>Neka je <span class="math inline">\(X\)</span> javni ključ oblika <span class="math inline">\(xG\)</span> gde je <span class="math inline">\(G\)</span> generator-tačka koju definiše standard, a <span class="math inline">\(x\)</span> tajan ključ: običan nasumičan broj sa odgovarajućim brojem bita</li>
+<li>Onda možemo da izračunamo potpis <span class="math inline">\(R\)</span> poruke <span class="math inline">\(m\)</span></li>
+<li>Prva stvar koja nam treba je H što je heš funkcija</li>
+<li>Nećemo ulaziti u to kako rade te funkcije, dovoljno je znati osobine</li>
+</ul>
+</section>
+<section id="osobine-h" class="slide level2">
+<h2>Osobine H</h2>
+<ul>
+<li>Ako znamo <span class="math inline">\(H(x)\)</span> jako je teško izračunati <span class="math inline">\(x\)</span></li>
+<li>Za neku vrednost <span class="math inline">\(y\)</span>, jako je teško proračunati <span class="math inline">\(x\)</span> takvo da <span class="math inline">\(H(x) = y\)</span></li>
+<li>Teško je proračunati neki par vrednosti <span class="math inline">\(x\)</span> i <span class="math inline">\(y\)</span> takav da <span class="math inline">\(H(x) = H(y)\)</span></li>
+<li>Ovo nije lako smisliti, srećom neko je to uradio mesto nas: <code>SHA256, SHA384, SHA512, SHA3, Blake2b...</code></li>
+</ul>
+</section>
+<section id="proširenje-h" class="slide level2">
+<h2>Proširenje H</h2>
+<ul>
+<li>Možemo, bez gubljenja opštosti, da predpostavimo da naše H može da prima više parametara</li>
+<li>To samo znači da se parametri nekako spoje i onda se računa vrednost</li>
+</ul>
+</section>
+<section id="primena-asocijativnosti" class="slide level2">
+<h2>Primena asocijativnosti</h2>
+<p><span class="math display">\[
+H(m, r \cdot G) \cdot n \cdot G + r \cdot G = (H(m, r \cdot G) \ cdot n + r) \cdot G
+\]</span></p>
+</section>
+<section id="zamena" class="slide level2">
+<h2>Zamena</h2>
+<ul>
+<li>Ovo važi za bilo koje vrednosti</li>
+<li>Ako uvedemo da je <span class="math inline">\(n = x\)</span> i uvedemo smene <span class="math inline">\(R = r \cdot G\)</span> i <span class="math inline">\(s = H(m, R)x + r\)</span> možemo da svedemo gornji identitet primenjen na slučaj poruke <span class="math inline">\(m\)</span> i privatnog ključa <span class="math inline">\(x\)</span></li>
+</ul>
+</section>
+<section id="potpis" class="slide level2">
+<h2>Potpis</h2>
+<p><span class="math display">\[
+H(m, R) \cdot X + R = s \cdot G
+\]</span></p>
+</section>
+<section id="potpis-1" class="slide level2">
+<h2>Potpis</h2>
+<ul>
+<li>Onda samo kažemo da je neko sposoban da proizvede odgovarajuće vrednosti <span class="math inline">\(m\)</span>, <span class="math inline">\(R\)</span> i <span class="math inline">\(s\)</span> koje zadovoljavaju ovu jednačinu ako i samo ako poznaje vrednost <span class="math inline">\(x\)</span></li>
+<li>Dokazivo je i da pružanje vrednosti <span class="math inline">\(m\)</span> i <span class="math inline">\(R\)</span> i <span class="math inline">\(s\)</span> ne odaje nikakve podatke o <span class="math inline">\(x\)</span></li>
+<li>Dokaz toga bi bio još poprilično slajdova, ali proističe iz ekstremne neefikasnosti deljenja i osobine H</li>
+<li>Onda ako se <span class="math inline">\(m\)</span> fiksira na poruku koju znamo i ako svi znaju <span class="math inline">\(X\)</span> (javan ključ) i <span class="math inline">\(G\)</span> (definisano u standardu) ovo se može uspešno koristiti da se proizvoljna poruka potpiše.</li>
+</ul>
+</section></section>
+<section>
+<section id="nazad-na-cve-2020-0601" class="title-slide slide level1">
+<h1>Nazad na <code>CVE-2020-0601</code></h1>
+<p>Sad imamo šta nam treba</p>
+</section>
+<section id="gde-je-konačno-microsoft-pogrešio" class="slide level2">
+<h2>Gde je, konačno, Microsoft pogrešio?</h2>
+<ul>
+<li>U tome što, kada biblioteka za kriptografiju verifikuje lanac sertifikata, iz sertifkata čita javni ključ i sve detalje algoritma eliptične krive koju koristi</li>
+<li>Ovo ne zvuči tako strašno, zar ne?</li>
+<li>Štaviše, sposobnost da se slobodno specificiraju parametri kriptografije je odlična, omogućava poželjnu osobinu kripto-agilnosti</li>
+<li>Šta je onda problem?</li>
+<li>To što se čitaju svi parametri za specifciran algoritam, <em>čak i oni koji bi trebali da su već poznati.</em></li>
+</ul>
+</section>
+<section id="zašto-je-ovo-katastrofa" class="slide level2">
+<h2>Zašto je ovo katastrofa?</h2>
+<ul>
+<li>Da ja jednostavno mogu da specificiram koju god hoću krivu i parametre i nazovem to <code>VELJKO-256</code> algoritam… pa dobro.</li>
+<li>Sve što mogu da uradim je da samo-potpišem sertifikat sa tim, čudnim, algoritmom, i to je to. Ne mogu načiniti štetu.</li>
+<li>Ali zahvaljujući propustu, ja mogu da kažem da koristim dobro poznat algoritam, recimo <code>P-256</code> ali da specificiram koju god vrednost <span class="math inline">\(G\)</span> ja želim.</li>
+<li>To potpuno razbija algoritam: ako mogu da birkam koju god vrednost <span class="math inline">\(G\)</span> hoću, onda mogu da ‘dokažem’ da imam <span class="math inline">\(x\)</span> koje odgovara proizvoljnom <span class="math inline">\(X\)</span> tako što manipulišem sa <span class="math inline">\(G\)</span></li>
+<li>U praktičnim terminima: ako mogu da podesim vrednost <span class="math inline">\(G\)</span> bez ograničenja, onda mogu da dokažem da imam privatni ključ koji odgovara kojem god hoću javnom ključu.</li>
+</ul>
+</section>
+<section id="kako-1" class="slide level2">
+<h2>Kako?</h2>
+<ul>
+<li>Neka <span class="math inline">\(Q\)</span> bude javni ključ naše mete, nekoga ko je  root CA  Pošto je to javan ključ možemo da uzmemo kao dato da ga imamo.</li>
+<li><span class="math inline">\(Q\)</span> je tačka na krivi koju mi znamo (recimo P-256) i znamo da je <span class="math inline">\(Q = kG\)</span> gde je <span class="math inline">\(k\)</span> tajni ključ koji mi ne znamo.</li>
+<li><span class="math inline">\(G\)</span> je generator tačka čija je vrednost definisana u standardu.</li>
+<li>Neka definišemo <span class="math inline">\(k&#39;\)</span> kao neku vrednost koju mi odaberemo (videćemo kasnije da je zgodno da to bude 1)</li>
+</ul>
+</section>
+<section id="kako-2" class="slide level2">
+<h2>Kako?</h2>
+<ul>
+<li>Onda sve što je ostalo jeste da proračunamo željenu tačku generator tako što inverznu vrednost našeg <span class="math inline">\(k&#39;\)</span> pomnožimo sa javnim ključem <span class="math inline">\(Q\)</span> ovako:</li>
+<li><span class="math inline">\(G&#39; = \frac{1}{k&#39;} \cdot Q\)</span></li>
+</ul>
+</section>
+<section id="kako-3" class="slide level2">
+<h2>Kako?</h2>
+<ul>
+<li>Ako možemo da postignemo da se našoj proizvoljnoj vrednost <span class="math inline">\(G&#39;\)</span> veruje onda je to sve što treba da uradimo</li>
+<li>Efektivno smo stvorili novi algoritam, <code>EVIL-256</code> u kome je sve isto osim što odabranom javnom ključu Q (recimo onom koji pripada Majkrosoftu) ne odgovara njegov stvarni privatni ključ nego neka vrednost koju smo mi smislili.</li>
+<li>Zatim smo prevarili Windows da koristi <code>EVIL-256</code> umesto algoritma koji je trebao da koristi.</li>
+<li>Rezultat: potpuni bezbednosni kolaps.</li>
+</ul>
+</section>
+<section id="šta-može-iz-ovoga-da-se-nauči" class="slide level2">
+<h2>Šta može iz ovoga da se nauči?</h2>
+<ul>
+<li>Greške mogu da budu jako suptilne: kod koji je izazvao problem je radio <em>odlično</em> jer, na kraju krajeva, zašto bi iko, ikada hteo da stavi drugačiju vrednost G?</li>
+<li>Greške mogu da budu ne nekakva apstraktna slabost nego vrlo konkretna greška u logici sistema.</li>
+<li>Ovo i te kako utiče na CC okruženje: istina je da se Windows ne koristi toliko tu, ali ovo nije greška koja je samo mogla da se desi tu.</li>
+<li>Mogla je sasvim lako ista ovakva greška da pogodi <code>openssl</code></li>
+<li>To je tip infrastrukturnog softvera od koga vaš CC sistem potpuno zavisi.</li>
+<li>Kako se odbraniti?</li>
+</ul>
+</section>
+<section id="nije-sve-tako-crno-pozitivne-lekcije" class="slide level2">
+<h2>Nije sve tako crno: pozitivne lekcije</h2>
+<ul>
+<li>Uprkos tome što je ovo užasna, užasna greška, nije izazvala onoliko strašne probleme kao što bi ste mislili.</li>
+<li>Recimo,  Windows Update  mehanizam je bio bezbedan, uprkos ovome. Što?</li>
+<li>Zato što je Majkrosoft uradio nešto jako bitno: primenio je dubinsku odbranu i napravio dodatnu zaštitu iako, na prvi pogled to je bilo traćenje vremena.</li>
+</ul>
+</section>
+<section id="memoisanje-ključa" class="slide level2">
+<h2>Memoisanje ključa</h2>
+<ul>
+<li>Tehnika koja je ovde primenjena je memoizacija ključa, odnosno na engleskom ‘key pinning’</li>
+<li>Trik je jednostavan,  Windows Update  umesto da proverava preko sertifikata da li su fajlovi odista stigli od Majkrosofta ili ne, jednostavno ima ubeležen koji javni ključ Majkrosoft koristi za potpis fajlova za ažuriranje.</li>
+<li>Formalno, nema nikakve potrebe za tim: sertifikat je uvek tu i on je uvek opskrbljen javnim ključem. Što da pamtimo javni ključ posebno? To gotovo izgleda kao nekompetentno programiranje.</li>
+<li>U praksi, infrastruktura uvek može da nas izda, i ako možemo da se odbranimo od toga, to treba učiniti.</li>
+<li>Kako obezbediti, onda, interne CC komunikacije?</li>
 </ul>
 </section></section>
     </div>
