@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="generator" content="pandoc">
+  <meta name="author" content="Veljko Petrović">
+  <title>Mehanizmi CC</title>
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
+  <link rel="stylesheet" href="https://unpkg.com/reveal.js@^4//dist/reset.css">
+  <link rel="stylesheet" href="https://unpkg.com/reveal.js@^4//dist/reveal.css">
+  <style>
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    span.underline{text-decoration: underline;}
+    div.column{display: inline-block; vertical-align: top; width: 50%;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    ul.task-list{list-style: none;}
+  </style>
+  <link rel="stylesheet" href="https://unpkg.com/reveal.js@^4//dist/theme/night.css" id="theme">
+  <link rel="stylesheet" href="slides.css"/>
+</head>
+<body>
+  <div class="reveal">
+    <div class="slides">
+
+<section id="title-slide">
+  <h1 class="title">Mehanizmi CC</h1>
+  <p class="author">Veljko Petrović</p>
+  <p class="date">Novembar, 2022</p>
+</section>
+
+<section id="mehanizmi-cloud-computing" class="title-slide slide level1">
+<h1>Mehanizmi  Cloud Computing </h1>
+<p>Upotrebe tehnologije za ostvarnje ciljeva</p>
+</section>
+
+<section>
+<section id="logički-obod-mreže" class="title-slide slide level1">
+<h1>Logički obod mreže</h1>
+<p>Virtuelne privatne mreže za upotrebu u oblaku</p>
+</section>
+<section id="šta-je-logički-obod-mreže" class="slide level2">
+<h2>Šta je logički obod mreže</h2>
+<ul>
+<li>Mehanizam logičkog oboda mreže služi da bi računare koji su povezani heterogenim mrežama, neke od kojih su javne, u jednu celinu.</li>
+<li>Od tog povezivanja želimo da dobijemo određene garancije i postignemo neke posebne ciljeve</li>
+<li>Ti ciljevi kao centralnu ideju imaju uspostavljanje <em>oboda</em> mreže koji ne postoji u stvarnosti (nisu svi računari u nekakvoj lokalnoj mreži u nekoj sobi negde), no je rezultat korektnog ponašanja mrežnih mehanizama.</li>
+</ul>
+</section>
+<section id="ciljevi-logičkog-oboda-mreže" class="slide level2">
+<h2>Ciljevi logičkog oboda mreže</h2>
+<ul>
+<li>Izolacija resursa u oblaku od neovlašćenih korisnika</li>
+<li>Izolacija resursa u oblaku od osoba koje uopšte nisu korisnici</li>
+<li>Izolacija resursa u oblaku od konzumenata usloga oblaka</li>
+<li>Kontrola protočnog opsega dostupnog tim resursima</li>
+</ul>
+</section>
+<section id="metode-postizanja-logičkih-oboda-mreže" class="slide level2">
+<h2>Metode postizanja logičkih oboda mreže</h2>
+<ul>
+<li>Virtualizovani firewall</li>
+<li>Virtualizovana mreža</li>
+</ul>
+</section>
+<section id="šta-tačno-radi-vatreni-zid" class="slide level2">
+<h2>Šta tačno radi ‘vatreni zid’</h2>
+<ul>
+<li>Firewall koji se često (i pogrešno) prevodi kao ‘vatreni zid’ je osnovni mehanizam mrežne kontrole</li>
+<li>To je mehanizam koji se postavi na liniju kroz koju saobraćaj mora proći da bi stigao iz jedne mreže u drugu</li>
+<li>Zatim on određenu mrežnu komunikaciju dozvoli, a određenu odbije</li>
+<li>Šta se dozvoli i šta se odbije zavisi od <em>pravila</em> firewall mehanizma</li>
+</ul>
+</section>
+<section id="firewall-simbol---primer" class="slide level2">
+<h2>Firewall simbol - primer</h2>
+<p><img data-src="img/2022-11-30-01-46-51.png" /></p>
+</section>
+<section id="firewall-simbol---primer-1" class="slide level2">
+<h2>Firewall simbol - primer</h2>
+<p><img data-src="img/2022-11-30-02-02-17.png" /></p>
+</section>
+<section id="pravila" class="slide level2">
+<h2>Pravila</h2>
+<ul>
+<li>Pravila firewall mehanizma se sastoje, tipično, od karakteristike toka saobraćaja i od akcije</li>
+<li>Karakteristika toka saobraćaja opisuje na koji saobraćaj želimo da se neko pravilo odnosi</li>
+<li>Akcija je ono što želimo da bude odrađeno sa nekim saobraćajem</li>
+</ul>
+</section>
+<section id="tokovi-saobraćaja" class="slide level2">
+<h2>Tokovi saobraćaja</h2>
+<ul>
+<li>Fundamentalno, svi podaci koji dolaze preko mrežnog interfejsa vašeg računara su jedan beskonačan niz jedinica i nula u kome je sve pomešano.</li>
+<li>Kao što možete predpostaviti, ovo nije osobito koristan način da se posmatra saobraćaj, stoga se taj niz jedinica i nula u skladu sa raznim mrežnim protokolima particioniše po različitim osobinama: usmerenju, sadržaju, metapodacima…</li>
+<li>Kroz specificiranje određenih opsega mogućih vrednosti, možemo da definišemo jedan specifičan ili porodicu povezanih tokova saobraćaja</li>
+</ul>
+</section>
+<section id="kako-karakterišemo-tokove-saobraćaja" class="slide level2">
+<h2>Kako karakterišemo tokove saobraćaja</h2>
+<ul>
+<li>Interfejs</li>
+<li>Odredište</li>
+<li>Izvorište</li>
+<li>Port</li>
+<li>Prethodni kontekst (povezani i nepovezani saobraćaj)</li>
+<li>QoS</li>
+<li>Sadržaj (“dubinska inspekcija”)</li>
+</ul>
+</section>
+<section id="uloga-firewall-sistema-u-mrežnim-obodima" class="slide level2">
+<h2>Uloga firewall sistema u mrežnim obodima</h2>
+<ul>
+<li>Ovaj mehanizam možemo da koristimo da, kada se postaramo da se nekakvi računarski resursi povezuju sa širom mrežom preko jedne tačke da na tu tačku postavimo filter koji određene vrste saobraćaja blokira ili tretira na poseban način.</li>
+<li>Kada bi imali sve računara u nekakvom centru onda je to lako: učinimo da odmah iza rutera stoji firewall koji filtrira saobraćaj</li>
+<li>Takav sistem bi, recimo, blokirao bilo koji pokušaj da se pristupi internim serverima.</li>
+</ul>
+</section>
+<section id="slučaj-lokalne-mreže" class="slide level2">
+<h2>Slučaj lokalne mreže</h2>
+<p><img data-src="img/2022-11-30-02-12-21.png" /></p>
+</section>
+<section id="šta-bez-luksuza-lan" class="slide level2">
+<h2>Šta bez luksuza LAN</h2>
+<ul>
+<li>Šta da radimo kada nemamo našu lokalnu mrežu, šta kada nam je struktura sastavljena od mnogo lokalnih mreža povezanih sa internetom, a mi treba da nekako filtriramo “spoljašnji” saobraćaj i dozvolimo “unutarnji”</li>
+<li>Šta je ovde “unutra” i “spolja”</li>
+<li>Ranije, fizički i logički koncept “spolja” i “unutra” je identičan</li>
+<li>Sada?</li>
+</ul>
+</section>
+<section id="virtuelne-privatne-mreže" class="slide level2">
+<h2>Virtuelne privatne mreže</h2>
+<ul>
+<li>Ovo je nekada bio visoko specijalizovan alat koji je danas doživeo slavu kao alat opšte bezbednosti</li>
+<li>Koliko dobro radi kao takav alat je otvoreno pitanje</li>
+<li>Ideja virtuelne privatne mreže je bazirana na konceptu <em>tuneliranja protokola</em></li>
+</ul>
+</section>
+<section id="tuneliranje" class="slide level2">
+<h2>Tuneliranje</h2>
+<ul>
+<li>Ideja je sledeća: svaki od nivoa OSI modela je, fundamentalno, sačinjen od nekakvih bitova i prenosi opet nekakve bitove</li>
+<li>Izuimajući naravno sloj 1</li>
+<li>Budući da je to tačno, onda protokol bilo kog sloja može u sebi sadržati, kao svoj sadržaj, bilo koji <em>drugi</em> sloj.</li>
+</ul>
+</section>
+<section id="primer-tuneliranje-preko-https-a" class="slide level2">
+<h2>Primer: Tuneliranje preko HTTPS-a</h2>
+<ul>
+<li>Zamislite da vam je, zbog nekog razloga, dozvoljen pristup spoljašnjem svetu isključivo preko HTTPS protokola: imate pristup Web-u, ali ne i bilo čemu drugom, a želite da se povežete na vaš kućni računar koji je vidljiv internetu i ima otvoren port 22 na koji vi hoćete da se zakačite.</li>
+<li>Procedura onda može biti ovakva: Modifikujete vaš operativni sistem (koristite, naravno,  Linux)  tako da imate instaliran drajver koji predstavlja zamišljenu mrežnu karticu: što se ostatka sistem tiča to <em>jeste</em> obična mrežna kartica.</li>
+<li>Taj drajver, umesto da upravlja hardverom, napravi umesto toga HTTPS konekciju na server koji vi specificirate.</li>
+</ul>
+</section>
+<section id="primer-tuneliranje-preko-https-a-1" class="slide level2">
+<h2>Primer: Tuneliranje preko HTTPS-a</h2>
+<ul>
+<li>Ta HTTPS konekcija je inače normalna, ali umesto da šaljete obične zahteve, vi umesto toga uvek šaljete zahteve tipa POST čiji je sadržaj podataka bit po bit kopija svih paketa koja vaša virtuelna mrežna kartica dobija.</li>
+<li>Pravi drajver mrežne kartice bi uzima iste te podatke i pakovao ih u Ethernet frejmove i onda slao: vi ga pakujete u POST ‘frejmove’ i šaljete dalje.</li>
+<li>Odgovore koje dobijate vi dekodirate na isti način: predpostavljate da su POST zahtevi koje vi dobijate puni bit-po-bit mrežnih podataka koje dekodirate i šaljte operativnom sistemu kao da su upravo stigle preko mrežnog interfejsa.</li>
+</ul>
+</section>
+<section id="primer-tuneliranje-preko-https-a-2" class="slide level2">
+<h2>Primer: Tuneliranje preko HTTPS-a</h2>
+<ul>
+<li>Vodite računa da ovo ima nekakva pojednostavljenja</li>
+<li>Kako operativni sistem razume drajvere je nešto kompleksnije</li>
+<li>Takođe, u praksi bi verovatno želeli <em>dve</em> HTTPS konekcije u jednoj gde vi šaljete, a druga gde ste server da bi imali potpun dupleks</li>
+</ul>
+</section>
+<section id="primer-tuneliranje-preko-https-a-3" class="slide level2">
+<h2>Primer: Tuneliranje preko HTTPS-a</h2>
+<ul>
+<li>Na vašem kućnom računaru uradite sličnu stvar: promenite drajver, napravite virtuelnu mrežnu karticu, i dekodirate podatke kao da su običan mrežni saobraćaj.</li>
+<li>Nad ovim parom virtuelnih mrežnih kartica vi možete da uspostavite klasičnu IP vezu sa klasičnim adresama i da konfigurišete rutiranje tako da paketi koji dolaze preko te virtuelne mrežne kartice budu usmereni ka lokalu ili čak rutirani dalje prema internetu ili vašoj kućnoj mreži.</li>
+<li>Ako uradite sve to, onda imate virtuelnu privatnu mrežu.</li>
+</ul>
+</section>
+<section id="virtuelne-privatne-mreže-u-cc" class="slide level2">
+<h2>Virtuelne privatne mreže u CC</h2>
+<ul>
+<li>Zamislite situaciju koju smo već opisali: imate razne privatne mreže po raznim mestima, sve povezane na internet i vi hoćete ovome da nametnete ‘unutra’ i ‘spolja’</li>
+<li>Kako?</li>
+</ul>
+</section>
+<section id="vpm-i-virtuelni-obod---stanje-pre" class="slide level2">
+<h2>VPM i virtuelni obod - stanje pre</h2>
+<p><img data-src="img/2022-11-30-02-39-51.png" /></p>
+</section>
+<section id="vpm-i-virtuelni-obod---rešenje" class="slide level2">
+<h2>VPM i virtuelni obod - rešenje</h2>
+<p><img data-src="img/2022-11-30-02-47-51.png" /></p>
+</section>
+<section id="vpm-i-virtuelni-obod" class="slide level2">
+<h2>VPM i virtuelni obod</h2>
+<ul>
+<li>Šta ovaj dijagram u stvari predstavlja?</li>
+<li>Imamo tri mreže koje su povezane lokalno i sa ruterom kroz firewall</li>
+<li>Taj firewall je namešten da blokira sav saobraćaj (čineći mrežu bezbednom) osim saobraćaja koji ga povezuje sa VPM simbolom (cev)</li>
+<li>Taj saobraćaj i samo taj je dozvoljen</li>
+</ul>
+</section>
+<section id="vpm-i-virtuelni-obod-1" class="slide level2">
+<h2>VPM i virtuelni obod</h2>
+<ul>
+<li>VPM za računare u LAN0, LAN1, i LAN3 je kao lokalna mreža, ali zahvaljujući tuneliranju, tu mogu da vide i druge računare, kao da su prisutni lokalno.</li>
+<li>Saobraćaj ide kroz otvoreni internet ali enkripcija tačka-do-tačka saobraćaja ga štiti: tj. ceo paket koji putuje je ceo šifrovan sve sa zaglavljem: kada smo maštali o problemu sa HTTPS-om, tako smo to radili.</li>
+<li>Računari u virtuelnoj mreži vide osim samo sebe i LanExt mrežu u kojoj samo postoji firewall koji oni vide i koji funkcioniše i kao ruter</li>
+</ul>
+</section>
+<section id="vpm-i-virtuelni-obod-2" class="slide level2">
+<h2>VPM i virtuelni obod</h2>
+<ul>
+<li>Taj firewall je tako namešten da kada dobija saobraćaj preko svog virtuelnog interfejsa da ga rutira prema spoljnjem svetu (crvena linija)</li>
+<li>Time, unutarnji računari mogu dobiti pristup otvorenom internetu ali samo na način koji je grupno filtriran u skladu sa tim kako je već potrebno, dok isti taj internet koriste da komuniciraju jedni sa drugima bezbedno preko interneta.</li>
+<li>Drugi način da se ovo posmatra jeste da je <em>logička</em> mapa mreže koja je ovim kreirana je:</li>
+</ul>
+</section>
+<section id="vpm-logički-dijagram" class="slide level2">
+<h2>VPM logički dijagram</h2>
+<p><img data-src="img/2022-11-30-03-02-47.png" /></p>
+</section></section>
+    </div>
+  </div>
+
+  <script src="https://unpkg.com/reveal.js@^4//dist/reveal.js"></script>
+
+  <!-- reveal.js plugins -->
+  <script src="https://unpkg.com/reveal.js@^4//plugin/notes/notes.js"></script>
+  <script src="https://unpkg.com/reveal.js@^4//plugin/search/search.js"></script>
+  <script src="https://unpkg.com/reveal.js@^4//plugin/zoom/zoom.js"></script>
+  <script src="https://unpkg.com/reveal.js@^4//plugin/math/math.js"></script>
+
+  <script>
+
+      // Full list of configuration options available at:
+      // https://revealjs.com/config/
+      Reveal.initialize({
+        // Display controls in the bottom right corner
+        controls: true,
+
+        // Help the user learn the controls by providing hints, for example by
+        // bouncing the down arrow when they first encounter a vertical slide
+        controlsTutorial: true,
+
+        // Determines where controls appear, "edges" or "bottom-right"
+        controlsLayout: 'bottom-right',
+
+        // Visibility rule for backwards navigation arrows; "faded", "hidden"
+        // or "visible"
+        controlsBackArrows: 'faded',
+
+        // Display a presentation progress bar
+        progress: true,
+
+        // Display the page number of the current slide
+        slideNumber: false,
+
+        // 'all', 'print', or 'speaker'
+        showSlideNumber: 'all',
+
+        // Add the current slide number to the URL hash so that reloading the
+        // page/copying the URL will return you to the same slide
+        hash: false,
+
+        // Start with 1 for the hash rather than 0
+        hashOneBasedIndex: false,
+
+        // Flags if we should monitor the hash and change slides accordingly
+        respondToHashChanges: true,
+
+        // Push each slide change to the browser history
+        history: false,
+
+        // Enable keyboard shortcuts for navigation
+        keyboard: true,
+
+        // Enable the slide overview mode
+        overview: true,
+
+        // Disables the default reveal.js slide layout (scaling and centering)
+        // so that you can use custom CSS layout
+        disableLayout: false,
+
+        // Vertical centering of slides
+        center: true,
+
+        // Enables touch navigation on devices with touch input
+        touch: true,
+
+        // Loop the presentation
+        loop: false,
+
+        // Change the presentation direction to be RTL
+        rtl: false,
+
+        // see https://revealjs.com/vertical-slides/#navigation-mode
+        navigationMode: 'default',
+
+        // Randomizes the order of slides each time the presentation loads
+        shuffle: false,
+
+        // Turns fragments on and off globally
+        fragments: true,
+
+        // Flags whether to include the current fragment in the URL,
+        // so that reloading brings you to the same fragment position
+        fragmentInURL: true,
+
+        // Flags if the presentation is running in an embedded mode,
+        // i.e. contained within a limited portion of the screen
+        embedded: false,
+
+        // Flags if we should show a help overlay when the questionmark
+        // key is pressed
+        help: true,
+
+        // Flags if it should be possible to pause the presentation (blackout)
+        pause: true,
+
+        // Flags if speaker notes should be visible to all viewers
+        showNotes: false,
+
+        // Global override for autoplaying embedded media (null/true/false)
+        autoPlayMedia: null,
+
+        // Global override for preloading lazy-loaded iframes (null/true/false)
+        preloadIframes: null,
+
+        // Number of milliseconds between automatically proceeding to the
+        // next slide, disabled when set to 0, this value can be overwritten
+        // by using a data-autoslide attribute on your slides
+        autoSlide: 0,
+
+        // Stop auto-sliding after user input
+        autoSlideStoppable: true,
+
+        // Use this method for navigation when auto-sliding
+        autoSlideMethod: null,
+
+        // Specify the average time in seconds that you think you will spend
+        // presenting each slide. This is used to show a pacing timer in the
+        // speaker view
+        defaultTiming: null,
+
+        // Enable slide navigation via mouse wheel
+        mouseWheel: false,
+
+        // The display mode that will be used to show slides
+        display: 'block',
+
+        // Hide cursor if inactive
+        hideInactiveCursor: true,
+
+        // Time before the cursor is hidden (in ms)
+        hideCursorTime: 5000,
+
+        // Opens links in an iframe preview overlay
+        previewLinks: false,
+
+        // Transition style (none/fade/slide/convex/concave/zoom)
+        transition: 'slide',
+
+        // Transition speed (default/fast/slow)
+        transitionSpeed: 'default',
+
+        // Transition style for full page slide backgrounds
+        // (none/fade/slide/convex/concave/zoom)
+        backgroundTransition: 'fade',
+
+        // Number of slides away from the current that are visible
+        viewDistance: 3,
+
+        // Number of slides away from the current that are visible on mobile
+        // devices. It is advisable to set this to a lower number than
+        // viewDistance in order to save resources.
+        mobileViewDistance: 2,
+
+        math: {
+          mathjax: 'https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js',
+          config: 'TeX-AMS_HTML-full',
+          tex2jax: {
+            inlineMath: [['\\(','\\)']],
+            displayMath: [['\\[','\\]']],
+            balanceBraces: true,
+            processEscapes: false,
+            processRefs: true,
+            processEnvironments: true,
+            preview: 'TeX',
+            skipTags: ['script','noscript','style','textarea','pre','code'],
+            ignoreClass: 'tex2jax_ignore',
+            processClass: 'tex2jax_process'
+          },
+        },
+
+        // reveal.js plugins
+        plugins: [
+          RevealMath,
+          RevealNotes,
+          RevealSearch,
+          RevealZoom
+        ]
+      });
+    </script>
+    </body>
+</html>
