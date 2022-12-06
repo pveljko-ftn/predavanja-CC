@@ -222,6 +222,173 @@
 <section id="vpm-logički-dijagram" class="slide level2">
 <h2>VPM logički dijagram</h2>
 <p><img data-src="img/2022-11-30-03-02-47.png" /></p>
+</section>
+<section id="virtuelni-serveri" class="slide level2">
+<h2>Virtuelni serveri</h2>
+<ul>
+<li>Virtuelni serveri su najosnovniji element Cloud Computing infrastrukture</li>
+<li>Nisu ništa komplikovanije od virtuelne mašine ili kontejnera upotrebljenih za pružanje servisa</li>
+<li>Jedina neophodna komplikacija koja je neophodna da bi virtuelna mašina bila i virtuelni server jeste rutiranje svesno porta.</li>
+<li>Ovakvo rutiranje omogućava da zahtevi upućeni <em>nekom</em> serveru stignu na neki specifični virtuelni server</li>
+</ul>
+</section>
+<section id="oblak-uređaji-za-smeštanje-podataka" class="slide level2">
+<h2>‘Oblak’ uređaji za smeštanje podataka</h2>
+<ul>
+<li>Kao što se može virtuelizovati računar viđen kao mehanizam za obradu podataka tako se može i virtuelizovati mehanizam za <em>smeštanje</em> podataka.</li>
+<li>Centalna ideja je ista: amalgamacija i podela</li>
+<li>Drugim rečima, prvo treba unificirati raznovrsne resurse za smeštanje podataka, tako da ih treitramo kao jedan veliki disk sa određenim osobinama koje nama odgovaraju.</li>
+<li>Drugo, treba da taj veliki unificirani disk podelimo na odsečke koje odgovaraju sistemima koje koristimo</li>
+</ul>
+</section>
+<section id="smeštanje-podataka" class="slide level2">
+<h2>Smeštanje podataka</h2>
+<ul>
+<li>Kao što virtuelizacija može da se uradi na mnogo načina u zavisnosti od raznih faktora, tako može i da se prostor virtuelizuje na mnoge načine.</li>
+<li>Najprostija forma bi mogla da bude da se, recimo:
+<ul>
+<li>6 fizičkih diskova (10TB svaki) povezanih za računarski sistem poveže kroz RAID 6</li>
+<li>Rezultujući virtuelni disk (40TB) se podeli 1 particiju od 30TB i 20 particija od po 512GB</li>
+<li>Svaka od tih particija onda bude disk za po virtuelnu mašinu, a sve te virtuelne mašine pristupaju particij od 30TB koja služi za čuvanje podataka.</li>
+</ul></li>
+</ul>
+</section>
+<section id="kompleksniji-mehanizmi" class="slide level2">
+<h2>Kompleksniji mehanizmi</h2>
+<ul>
+<li>Kompleksniji mehanizmi podržavaju amalgamiranje i deljenje diska kroz mehanizme koje rade preko mreže, a ne samo povezane za jedan računar.</li>
+<li>Ti sistemi mogu biti posebni i namenjeni paš ovakvim zadacima, ali mogu biti i vrlo jednostavni mehanizmi mrežnog deljenja podataka kao što je recimo NFS za Linux ili SMB za Windows.</li>
+<li>Sve zavisi od potreba, arhitekture, i <em>nivoa pristupa.</em></li>
+</ul>
+</section>
+<section id="nivo-pristupa" class="slide level2">
+<h2>Nivo pristupa</h2>
+<ul>
+<li>Nivo pristupa jeste nivo na kojem se podaci na virtuelzovanom sistemu za deljenje podataka dele/amalgamiraju</li>
+<li>Generalno to znači da se podaci tretiraju lokalno do tog nivoa a virtuelizovano preko tog nivoa</li>
+<li>Možete misliti o tome kako, na primer, možemo imati virtuelni disk ili virtuelnu bazu podataka</li>
+</ul>
+</section>
+<section id="nivoi-pristupa" class="slide level2">
+<h2>Nivoi pristupa</h2>
+<ol type="1">
+<li><strong>Blokovi.</strong> Najniži mogući sloj deljenja podataka gde se virtualizuje pristup individualnim blokovima. Efekat je virtualizacije <em>hard diska</em> kao takvog.</li>
+<li><strong>Fajlovi.</strong> Podaci su grupisani u fajlove u direktorijumima: efekat je virtuelizacija sistema fajlova.</li>
+<li><strong>Setovi podataka.</strong> Podaci su grupisani u set podataka organizovan u tabele ili kakav drugi sličan sistem. Efekat je virtualizacija podataka kroz bazu podataka.</li>
+<li><strong>Objekti.</strong> Podaci su grupisani u objekte slobodnog formata koji su dostupni kroz resursni sistem sličan Web/URI modelu.</li>
+</ol>
+</section>
+<section id="performanse-i-nivo-pristupa" class="slide level2">
+<h2>Performanse i nivo pristupa</h2>
+<ul>
+<li>Generalno govoreći, nivo pristupa baziran na fajlovima se ne preporučuje za performantno usluživanje u oblaku.</li>
+<li>Fajlovi su naravno vrlo generalan način pristupa podacima što može biti zgodno, ali to takođe znači da, efektivno, pristupamo podacima koji su deljeni kao fajlovi, ali su <em>smešteni</em> u skladu sa lokalnim pravilima.</li>
+<li>To znači da su osobine fajl sistema prilagođene predpostavkama lokalnog pristupa umesto da, npr. budu optimizovano distribuirane.</li>
+</ul>
+</section>
+<section id="setovi-podataka-i-baze-podataka" class="slide level2">
+<h2>Setovi podataka i baze podataka</h2>
+<ul>
+<li>Virtualizaciaj kroz baze podataka je veoma pogodna za razvoj aplikacija zato što je ono za šta bi deljeni prostor bio iskorišćen u velikom broju aplikacija je baš nekakva baza podataka</li>
+<li>Dodatna prednost jeste što baze generalno znaju da će biti deljene tako da je optimizacija za to već ugrađena, kao i softver za efektno pretraživanje.</li>
+<li>Najveći izbor ovde je između tradicionalnih relacionih baza i baza koje koriste modele različite od relacionog, poznate žargonski kao NoSQL baze.</li>
+</ul>
+</section>
+<section id="prednosti-i-mane-relacionog-modela" class="slide level2">
+<h2>Prednosti i mane relacionog modela</h2>
+<ul>
+<li>Relacioni model baza podataka je strahovito moćan i performantan naročito ako su podaci rigidno struktuirani, te je moguće napraviti sistem ograničenja koji adekvatno opisuje podatke kroz sistem povezanih tabela (relacija).</li>
+<li>Ovo pruža ovakvim sistemima jako dobre performanse i to je jedan od razloga zašto je ovakav stil baze podataka bio dominantan toliko dugo.</li>
+<li>Problem sa tačke gledišta rada u ‘oblaku’ je teškoća skaliranja ovakve baze.</li>
+</ul>
+</section>
+<section id="horizontalno-skaliranje-relacionih-baza-podataka" class="slide level2">
+<h2>Horizontalno skaliranje relacionih baza podataka</h2>
+<ul>
+<li>Horizontalno skaliranje (za razliku vertikalnog) je bazirano na tome da se posao podeli između više instanci</li>
+<li>Ako je potrebno samo <em>pristupati</em> podacima, onda je horizontalno skaliranje trivijalno i sastoji se od potpune replike podataka koja se deli između individualnih servera i gde se zahtevi za podacima distribuiraju korišćenjem klasičnog ‘load balancing’ pristupa kao da je u pitanju npr. web server.</li>
+<li>Kada je pisanje u pitanju nastane ozbiljan problem. Što?</li>
+</ul>
+</section>
+<section id="problem-sinhronizacije-izmene-podacima" class="slide level2">
+<h2>Problem sinhronizacije izmene podacima</h2>
+<ul>
+<li>Centralni problem je, prvo, dogovor oko toga čija je ‘starija’ kada je u pitanju promena baze</li>
+<li>Ovo se može rešiti kroz dva procesa: vođenja računa o tome kada se desi koja promena kombinovano sa ‘resorima’ gde je svaki server naročito odgovoran za neki deo neke tabele.</li>
+<li>Budući da su velike tabele u stvari prilično neefikasne, već postoje takvi mehanizmi.</li>
+<li>U PostgreSQL, recimo, postoji mehanizam particionisanja koji omogućava da se jedna tabela razbije na N pod-tabela koje se videkao jedna velika, logička tabela.</li>
+</ul>
+</section>
+<section id="povezanost-podataka" class="slide level2">
+<h2>Povezanost podataka</h2>
+<ul>
+<li>U tom slučaju, moguće je napraviti replikaciju podataka u kome individualni serveri opslužuju specifične particije i onda uraditi replikaciju na takav način.</li>
+<li>Ovo je odista moguće, ali naleće na problem u kome particije nisu nužno <em>nezavisne.</em></li>
+<li>Cela ideja relacionih podataka jesu baš njihove relacije: svaka baza relaciona baza podataka, ako je dobro dizajnirana, se sastoji od relativno prostih tabela povezanih relativno kompleksnim vezama koje omogućavaju da se od njih stvore razni potrebni ‘pogledi’ na podatke.</li>
+<li>Baš takva dobra baza ima veliku povezanost podataka.</li>
+</ul>
+</section>
+<section id="povezanost-podataka-1" class="slide level2">
+<h2>Povezanost podataka</h2>
+<ul>
+<li>Što bi povezanost bila problem?</li>
+<li>Centralna teškoća leži u tome što povezanosti idu između particija podataka što znači da se bilo koja promena mora replicirati i kaskadirati između svih čvorova u mreži što, pak, znači da mrežna kašnjenja i zagušenja ‘pojedu’ sve performanse koje smo dobili replikacijom.</li>
+<li>Kao rezultat, u zavisnosti od baze može biti <em>nemoguće</em> da se efektno horizontalno skalira relaciona baza.</li>
+</ul>
+</section>
+<section id="nosql-i-replikacija" class="slide level2">
+<h2>‘NoSQL’ i replikacija</h2>
+<ul>
+<li>Kada su upiti u baze u pitanju, SQL je toliko dominantan da je čitav koncept baze koja <em>nema</em> relacionu strukturu prozvan ‘NoSQL’</li>
+<li>Ideja je da se koristi nekakav drugi model koji je lakši za skaliranje</li>
+<li>Tipičan model je model <em>dokumenta.</em></li>
+<li>Baze podataka dokumenta čuvaju u sebi podatke kao manje ili više celovite <em>dokumente</em> koje možete zamisliti kao XML ili JSON zapise (ponekad oni baš to i jesu).</li>
+</ul>
+</section>
+<section id="što-je-model-dokumenta-bolji" class="slide level2">
+<h2>Što je model dokumenta bolji?</h2>
+<ul>
+<li>Umesto n-torki povezanih u komplikovanije strukture koje zahtevaju kaskadno pisanje, ovde imamo dokumente koji i dalje mogu biti povezani (MongoDB, recimo, zove metode povezivanja ‘view’) i kaskadno pisani, ali manje često.</li>
+<li>Naročito ako se koristi mehanizam podele (koji ovakve baze podržavaju) gde je podela između individualnih replika (tehnički termin za takve parcijalne replike je ‘shard’) inteligentna i bazirana, npr. na tome kakvi podaci idu zajedno.</li>
+</ul>
+</section>
+<section id="mehanizam-osmatranja-sistema" class="slide level2">
+<h2>Mehanizam osmatranja sistema</h2>
+<ul>
+<li>Mehanizmi osmatranja sistema su mehanizmi koji se bave očitavanjem tekućeg stanja sistema ne bi li se sistemom bolje upravljalo.</li>
+<li>Naročito ih zanimaju podaci o tome koliko koji sistemi rade, iskorišćenosti resursa, greškama, anomalijama, i bezbednosnim događajima.</li>
+<li>Postoje u dve fudamentarne forme: vođeni događajima i vođeni upitima.</li>
+</ul>
+</section>
+<section id="događaji-i-upiti" class="slide level2">
+<h2>Događaji i upiti</h2>
+<ul>
+<li>Mehanizimi vođeni događajima su ne osobito opterećujući sistemi koji ‘osluškuju’ događaje raznih vrsta koji im javljaju individualne mašine i sistemi. Ti događaji se onda agregiraju u čuvaju u bazama podataka logova.</li>
+<li>Mehanizmi vođeni upitom (eng. poll) ne čekaju da se nešto desi, no periodično šalju upite raznim sistemima ne bi li saznali šta se dešava.</li>
+<li>Mehanizmi upita su naročito dobri kada je bitno detektovati kada je neki sistem prestao da funkcioniše ne bi li se pnovo pokrenuo.</li>
+</ul>
+</section>
+<section id="mehanizam-replikacije-resursa" class="slide level2">
+<h2>Mehanizam replikacije resursa</h2>
+<ul>
+<li>Baš kao i virtuelni serveri, ovo je nešto o čemu pričamo od početka i što je osnovna gradivna jedinica sistema u oblaku</li>
+<li>Ideja je veoma jednostavna: da se neka osobina koju želimo može postići tako što imamo veći broj (repliciranih) resursa</li>
+<li>Osobine koje možemo dobiti su, recimo:
+<ul>
+<li>Performanse (horizontalno skaliranje)</li>
+<li>Pouzdanost (hot-swap/failover serveri)</li>
+<li>Bezbednost (redudantna kontrola konsenzusa, npr. konzorcijumski lanci blokova)</li>
+</ul></li>
+</ul>
+</section>
+<section id="mehanizam-već-gotovih-okruženja" class="slide level2">
+<h2>Mehanizam već-gotovih okruženja</h2>
+<ul>
+<li>Potrebe aplikacija mogu biti predvidive</li>
+<li>Budući da je ovo slučaj, nema potrebe da se mušterije CC rešenja opterećuju konfiguracijom od nule</li>
+<li>Umesto toga, može im se dati i polugotovo okruženje koje samo treba da se podesi</li>
+<li>Ovo se može proširiti u čitav katalog unapred konfigurisanih sistema za razne potrebe</li>
+</ul>
 </section></section>
     </div>
   </div>
