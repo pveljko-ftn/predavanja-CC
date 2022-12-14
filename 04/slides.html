@@ -17,6 +17,69 @@
     div.column{display: inline-block; vertical-align: top; width: 50%;}
     div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
     ul.task-list{list-style: none;}
+    pre > code.sourceCode { white-space: pre; position: relative; }
+    pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+    pre > code.sourceCode > span:empty { height: 1.2em; }
+    .sourceCode { overflow: visible; }
+    code.sourceCode > span { color: inherit; text-decoration: inherit; }
+    div.sourceCode { margin: 1em 0; }
+    pre.sourceCode { margin: 0; }
+    @media screen {
+    div.sourceCode { overflow: auto; }
+    }
+    @media print {
+    pre > code.sourceCode { white-space: pre-wrap; }
+    pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+    }
+    pre.numberSource code
+      { counter-reset: source-line 0; }
+    pre.numberSource code > span
+      { position: relative; left: -4em; counter-increment: source-line; }
+    pre.numberSource code > span > a:first-child::before
+      { content: counter(source-line);
+        position: relative; left: -1em; text-align: right; vertical-align: baseline;
+        border: none; display: inline-block;
+        -webkit-touch-callout: none; -webkit-user-select: none;
+        -khtml-user-select: none; -moz-user-select: none;
+        -ms-user-select: none; user-select: none;
+        padding: 0 4px; width: 4em;
+        color: #aaaaaa;
+      }
+    pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+    div.sourceCode
+      {   }
+    @media screen {
+    pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+    }
+    code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+    code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+    code span.at { color: #7d9029; } /* Attribute */
+    code span.bn { color: #40a070; } /* BaseN */
+    code span.bu { } /* BuiltIn */
+    code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+    code span.ch { color: #4070a0; } /* Char */
+    code span.cn { color: #880000; } /* Constant */
+    code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+    code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+    code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+    code span.dt { color: #902000; } /* DataType */
+    code span.dv { color: #40a070; } /* DecVal */
+    code span.er { color: #ff0000; font-weight: bold; } /* Error */
+    code span.ex { } /* Extension */
+    code span.fl { color: #40a070; } /* Float */
+    code span.fu { color: #06287e; } /* Function */
+    code span.im { } /* Import */
+    code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+    code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+    code span.op { color: #666666; } /* Operator */
+    code span.ot { color: #007020; } /* Other */
+    code span.pp { color: #bc7a00; } /* Preprocessor */
+    code span.sc { color: #4070a0; } /* SpecialChar */
+    code span.ss { color: #bb6688; } /* SpecialString */
+    code span.st { color: #4070a0; } /* String */
+    code span.va { color: #19177c; } /* Variable */
+    code span.vs { color: #4070a0; } /* VerbatimString */
+    code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
   </style>
   <link rel="stylesheet" href="https://unpkg.com/reveal.js@^4//dist/theme/night.css" id="theme">
   <link rel="stylesheet" href="slides.css"/>
@@ -231,6 +294,11 @@
 <li>Jedina neophodna komplikacija koja je neophodna da bi virtuelna mašina bila i virtuelni server jeste rutiranje svesno porta.</li>
 <li>Ovakvo rutiranje omogućava da zahtevi upućeni <em>nekom</em> serveru stignu na neki specifični virtuelni server</li>
 </ul>
+</section></section>
+<section>
+<section id="mehanizmi-smeštanja-podataka" class="title-slide slide level1">
+<h1>Mehanizmi smeštanja podataka</h1>
+<p>Podaci u oblaku</p>
 </section>
 <section id="oblak-uređaji-za-smeštanje-podataka" class="slide level2">
 <h2>‘Oblak’ uređaji za smeštanje podataka</h2>
@@ -388,6 +456,598 @@
 <li>Budući da je ovo slučaj, nema potrebe da se mušterije CC rešenja opterećuju konfiguracijom od nule</li>
 <li>Umesto toga, može im se dati i polugotovo okruženje koje samo treba da se podesi</li>
 <li>Ovo se može proširiti u čitav katalog unapred konfigurisanih sistema za razne potrebe</li>
+</ul>
+</section></section>
+<section>
+<section id="mehanizam-osluškivača-telemetrije-skaliranja" class="title-slide slide level1">
+<h1>Mehanizam osluškivača telemetrije skaliranja</h1>
+<p>Upravljanje skaliranjem CC instalacija</p>
+</section>
+<section id="osluškivač-telemetrije-skaliranja" class="slide level2">
+<h2>Osluškivač telemetrije skaliranja</h2>
+<ul>
+<li>Ovo je nezavisni servisni agent koji operiše unutar sistema</li>
+<li>Funkcija je da se meri opseg zahteva ka uslugama i modeluje se količina resursa neophodnih da se ti zahtevi servisiraju</li>
+<li>To onda generiše signal upravljanja koji povećava ili smanjuje količinu resursa alociranih, tj. okida mehanizam horizontalnog skaliranja.</li>
+</ul>
+</section>
+<section id="ots-primer-aws-auto-scaling" class="slide level2">
+<h2>OTS primer: AWS Auto Scaling</h2>
+<ul>
+<li>Primer za, recimo, Amazon, je AWS EC2 Auto Scaling kombinovan sa Amazon CloudWatch tehnologijom.</li>
+<li>Ekvivalentna rešenja postoje i za druge platforme, ovo je samo reprezentativan primer veoma velike platforme.</li>
+<li>Ova sekcija je bazirana u nekoj meri na zvaničnoj AWS dokumentaciji dostupnoj na <a href="https://docs.aws.amazon.com/">docs.aws.amazon.com</a>.</li>
+</ul>
+</section>
+<section id="ots-primer-aws-auto-scaling-1" class="slide level2">
+<h2>OTS primer: AWS Auto Scaling</h2>
+<ul>
+<li>CloudWatch (CW) prati saobraćaj (CW takođe obavlja usluge i drugih mehanizama koje smo pominjali)</li>
+<li>Auto Scaling he mehanizam gde možete skalirati vaše grupe za skaliranje na gore ili na dole rukom ili to učiniti <em>dinamički</em> ili <em>prediktivno.</em></li>
+</ul>
+</section>
+<section id="ots-dinamičko-skaliranje" class="slide level2">
+<h2>OTS dinamičko skaliranje</h2>
+<ul>
+<li>Dinamičko skaliranje omogućava da se napravi, efektivno, jednostavna automatika koja povezuje nege ulazne signale sa signalom upravljanja.</li>
+<li>Kada se koristi dinamičko skaliranje na raspolaganju je nekoliko mogućih konfiguracija:
+<ul>
+<li>Prosto</li>
+<li>Koračno</li>
+<li>Vođeno metom</li>
+</ul></li>
+</ul>
+</section>
+<section id="cw-alarmi" class="slide level2">
+<h2>CW Alarmi</h2>
+<ul>
+<li>I prosto i koračno skaliranje u AWS okruženju se bazira na alarmima CW mehanizma</li>
+<li>Alarm je jednostavno događaj koji se okine (i koji može da pokrene nekakav menadžment process unutar sistema) kada se neka od metrika koju može da meri CW promeni iznad/ispod nekakve granične vrednosti pod nekakvim okolnostima.</li>
+<li>Alarm, recimo može da bude “Okini ovaj alarm kada je prosečna upotreba procesora preko 80% 4 minuta zaredom.”</li>
+<li>Generalno nam trebaju dva alarma: jedan da aktivira skaliranje na gore i jedan na dole.</li>
+</ul>
+</section>
+<section id="prosto-skaliranje" class="slide level2">
+<h2>Prosto skaliranje</h2>
+<ul>
+<li>Prosto skaliranje je bazirano na jednostavnom odgovoru na događaj</li>
+<li>Kada god se desi jedan od dva događaja ili se za neku fiksnu količinu poveća broj instanci ili se smanji</li>
+<li>Padanje u beskonačan jitter oko nulte tačke sprečava upotreba prostog histerezisa kroz tajmer</li>
+<li>Tajmer sprečava da se skaliranje desi dok ne otkuca do kraja</li>
+</ul>
+</section>
+<section id="prosto-skaliranje---primer" class="slide level2">
+<h2>Prosto skaliranje - primer</h2>
+<pre><code>aws autoscaling create-auto-scaling-group --auto-scaling-group-name moja-grupa \
+  --launch-template LaunchTemplateName=moj-sablon,Version=&#39;2&#39; \
+  --vpc-zone-identifier &quot;subnet-5ea0c127,subnet-6194ea3b,subnet-c934b782&quot; \
+  --max-size 5 --min-size 1</code></pre>
+</section>
+<section id="prosto-skaliranje---primer-1" class="slide level2">
+<h2>Prosto skaliranje - primer</h2>
+<ul>
+<li>Launch Template je mehanizam koji definiše <em>čime</em> se proširuje skup računara</li>
+<li>Primetite da ovde definišemo maksimum i minimum: ne bi valjalo da se zbog 5 minuta bez zahteva aplikacija samoisključi niti bi valjalo da vas navala korisnika bankrotira.</li>
+<li>VPC identifikatori nisu bitni za ovu priču i služe da se u bezbednosnom modelu AWS identifikuje on sa čim se radi</li>
+</ul>
+</section>
+<section id="prosto-skaliranje---primer-2" class="slide level2">
+<h2>Prosto skaliranje - primer</h2>
+<pre><code>aws autoscaling put-scaling-policy --policy-name prosto-skaliranje-na-gore \
+  --auto-scaling-group-name moja-grupa --scaling-adjustment 30 \
+  --adjustment-type PercentChangeInCapacity</code></pre>
+</section>
+<section id="prosto-skaliranje---primer-3" class="slide level2">
+<h2>Prosto skaliranje - primer</h2>
+<ul>
+<li>Terminološki komentar: ovde koristimo skaliranje na gore za povećanje kapaciteta i skaliranje na dole za smanjenje kapaciteta. Termin koji se koristi na engleskom često je “scaling out” i “scaling in” za isti koncept, dakle umesto na gore i na dole se korisite ‘upolje’ i ‘unutra.’</li>
+<li>Ovo je jednostavno povećanje kapaciteta za 30%.</li>
+</ul>
+</section>
+<section id="prosto-skaliranje---primer-4" class="slide level2">
+<h2>Prosto skaliranje - primer</h2>
+<ul>
+<li>Ova komanda će vam vratiti JSON odgovor koji u sebi ima ARN za nju</li>
+<li>ARN je standard koji interno koristi AWS da bi imenovao stvari</li>
+<li>Primer ARN-a za ovakvu neku stvar je</li>
+</ul>
+</section>
+<section id="primer-arn-a" class="slide level2">
+<h2>Primer ARN-a</h2>
+<div class="sourceCode" id="cb3"><pre class="sourceCode json"><code class="sourceCode json"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>    <span class="dt">&quot;PolicyARN&quot;</span><span class="fu">:</span> <span class="st">&quot;arn:aws:autoscaling:region:123456789012:scalingPolicy:ac542982-cbeb-4294-891c-a5a941dfa787:autoScalingGroupName/moja-grupa:policyName/prosto-skaliranje-na-gore&quot;</span></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="fu">}</span></span></code></pre></div>
+</section>
+<section id="prosto-skaliranje---primer-5" class="slide level2">
+<h2>Prosto skaliranje - primer</h2>
+<ul>
+<li>ARN će biti potreban da bi se pozvali na ovo podešavanje kasnije i uspešno ga povezali sa alarmom</li>
+<li>Generalno, ARN je mehanizam koji omogućava da se jednoznačno identifikuju stavke u okviru sistema</li>
+<li>Vrednost koju vi vidite, ako ovo budete probali, će naravno biti različita</li>
+</ul>
+</section>
+<section id="prosto-skaliranje---primer-6" class="slide level2">
+<h2>Prosto skaliranje - primer</h2>
+<ul>
+<li>Sada je neophodno razraditi i obrnutu politiku koja propisuje da se resursi dealociraju kada je potreba manja</li>
+<li>Ovde imaju dve fundamentalne promene:
+<ul>
+<li>uvodi se tajmer vrednost koja će sprečiti fluktuaciju alociranih resursa</li>
+<li>uvodi se drugačija forma skaliranja gde se ukida jedna mašina umesto da se ukupan kapacitet poveća za 30%</li>
+</ul></li>
+</ul>
+</section>
+<section id="prosto-skaliranje---primer-7" class="slide level2">
+<h2>Prosto skaliranje - primer</h2>
+<pre><code>aws autoscaling put-scaling-policy --policy-name prosto-skaliranje-na-dole \
+  --auto-scaling-group-name moja-grupa --scaling-adjustment -1 \
+    --adjustment-type ChangeInCapacity --cooldown 180</code></pre>
+</section>
+<section id="prosto-skaliranje---primer-8" class="slide level2">
+<h2>Prosto skaliranje - primer</h2>
+<ul>
+<li>Sledeći korak je definisati tačke gde želimo da aktiviramo naše prosto skaliranje</li>
+<li>Ovde je bitno odabrati pravu metriku</li>
+<li>Ako metrika nije dobro odabrana onda ona neće skalirati prema potrebama sistema te skaliranje neće biti obavljano kako treba</li>
+</ul>
+</section>
+<section id="odabir-dobre-metrike" class="slide level2">
+<h2>Odabir dobre metrike</h2>
+<ul>
+<li>Nema standarda za dobru metriku, ona zavisi od vašeg rešenja</li>
+<li>Glavna stvar koja vam je potrebn jeste da metrika meri nešto što je korelat ograničavajućeg faktora u potrošnji resursa vašeg sistema</li>
+<li>Karakterizacija ograničavajućeg faktora je bitan zadatak u disciplini merenja i predviđanja performansi sistema</li>
+</ul>
+</section>
+<section id="kratko-o-ograničavajućim-faktorima" class="slide level2">
+<h2>Kratko o ograničavajućim faktorima</h2>
+<ul>
+<li>Vaš sistem može da zakaže i demonstrira smanjene performanse (što pak onda treba da se leči horizontalnim ili vertikalnim skaliranjem) usled velikog broja ishoda</li>
+<li>Generalno govoreći ovde se koristi engleska terminologija gde se specificira šta je tačno faktor limita i onda se dodaje sufiks ‘-bound’</li>
+<li>Recimo proces koji je CPU-bound je limitiran dostupnim procesorskim vremenom/brzinom</li>
+</ul>
+</section>
+<section id="kratko-o-ograničavajućim-faktorima-1" class="slide level2">
+<h2>Kratko o ograničavajućim faktorima</h2>
+<ul>
+<li>Proces može biti ograničen memorijom, dostupnim performansama korišćene baze podataka, dostupnim resursima za ulaz i izlat, dostupnim resursima za mrežni saobraćaj, kao i egzotičnijim faktorima vezanim za to kako operativni sistem apstrahuje pristup hardveru i drugim svojim resursima</li>
+<li>Egzotična forma ograničavajućeg faktora koja može predstavljati bezbednosnu manu jeste ograničenje dostupnom entropijom u generaciji kriptografski-bezbednih slučajnih brojeva.</li>
+</ul>
+</section>
+<section id="interrelacija-ograničavajućih-faktora" class="slide level2">
+<h2>Interrelacija ograničavajućih faktora</h2>
+<ul>
+<li>Kada se radi sa organičavajućim faktorima bitno je uzeti u obzir da je situacija retko takva da je samo jedan faktor pod značajnim naponom</li>
+<li>Iako će jedan faktor biti prvi iscrpljen, te će ograničiti rast performansi, šanse su da će biti opterećeni i drugi faktori</li>
+<li>Kao rezultat, ne mora se meriti baš onaj ograničavajući faktor: samo nešto što se lako i dobro meri i što je dobro korelirano sa onim faktorom koji odista dovodi do zagušenja</li>
+</ul>
+</section>
+<section id="odabir-korelata" class="slide level2">
+<h2>Odabir korelata</h2>
+<ul>
+<li>Moguće je pogoditi šta će biti ograničavajući faktor u nekom sistemu</li>
+<li>Za neki tipičan back-end to će najverovatnije biti ulaz/izlaz neke prirode, sa kojim će biti razumno dobro korelirana potrošnja CPU-a zato što je akt parsovanja poruka nešto što zahteva anganžman procesora
+<ul>
+<li>Računanje heš vrednosti ključeva</li>
+<li>Provera kriptografije na HTTPS zahtevu plus eventualno na potpisima koji su deo samog zahteva ili autorizacionog tokena</li>
+<li>Obrada podataka koji su stigli</li>
+</ul></li>
+<li>Ako su performanse bitne ništa ne može da pobedi merenje performansi, potrošnje resursa i njihove korelacije</li>
+</ul>
+</section>
+<section id="podešavanje-alarma-u-prostom-slučaju" class="slide level2">
+<h2>Podešavanje alarma u prostom slučaju</h2>
+<pre><code>aws cloudwatch put-metric-alarm --alarm-name prosto-skaliranje-na-gore-alarm \
+  --metric-name CPUUtilization --namespace AWS/EC2 --statistic Average \
+  --period 120 --evaluation-periods 2 --threshold 60 \
+  --comparison-operator GreaterThanOrEqualToThreshold \
+  --dimensions &quot;Name=AutoScalingGroupName,Value=moja-grupa&quot; \
+  --alarm-actions  arn:aws:autoscaling:region:123456789012:scalingPolicy:ac542982-cbeb-4294-891c-a5a941dfa787:autoScalingGroupName/moja-grupa:policyName/prosto-skaliranje-na-gore</code></pre>
+</section>
+<section id="podešavanje-alarma-u-prostom-slučaju-1" class="slide level2">
+<h2>Podešavanje alarma u prostom slučaju</h2>
+<ul>
+<li>Ovo za ranije generisanu grupu napravi alarm koji se okine kada je vrednost izmerena kao prosek u dva perioda merenja od 120 sekundi upotrebe procesora je veća od 60% i pozove politiku za skaliranje na gore tako što se referiše na njen ARN</li>
+<li>U budućim primerima umesto vrednosti ARN-a stavićemo samo <code>$ARN</code> da radi efikasnosti notacije</li>
+</ul>
+</section>
+<section id="podešavanja-alarma-za-skaliranje-na-dole" class="slide level2">
+<h2>Podešavanja alarma za skaliranje na dole</h2>
+<pre><code>aws cloudwatch put-metric-alarm --alarm-name prosto-skaliranje-na-dole-alarm \
+  --metric-name CPUUtilization --namespace AWS/EC2 --statistic Average \
+  --period 120 --evaluation-periods 2 --threshold 40 \
+  --comparison-operator LessThanOrEqualToThreshold \
+  --dimensions &quot;Name=AutoScalingGroupName,Value=moja-grupa&quot; \
+  --alarm-actions $ARN</code></pre>
+</section>
+<section id="problemi-sa-prostim-sistemom" class="slide level2">
+<h2>Problemi sa prostim sistemom</h2>
+<ul>
+<li>Ovo je prilično slaba metoda skaliranja zato što ne ume da reaguje efektno na nagle skokove u zahtevima i oslanja se na tajmere da bi rešila problem fluktuacija.</li>
+<li>Bilo bi bolje imati malo napredniju formu upravljanja</li>
+<li>Jedan metod koji to omogućava donekle jeste da umesto da se reaguje sa samo jednim mogućim odgovorom da se reaguje sa više u zavisnosti od toga koliko je metrika skočila.</li>
+</ul>
+</section>
+<section id="upravljanje-bazirano-na-koracima" class="slide level2">
+<h2>Upravljanje bazirano na koracima</h2>
+<ul>
+<li>Namešta se vrlo slično kao i jednostavno upravljanje sa jednom glavnom razlikom: politika sada ima različite reakcije na različit porast opterećenja</li>
+<li>Ovo se podešava kada se stvara pravilo skaliranja</li>
+</ul>
+</section>
+<section id="primer-upravljanja-sa-koracima" class="slide level2">
+<h2>Primer upravljanja sa koracima</h2>
+<pre><code>aws autoscaling put-scaling-policy \
+  --auto-scaling-group-name moja-grupa  \
+  --policy-name korak-skaliranje-na-gore \
+  --policy-type StepScaling \
+  --adjustment-type PercentChangeInCapacity \
+  --metric-aggregation-type Average \
+  --step-adjustments MetricIntervalLowerBound=0.0,MetricIntervalUpperBound=15.0,ScalingAdjustment=10 \
+                     MetricIntervalLowerBound=15.0,MetricIntervalUpperBound=25.0,ScalingAdjustment=20 \
+                     MetricIntervalLowerBound=25.0,ScalingAdjustment=30 \
+  --min-adjustment-magnitude 1</code></pre>
+</section>
+<section id="primer-upravljanja-sa-koracima-1" class="slide level2">
+<h2>Primer upravljanja sa koracima</h2>
+<ul>
+<li>Ovde je situacija takva da se u zavisnosti od magnitude prebacivanja preko podešene metrike (iste one kao i ranije) kapacitet povećava za ili 10%, 20%, ili 30% sa minimalnom deltom od jedne instance</li>
+<li>Ovo znači da je odgovor na promenu ponašanja mnogo više adaptabilan</li>
+</ul>
+</section>
+<section id="primer-upravljanja-sa-koracima-2" class="slide level2">
+<h2>Primer upravljanja sa koracima</h2>
+<pre><code>aws autoscaling put-scaling-policy \
+  --auto-scaling-group-name moja-grupa  \
+  --policy-name korak-skaliranje-na-dole \
+  --policy-type StepScaling \
+  --adjustment-type ChangeInCapacity \
+  --step-adjustments MetricIntervalUpperBound=0.0,ScalingAdjustment=-2</code></pre>
+</section>
+<section id="primer-upravljanja-sa-koracima-3" class="slide level2">
+<h2>Primer upravljanja sa koracima</h2>
+<ul>
+<li>Ovde se detektuje slučaj da je potrošnja pala ispod nekog praga i odma se smanjuje broj instanci za 2</li>
+<li>Ovo je kombinacija relativno glatkog dodavanja kapaciteta i naglog uklanjanja u slučaju pada broja zahteva</li>
+</ul>
+</section>
+<section id="da-li-može-bolje" class="slide level2">
+<h2>Da li može bolje?</h2>
+<ul>
+<li>Ovo je i dalje relativno grubo podešavanja kompleksnog ponašanja</li>
+<li>Ako razmsilite mi na osnovu nekog signala podešavamo upravljački signal gore ili dole</li>
+<li>Ovo je čist problem za automatiku koja zna štogod više od ‘uključi/isključi’ odziva</li>
+<li>Stoga AWS podržava i odziv vođen metama</li>
+</ul>
+</section>
+<section id="upravljanje-vođeno-metom" class="slide level2">
+<h2>Upravljanje vođeno metom</h2>
+<ul>
+<li>U srži ovo je tehnika gde se specificira željena vrednost neke metrike i onda sistem sam generiše alarme i politike koje skaliraju (u nekim okvirima) sistem tako da se ta željena vrednost održi</li>
+<li>Ovo je klasično upravljanje sa povratnom spregom</li>
+</ul>
+</section>
+<section id="metrike-upravljanja" class="slide level2">
+<h2>Metrike upravljanja</h2>
+<ul>
+<li>Metrike koje se mogu ciljati dolaze iz liste unapred definisanih, ali mogu se podešavati i posebno</li>
+<li>Većinu vremena ugrađene metrike su dovoljne</li>
+<li>Ono što karakteriše metrike vezane za upravljanje vođeno metom jeste to što se često odnose na celu grupu u agregatu</li>
+</ul>
+</section>
+<section id="ugrađene-metrike" class="slide level2">
+<h2>Ugrađene metrike</h2>
+<ul>
+<li><code>ASGAverageCPUUtilization</code> — Prosečna potrošnja procesora za celu grupu.<br />
+</li>
+<li><code>ASGAverageNetworkIn</code> — Prosečni broj bajtova koji prima jedna instanca na svim mrežnim interfejsima.<br />
+</li>
+<li><code>ASGAverageNetworkOut</code> — Prosečni broj bajtova koji šalje jedna instanca na svim mrežnim interfejsima.<br />
+</li>
+<li><code>ALBRequestCountPerTarget</code> — Prosečan broj balansiranih (više o tome kasnije) zahteva po meti.</li>
+</ul>
+</section>
+<section id="odabir-vrednosti-metrike-za-metu" class="slide level2">
+<h2>Odabir vrednosti metrike za metu</h2>
+<ul>
+<li>Postavlja se pitanje kako odabrati željenu vrednost: na kraju krajeva nama neka iskorišćenost nekog resursa nikad nije cilj</li>
+<li>Kriterijum odabira vrednosti se vodi sa dva faktora koji imaju oprečno dejstvo:
+<ul>
+<li>Ušteda</li>
+<li>Bafer za nagli porast iskorišćenosti</li>
+</ul></li>
+</ul>
+</section>
+<section id="ušteda" class="slide level2">
+<h2>Ušteda</h2>
+<ul>
+<li>Što je veća meta to će da sistem više da proaktivno gasi instance, što pak znači da će ukupna cena održavanja infrastrukture biti znatno manja</li>
+<li>Sa ove tačke gledišta, mi bi voleli da je metrika što veća moguća: recimo 100% za procesor</li>
+<li>To bi značilo da baš ništa nije ‘bačeno’ to jest, da nikada ne plaćamo za neiskorišćene računarske resurse.</li>
+</ul>
+</section>
+<section id="bafer-za-nagli-porast-iskorišćenosti" class="slide level2">
+<h2>Bafer za nagli porast iskorišćenosti</h2>
+<ul>
+<li>Bilo koja aplikacija koja se izvršava u CC okruženju može da bude meta naglog porasta iskorišćenosti (eng. <em>spike</em>)</li>
+<li>Kada se to desi, politika skaliranja koju smo definisali može da popravi situaciju, ali ovo traje neko vreme: tokom tog vremena sistem će u najboljem slučaju manifestovati lošu latenciju, a u najgorem zahtevi neće biti obrađeni.</li>
+<li>Ovo se može izbeći tako što se alocira više resursa nego što je neophodno: tada kada naglo poraste potreba neophodni resursi su već spremni i mogu da izdrže dok se ne završi horizontalno skaliranje.</li>
+</ul>
+</section>
+<section id="magični-brojevi" class="slide level2">
+<h2>Magični brojevi</h2>
+<ul>
+<li>Uzimajući u obzir ova dva faktora, dakle, meta treba da je negde između</li>
+<li>Tačno gde zavisi od gomile faktora:
+<ul>
+<li>Frekvencija naglih porasta iskorišćenosti</li>
+<li>Intenzitet naglih porasta</li>
+<li>Važnost garantovanja blagovremenog odziva</li>
+<li>Vreme skaliranja</li>
+<li>Ekonomska pitanja</li>
+</ul></li>
+</ul>
+</section>
+<section id="magični-brojevi-1" class="slide level2">
+<h2>Magični brojevi</h2>
+<ul>
+<li>Jedini pouzdan način da se ovi brojevi nabave i podese jeste da se sistem u toku faze testiranja, javne bete, itd. izloži ekstremno detaljnoj analizi svih podataka</li>
+<li>Svi ovi faktori su specifični za pojedinačne aplikacije u specifičnim okolnostima i ne mogu se pouzdano predvideti: moraju se izmeriti.</li>
+<li>Zato je neohodno, kada se upravlja ovakvim sistemima, konzistentno pratiti sve pokazatelje i biti upoznat sa statističkim metodama neophodnim da se iz šume log-ova proizvedu vredni uvidi.</li>
+<li>U nedostatku informacija, neka bezbedna forma margine je otprilike 50-60%</li>
+</ul>
+</section>
+<section id="vreme-skaliranja" class="slide level2">
+<h2>Vreme skaliranja</h2>
+<ul>
+<li>Pomenuli smo da je vreme skaliranja bitan faktor u izboru mete: šta je to?</li>
+<li>Vreme skaliranja je vreme neophodno da se novopokrenuta instanca dovede u stanje da je spremna da opslužuje zahteve</li>
+<li>Sistem može da detektuje da se sistem pokrenuo, ali je malo teže znati da li je aplikacija koja se u tom okruženju izvršava uspešno prošla kroz sve stadijume samoosposobljavanja</li>
+<li>Zato postoji vreme skaliranja (eng. warmup time) ne samo kao faktor nego kao i parametar kojim se konfiguriše skaliranje</li>
+</ul>
+</section>
+<section id="vreme-skaliranja-i-automatsko-skaliranje" class="slide level2">
+<h2>Vreme skaliranja i automatsko skaliranje</h2>
+<ul>
+<li>Upravljanje ‘želi’ matematički govoreći da bude kontinualno i bavi se infinitesimalnim promenama u infinitesimalnom vremenu</li>
+<li>Ovde radimo sa vrlo diskretnim akcijama koje se tako ne mogu posmatrati</li>
+<li>Tajmer (eng. cooldown) je jedna mera koju koristimo da ispeglamo ovaj problem</li>
+<li>Vreme skaliranja je druga: ona se stara da za neko specificirano vreme novoporeknute instance se računaju kao još isključene za potrebe algoritma za upravljanje.</li>
+</ul>
+</section>
+<section id="podešavanja-upravljanja-vođenog-metom" class="slide level2">
+<h2>Podešavanja upravljanja vođenog metom</h2>
+<ul>
+<li>Prvi korak je da se generiše JSON fajl koji konfiguriše željenu metu</li>
+<li>Taj fajl mora da opiše koja metrika se posmatra i koje ja željena vrednost</li>
+<li>U našem primeru ciljamo intragrupnu iskorišćenost procesora od 40%</li>
+</ul>
+</section>
+<section id="podešavanja-upravljanja-vođenog-metom-1" class="slide level2">
+<h2>Podešavanja upravljanja vođenog metom</h2>
+<div class="sourceCode" id="cb9"><pre class="sourceCode json"><code class="sourceCode json"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&quot;TargetValue&quot;</span><span class="fu">:</span> <span class="fl">40.0</span><span class="fu">,</span></span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&quot;PredefinedMetricSpecification&quot;</span><span class="fu">:</span> </span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">{</span></span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>      <span class="dt">&quot;PredefinedMetricType&quot;</span><span class="fu">:</span> <span class="st">&quot;ASGAverageCPUUtilization&quot;</span></span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>    <span class="fu">}</span></span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a><span class="fu">}</span></span></code></pre></div>
+</section>
+<section id="šta-da-nećemo-predefinisanu-metriku-za-metu" class="slide level2">
+<h2>Šta da nećemo predefinisanu metriku za metu?</h2>
+<div class="sourceCode" id="cb10"><pre class="sourceCode json"><code class="sourceCode json"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>   <span class="dt">&quot;TargetValue&quot;</span><span class="fu">:</span><span class="fl">40.0</span><span class="fu">,</span></span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>   <span class="dt">&quot;CustomizedMetricSpecification&quot;</span><span class="fu">:{</span></span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>      <span class="dt">&quot;MetricName&quot;</span><span class="fu">:</span><span class="st">&quot;MojaMetrika&quot;</span><span class="fu">,</span></span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>      <span class="dt">&quot;Namespace&quot;</span><span class="fu">:</span><span class="st">&quot;ProstorImena1&quot;</span><span class="fu">,</span></span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>      <span class="dt">&quot;Dimensions&quot;</span><span class="fu">:</span><span class="ot">[</span></span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a>         <span class="fu">{</span></span>
+<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a>            <span class="dt">&quot;Name&quot;</span><span class="fu">:</span><span class="st">&quot;DimenzijaPoKojojSePosmatraRecimoGrupa&quot;</span><span class="fu">,</span></span>
+<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a>            <span class="dt">&quot;Value&quot;</span><span class="fu">:</span><span class="st">&quot;VrednostKojaSePosmatraRecimoCPU&quot;</span></span>
+<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a>         <span class="fu">}</span></span>
+<span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a>      <span class="ot">]</span><span class="fu">,</span></span>
+<span id="cb10-12"><a href="#cb10-12" aria-hidden="true" tabindex="-1"></a>      <span class="dt">&quot;Statistic&quot;</span><span class="fu">:</span><span class="st">&quot;Average&quot;</span><span class="fu">,</span></span>
+<span id="cb10-13"><a href="#cb10-13" aria-hidden="true" tabindex="-1"></a>      <span class="dt">&quot;Unit&quot;</span><span class="fu">:</span><span class="st">&quot;Percent&quot;</span></span>
+<span id="cb10-14"><a href="#cb10-14" aria-hidden="true" tabindex="-1"></a>   <span class="fu">}</span></span>
+<span id="cb10-15"><a href="#cb10-15" aria-hidden="true" tabindex="-1"></a><span class="fu">}</span></span></code></pre></div>
+</section>
+<section id="kompleksne-nepredefinisane-metrike" class="slide level2">
+<h2>Kompleksne nepredefinisane metrike</h2>
+<ul>
+<li>Ponekad želimo ne samo nešto specifično posmatrano preko neke dimenzije, kao ovde, nego hoćemo i da možemo da računamo naše mere bazirane na posebnim aritmetičkim izrazima.</li>
+<li>I ovo je podržano preko posebne sintakse konfiguracionog JSON fajla</li>
+</ul>
+</section>
+<section id="kompleksne-nepredefinisane-metirke" class="slide level2">
+<h2>Kompleksne nepredefinisane metirke</h2>
+<div class="sourceCode" id="cb11"><pre class="sourceCode json"><code class="sourceCode json"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>    <span class="dt">&quot;CustomizedMetricSpecification&quot;</span><span class="fu">:</span> <span class="fu">{</span></span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>        <span class="dt">&quot;Metrics&quot;</span><span class="fu">:</span> <span class="ot">[</span></span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>            <span class="fu">{</span></span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>                <span class="dt">&quot;Label&quot;</span><span class="fu">:</span> <span class="st">&quot;Broj poruka koje čekaju na obradu&quot;</span><span class="fu">,</span></span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>                <span class="dt">&quot;Id&quot;</span><span class="fu">:</span> <span class="st">&quot;m1&quot;</span><span class="fu">,</span></span>
+<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a>                <span class="dt">&quot;MetricStat&quot;</span><span class="fu">:</span> <span class="fu">{</span></span>
+<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a>                    <span class="dt">&quot;Metric&quot;</span><span class="fu">:</span> <span class="fu">{</span></span>
+<span id="cb11-9"><a href="#cb11-9" aria-hidden="true" tabindex="-1"></a>                        <span class="dt">&quot;MetricName&quot;</span><span class="fu">:</span> <span class="st">&quot;ApproximateNumberOfMessagesVisible&quot;</span><span class="fu">,</span></span>
+<span id="cb11-10"><a href="#cb11-10" aria-hidden="true" tabindex="-1"></a>                        <span class="dt">&quot;Namespace&quot;</span><span class="fu">:</span> <span class="st">&quot;AWS/SQS&quot;</span><span class="fu">,</span></span>
+<span id="cb11-11"><a href="#cb11-11" aria-hidden="true" tabindex="-1"></a>                        <span class="dt">&quot;Dimensions&quot;</span><span class="fu">:</span> <span class="ot">[</span></span>
+<span id="cb11-12"><a href="#cb11-12" aria-hidden="true" tabindex="-1"></a>                            <span class="fu">{</span></span>
+<span id="cb11-13"><a href="#cb11-13" aria-hidden="true" tabindex="-1"></a>                                <span class="dt">&quot;Name&quot;</span><span class="fu">:</span> <span class="st">&quot;QueueName&quot;</span><span class="fu">,</span></span>
+<span id="cb11-14"><a href="#cb11-14" aria-hidden="true" tabindex="-1"></a>                                <span class="dt">&quot;Value&quot;</span><span class="fu">:</span> <span class="st">&quot;my-queue&quot;</span></span>
+<span id="cb11-15"><a href="#cb11-15" aria-hidden="true" tabindex="-1"></a>                            <span class="fu">}</span></span>
+<span id="cb11-16"><a href="#cb11-16" aria-hidden="true" tabindex="-1"></a>                        <span class="ot">]</span></span>
+<span id="cb11-17"><a href="#cb11-17" aria-hidden="true" tabindex="-1"></a>                    <span class="fu">},</span></span>
+<span id="cb11-18"><a href="#cb11-18" aria-hidden="true" tabindex="-1"></a>                    <span class="dt">&quot;Stat&quot;</span><span class="fu">:</span> <span class="st">&quot;Sum&quot;</span></span>
+<span id="cb11-19"><a href="#cb11-19" aria-hidden="true" tabindex="-1"></a>                <span class="fu">},</span></span>
+<span id="cb11-20"><a href="#cb11-20" aria-hidden="true" tabindex="-1"></a>                <span class="dt">&quot;ReturnData&quot;</span><span class="fu">:</span> <span class="kw">false</span></span>
+<span id="cb11-21"><a href="#cb11-21" aria-hidden="true" tabindex="-1"></a>            <span class="fu">}</span><span class="ot">,</span></span>
+<span id="cb11-22"><a href="#cb11-22" aria-hidden="true" tabindex="-1"></a>            <span class="fu">{</span></span>
+<span id="cb11-23"><a href="#cb11-23" aria-hidden="true" tabindex="-1"></a>                <span class="dt">&quot;Label&quot;</span><span class="fu">:</span> <span class="st">&quot;Koliko imamo instanci koje rade&quot;</span><span class="fu">,</span></span>
+<span id="cb11-24"><a href="#cb11-24" aria-hidden="true" tabindex="-1"></a>                <span class="dt">&quot;Id&quot;</span><span class="fu">:</span> <span class="st">&quot;m2&quot;</span><span class="fu">,</span></span>
+<span id="cb11-25"><a href="#cb11-25" aria-hidden="true" tabindex="-1"></a>                <span class="dt">&quot;MetricStat&quot;</span><span class="fu">:</span> <span class="fu">{</span></span>
+<span id="cb11-26"><a href="#cb11-26" aria-hidden="true" tabindex="-1"></a>                    <span class="dt">&quot;Metric&quot;</span><span class="fu">:</span> <span class="fu">{</span></span>
+<span id="cb11-27"><a href="#cb11-27" aria-hidden="true" tabindex="-1"></a>                        <span class="dt">&quot;MetricName&quot;</span><span class="fu">:</span> <span class="st">&quot;GroupInServiceInstances&quot;</span><span class="fu">,</span></span>
+<span id="cb11-28"><a href="#cb11-28" aria-hidden="true" tabindex="-1"></a>                        <span class="dt">&quot;Namespace&quot;</span><span class="fu">:</span> <span class="st">&quot;AWS/AutoScaling&quot;</span><span class="fu">,</span></span>
+<span id="cb11-29"><a href="#cb11-29" aria-hidden="true" tabindex="-1"></a>                        <span class="dt">&quot;Dimensions&quot;</span><span class="fu">:</span> <span class="ot">[</span></span>
+<span id="cb11-30"><a href="#cb11-30" aria-hidden="true" tabindex="-1"></a>                            <span class="fu">{</span></span>
+<span id="cb11-31"><a href="#cb11-31" aria-hidden="true" tabindex="-1"></a>                                <span class="dt">&quot;Name&quot;</span><span class="fu">:</span> <span class="st">&quot;AutoScalingGroupName&quot;</span><span class="fu">,</span></span>
+<span id="cb11-32"><a href="#cb11-32" aria-hidden="true" tabindex="-1"></a>                                <span class="dt">&quot;Value&quot;</span><span class="fu">:</span> <span class="st">&quot;moja-grupa&quot;</span></span>
+<span id="cb11-33"><a href="#cb11-33" aria-hidden="true" tabindex="-1"></a>                            <span class="fu">}</span></span>
+<span id="cb11-34"><a href="#cb11-34" aria-hidden="true" tabindex="-1"></a>                        <span class="ot">]</span></span>
+<span id="cb11-35"><a href="#cb11-35" aria-hidden="true" tabindex="-1"></a>                    <span class="fu">},</span></span>
+<span id="cb11-36"><a href="#cb11-36" aria-hidden="true" tabindex="-1"></a>                    <span class="dt">&quot;Stat&quot;</span><span class="fu">:</span> <span class="st">&quot;Average&quot;</span></span>
+<span id="cb11-37"><a href="#cb11-37" aria-hidden="true" tabindex="-1"></a>                <span class="fu">},</span></span>
+<span id="cb11-38"><a href="#cb11-38" aria-hidden="true" tabindex="-1"></a>                <span class="dt">&quot;ReturnData&quot;</span><span class="fu">:</span> <span class="kw">false</span></span>
+<span id="cb11-39"><a href="#cb11-39" aria-hidden="true" tabindex="-1"></a>            <span class="fu">}</span><span class="ot">,</span></span>
+<span id="cb11-40"><a href="#cb11-40" aria-hidden="true" tabindex="-1"></a>            <span class="fu">{</span></span>
+<span id="cb11-41"><a href="#cb11-41" aria-hidden="true" tabindex="-1"></a>                <span class="dt">&quot;Label&quot;</span><span class="fu">:</span> <span class="st">&quot;Proračun poruka koje čekaju po instanci&quot;</span><span class="fu">,</span></span>
+<span id="cb11-42"><a href="#cb11-42" aria-hidden="true" tabindex="-1"></a>                <span class="dt">&quot;Id&quot;</span><span class="fu">:</span> <span class="st">&quot;e1&quot;</span><span class="fu">,</span></span>
+<span id="cb11-43"><a href="#cb11-43" aria-hidden="true" tabindex="-1"></a>                <span class="dt">&quot;Expression&quot;</span><span class="fu">:</span> <span class="st">&quot;m1 / m2&quot;</span><span class="fu">,</span></span>
+<span id="cb11-44"><a href="#cb11-44" aria-hidden="true" tabindex="-1"></a>                <span class="dt">&quot;ReturnData&quot;</span><span class="fu">:</span> <span class="kw">true</span></span>
+<span id="cb11-45"><a href="#cb11-45" aria-hidden="true" tabindex="-1"></a>            <span class="fu">}</span></span>
+<span id="cb11-46"><a href="#cb11-46" aria-hidden="true" tabindex="-1"></a>        <span class="ot">]</span></span>
+<span id="cb11-47"><a href="#cb11-47" aria-hidden="true" tabindex="-1"></a>    <span class="fu">},</span></span>
+<span id="cb11-48"><a href="#cb11-48" aria-hidden="true" tabindex="-1"></a>    <span class="dt">&quot;TargetValue&quot;</span><span class="fu">:</span> <span class="dv">100</span></span>
+<span id="cb11-49"><a href="#cb11-49" aria-hidden="true" tabindex="-1"></a><span class="fu">}</span></span></code></pre></div>
+</section>
+<section id="specifikacija-upravljanja-sa-metom" class="slide level2">
+<h2>Specifikacija upravljanja sa metom</h2>
+<pre><code>aws autoscaling put-scaling-policy --policy-name cpu40-upravljanje-metom \
+  --auto-scaling-group-name moja-grupa --policy-type TargetTrackingScaling \
+  --target-tracking-configuration file://config.json</code></pre>
+</section>
+<section id="specifikacija-upravljanja-sa-metom-1" class="slide level2">
+<h2>Specifikacija upravljanja sa metom</h2>
+<ul>
+<li><code>config.json</code> je naravno fajl koji smo napravili sa konfiguracijom</li>
+<li>Pozivanje ove komande će da nam vrati ne samo ARN pravila koje smo upravo definisali, nego i svih alarma koje će to automatski da napravi za nas.</li>
+<li>Ove alarme ne diramo mi: oni su atomatski kreirani i biće automatski i obrisani.</li>
+</ul>
+</section>
+<section id="povratna-vrednost" class="slide level2">
+<h2>Povratna vrednost</h2>
+<div class="sourceCode" id="cb13"><pre class="sourceCode json"><code class="sourceCode json"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span></span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>    <span class="dt">&quot;PolicyARN&quot;</span><span class="fu">:</span> <span class="st">&quot;arn:aws:autoscaling:region:account-id:scalingPolicy:228f02c2-c665-4bfd-aaac-8b04080bea3c:autoScalingGroupName/moja-grupa:policyName/cpu40-upravljanje-metom&quot;</span><span class="fu">,</span></span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>    <span class="dt">&quot;Alarms&quot;</span><span class="fu">:</span> <span class="ot">[</span></span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>        <span class="fu">{</span></span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>            <span class="dt">&quot;AlarmARN&quot;</span><span class="fu">:</span> <span class="st">&quot;arn:aws:cloudwatch:region:account-id:alarm:TargetTracking-moja-grupa-AlarmHigh-fc0e4183-23ac-497e-9992-691c9980c38e&quot;</span><span class="fu">,</span></span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a>            <span class="dt">&quot;AlarmName&quot;</span><span class="fu">:</span> <span class="st">&quot;TargetTracking-moja-grupa-AlarmHigh-fc0e4183-23ac-497e-9992-691c9980c38e&quot;</span></span>
+<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a>        <span class="fu">}</span><span class="ot">,</span></span>
+<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a>        <span class="fu">{</span></span>
+<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a>            <span class="dt">&quot;AlarmARN&quot;</span><span class="fu">:</span> <span class="st">&quot;arn:aws:cloudwatch:region:account-id:alarm:TargetTracking-moja-grupa-AlarmLow-61a39305-ed0c-47af-bd9e-471a352ee1a2&quot;</span><span class="fu">,</span></span>
+<span id="cb13-10"><a href="#cb13-10" aria-hidden="true" tabindex="-1"></a>            <span class="dt">&quot;AlarmName&quot;</span><span class="fu">:</span> <span class="st">&quot;TargetTracking-moja-grupa-AlarmLow-61a39305-ed0c-47af-bd9e-471a352ee1a2&quot;</span></span>
+<span id="cb13-11"><a href="#cb13-11" aria-hidden="true" tabindex="-1"></a>        <span class="fu">}</span></span>
+<span id="cb13-12"><a href="#cb13-12" aria-hidden="true" tabindex="-1"></a>    <span class="ot">]</span></span>
+<span id="cb13-13"><a href="#cb13-13" aria-hidden="true" tabindex="-1"></a><span class="fu">}</span></span></code></pre></div>
+</section>
+<section id="prediktivni-modeli-upravljanja" class="slide level2">
+<h2>Prediktivni modeli upravljanja</h2>
+<ul>
+<li>Šta je bolje od reagovanja na promenu u zahtevima prema resursima?</li>
+<li>Reagovanje <em>pre</em> nego što se promena desila.</li>
+<li>Ovo je povremeno trivijalno: ako radimo reindeksiranje svakih šest sati, onda znamo sigurno da će se zahtevi naglo povećati tačno na svakih šest sati.</li>
+<li>Ponekad predviđanje nije trivijalno, no zahteva analizu obrazaca u podacima bilo kroz ljudsku aktivnost bilo kroz automatske sisteme koji mogu biti napajani konvencionalnim algoritmima ili algoritmima mašinskog učenja.</li>
+</ul>
+</section>
+<section id="primer-obrasca" class="slide level2">
+<h2>Primer obrasca</h2>
+<p><img data-src="img/2022-12-14-05-40-14.png" /></p>
+</section>
+<section id="primer-obrasca-1" class="slide level2">
+<h2>Primer obrasca</h2>
+<ul>
+<li>Ovo su trenutni konkurentni korisnici na Steam platformi za period od 11.12.2022. do 14.12.2022.</li>
+<li>Šta možemo da naučimo gledajući ovaj grafikon?</li>
+<li>Kako bi to uticalo na naš dizajn infrastrukture?</li>
+</ul>
+</section>
+<section id="detekcija-obrazaca" class="slide level2">
+<h2>Detekcija obrazaca</h2>
+<ul>
+<li>Ponekad je dovoljno pogledati kao što je slučaj ovde</li>
+<li>Ponekad su obrasci finiji i zahtevaju ili analizu ili nekakav algoritam dobar u detekciji obrazaca</li>
+<li>AWS nudi jedan takav sistem</li>
+</ul>
+</section>
+<section id="prediktivni-modeli-u-slučaju-aws-platforme" class="slide level2">
+<h2>Prediktivni modeli u slučaju AWS platforme</h2>
+<ul>
+<li>Postoje dve forme predikcije koja se može koristiti u autoskaliranju u okviru AWS: predikcija može da bude informativna ili upravljačka.</li>
+<li>Informativna predikcija samo pokušava da ‘pogodi’ kakvo će opterećenje biti unapred i to beleži: može da se koristi da se oceni model kvaliteta.</li>
+<li>Upravljačka radi skaliranje u odnosu na to</li>
+</ul>
+</section>
+<section id="informativna-predikcija" class="slide level2">
+<h2>Informativna predikcija</h2>
+<pre><code>aws autoscaling put-scaling-policy --policy-name cpu40-informativna-predikcija \
+  --auto-scaling-group-name moja-grupa --policy-type PredictiveScaling \
+  --predictive-scaling-configuration file://config.json</code></pre>
+</section>
+<section id="config.json" class="slide level2">
+<h2><code>config.json</code></h2>
+<ul>
+<li>Ovo je isti <code>config.json</code> baš kao i onaj koji smo koristili za upravljanje vođeno metom</li>
+<li>Zašto? Zato što nas ovde samo zanima da definišemo metriku, ništa više.</li>
+</ul>
+</section>
+<section id="upravljačka-predikicija" class="slide level2">
+<h2>Upravljačka predikicija</h2>
+<ul>
+<li>Sve što treba da uradimo da se postaramo da radi upravljačka predikcija jeste da modifikujemo <code>config.json</code> tako da ubacimo da je vrednost ključa “Mode” ravna “ForecastAndScale”</li>
+<li>Sva ostala konfiguracija je identična</li>
+</ul>
+</section>
+<section id="config.json-1" class="slide level2">
+<h2><code>config.json</code></h2>
+<div class="sourceCode" id="cb15"><pre class="sourceCode json"><code class="sourceCode json"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span></span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&quot;TargetValue&quot;</span><span class="fu">:</span> <span class="fl">40.0</span><span class="fu">,</span></span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&quot;PredefinedMetricSpecification&quot;</span><span class="fu">:</span> </span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">{</span></span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>      <span class="dt">&quot;PredefinedMetricType&quot;</span><span class="fu">:</span> <span class="st">&quot;ASGAverageCPUUtilization&quot;</span></span>
+<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a>    <span class="fu">}</span></span>
+<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;Mode&quot;</span><span class="er">:</span> <span class="st">&quot;ForecastAndScale&quot;</span></span>
+<span id="cb15-8"><a href="#cb15-8" aria-hidden="true" tabindex="-1"></a><span class="fu">}</span></span></code></pre></div>
+</section>
+<section id="dozvoljeno-probijanje-granica" class="slide level2">
+<h2>Dozvoljeno probijanje granica</h2>
+<ul>
+<li>Moguće je dozvoliti upravljačkoj predikciji da probije maksimalni broj instanci grupe</li>
+<li>To služi da opsluži situaciju kada mehanizam detektuje rastući trend upotrebe koji je veći nego što su ljudski planeri očekivali, a ne sme se dozvoliti da sistem nema odziv.</li>
+<li>Kada je takva situacija, veštačka inteligencija koja je iza ovog sistema može biti ovlašćena da prekrši pravila</li>
+</ul>
+</section>
+<section id="config.json-2" class="slide level2">
+<h2><code>config.json</code></h2>
+<div class="sourceCode" id="cb16"><pre class="sourceCode json"><code class="sourceCode json"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span></span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>    <span class="dt">&quot;MetricSpecifications&quot;</span><span class="fu">:</span> <span class="ot">[</span></span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>        <span class="fu">{</span></span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>            <span class="dt">&quot;TargetValue&quot;</span><span class="fu">:</span> <span class="dv">70</span><span class="fu">,</span></span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a>            <span class="dt">&quot;PredefinedMetricPairSpecification&quot;</span><span class="fu">:</span> <span class="fu">{</span></span>
+<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a>                <span class="dt">&quot;PredefinedMetricType&quot;</span><span class="fu">:</span> <span class="st">&quot;ASGCPUUtilization&quot;</span></span>
+<span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a>            <span class="fu">}</span></span>
+<span id="cb16-8"><a href="#cb16-8" aria-hidden="true" tabindex="-1"></a>        <span class="fu">}</span></span>
+<span id="cb16-9"><a href="#cb16-9" aria-hidden="true" tabindex="-1"></a>    <span class="ot">]</span><span class="fu">,</span></span>
+<span id="cb16-10"><a href="#cb16-10" aria-hidden="true" tabindex="-1"></a>    <span class="dt">&quot;MaxCapacityBreachBehavior&quot;</span><span class="fu">:</span> <span class="st">&quot;IncreaseMaxCapacity&quot;</span><span class="fu">,</span></span>
+<span id="cb16-11"><a href="#cb16-11" aria-hidden="true" tabindex="-1"></a>    <span class="dt">&quot;MaxCapacityBuffer&quot;</span><span class="fu">:</span> <span class="dv">10</span></span>
+<span id="cb16-12"><a href="#cb16-12" aria-hidden="true" tabindex="-1"></a><span class="fu">}</span></span></code></pre></div>
+</section>
+<section id="proboj-kapaciteta" class="slide level2">
+<h2>Proboj kapaciteta</h2>
+<ul>
+<li>Prva opcija, <code>IncreaseMaxCapacity</code> dozvoljava sistemu za prediktivno upravljanje da privremeno poveća maksimalni kapacitet na onoliko koliko je predviđeno da će biti potrebno.</li>
+<li>Druga opcija, <code>MaxCapacityBuffer</code> dozvoljava sistemu da alocira nešto više resursa od predviđenih kao bezbednosni bafer</li>
+<li>U slučaju koji je prikazan, ovaj bezbednosni bafer je ravan 10% predviđenog kapaciteta</li>
+<li>Dakle ako je maksimum 30, a predviđeno je 40, moći će biti alocirano najviše 44.</li>
+</ul>
+</section>
+<section id="rizik" class="slide level2">
+<h2>Rizik</h2>
+<ul>
+<li>Treba se strašno čuvati nekontrolisanog automatskog upravljanja</li>
+<li>Skaliranje nije samo tehnička nego i ekonomska odluka</li>
+<li>Veštačko inteligentni i automatizovani sistemi nemaju ‘zdravu pamet’: oni prate svoja pravila i modele, i mogu ih veselo pratiti preko ivice litice bez ikakvog problema.</li>
+<li>U jednom trenutku, primerak “The Making of a Fly” P. A. Lorenca je bila izlistana na prodaju na Amazonu za 23 698 655 dolara i 93 centi.</li>
+<li>Što?!</li>
 </ul>
 </section></section>
     </div>
