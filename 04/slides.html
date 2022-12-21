@@ -1050,6 +1050,239 @@
 <li>Što?!</li>
 </ul>
 </section></section>
+<section>
+<section id="balansiranje-opterećenja" class="title-slide slide level1">
+<h1>Balansiranje opterećenja</h1>
+<p>Balans za horizontalno skaliranje</p>
+</section>
+<section id="mehanizam-balansiranja-opterećenja" class="slide level2">
+<h2>Mehanizam balansiranja opterećenja</h2>
+<ul>
+<li>Jako čest pristup horizontalnom skaliranju jeste da se nekakav broj zahteva rasporedi po više obrađivača</li>
+<li>Mehanizam odgovoran za ovu proceduru se zove ‘balanser opterećenja’ ili na engleskom “Load Balancer”</li>
+<li>Posao balansera je da se postara da svi zahtevi budu poslati na obradu na takav način da se mehanizimi horizontalnog skaliranja jednako opterete</li>
+</ul>
+</section>
+<section id="lokacija-balansera-opterećenja" class="slide level2">
+<h2>Lokacija balansera opterećenja</h2>
+<ul>
+<li>Balanser opterećenja može biti lociran, fizički, kao deo drugih mehanizama</li>
+<li>Može biti balansiran na samom mrežnom switch uređaju</li>
+<li>Može biti poseban dodatak na mrežnu infrastrukturu, kao odvojen uređaj</li>
+<li>Mehanizam operativnog sistema koji radi sličnu stvar, ali u okviru jednog sistema (tipično se raspoređivanje onda vrši na kontejnere)</li>
+<li>Servisni agent: nešto što pruža sam sistem za CC</li>
+</ul>
+</section>
+<section id="dodatne-funkcije-balansera-opterećenja" class="slide level2">
+<h2>Dodatne funkcije balansera opterećenja</h2>
+<ul>
+<li>Asimetrična distribucija</li>
+<li>Određivanje prioritetske obrade</li>
+<li>Distribucija svesna sadržaja</li>
+</ul>
+</section>
+<section id="asimterična-distribucija" class="slide level2">
+<h2>Asimterična distribucija</h2>
+<ul>
+<li>Najprostiji pristup jeste kada svi čvorovi za obradu imaju iste mogućnosti</li>
+<li>Ponekad ovo nije slučaj</li>
+<li>Tada, ‘fer’ distribucija nije ono što želimo</li>
+<li>Dobri balanseri mogu da to uzmu u obzir</li>
+</ul>
+</section>
+<section id="prioritetska-obrada" class="slide level2">
+<h2>Prioritetska obrada</h2>
+<ul>
+<li>Nisu svi zahtevi nužno jednako važni</li>
+<li>Balansiranje može da u sebi uvrsti i QoS mehanizme koji se staraju da određeni zahtevi budu poslati na obradu ranije</li>
+<li>Ne samo to: prioritet može da utiče i na mnoge druge faktore kao što je, recimo, ko obrađuje nešto ili koji zahtevi mogu da se odbace (ako su, recimo, zahtevi sa kratkim periodom relevancije, tj. u pitanju je periodičan zahtev za novim informacijama)</li>
+</ul>
+</section>
+<section id="distribucija-svesna-sadržaja" class="slide level2">
+<h2>Distribucija svesna sadržaja</h2>
+<ul>
+<li>Ako je zahtev podložan dubljoj inspekciji može da se usmeri ka različitim tačkama u okviru sistema u zavisnosti od toga šta se nalazi unutar zahteva</li>
+<li>Ovo je način da se aktiviraju oni servisi obrade koji su u stanju da izvrše baš ono što zahtev traži i može da bude ključan element u slabo povezanim arhitekturama aplikacije</li>
+</ul>
+</section>
+<section id="primer-balansiranja-nginx" class="slide level2">
+<h2>Primer balansiranja: <code>Nginx</code></h2>
+<ul>
+<li><code>Nginx</code> je softver koji je primarno web server</li>
+<li>Zbog toga što je neobično performantan, <code>nginx</code> se često koristi kao softver-baziran balanser</li>
+<li>U ovoj arhitekturi, umesto hardverskog uređaja za balansiranje, spoljni saobraćaj dolazi do jednog računara na kome se izvršava <code>nginx</code> koji onda zahteve koje dobija šalje dalje, u skladu sa nekim pravilima.</li>
+</ul>
+</section>
+<section id="izvori" class="slide level2">
+<h2>Izvori</h2>
+<p>Primeri za <code>nginx</code> konfiguraciju su povučeni iz zvanične dokumentacije dostupne na <a href="https://docs.nginx.com/nginx/admin-guide/">docs.nginx.com/nginx/admin-guide/</a></p>
+</section>
+<section id="nginx-konfiguracija-za-balansiranje" class="slide level2">
+<h2><code>Nginx</code> konfiguracija za balansiranje</h2>
+<pre><code>http {
+    upstream backend {
+        server backend1.example.com weight=5;
+        server backend2.example.com;
+        server 192.0.0.1 backup;
+    }
+}</code></pre>
+</section>
+<section id="konfiguracija-za-balansiranje" class="slide level2">
+<h2>Konfiguracija za balansiranje</h2>
+<ul>
+<li>Ovo predstavlja kolekciju servera definisanih u okviru grupe ‘backend’</li>
+<li>Primetite da osim što server ima hostname ili IP ima i druge parametre</li>
+<li><code>weight</code> služi da se radi asimetrična distribucija zahteva tako što se nekom odredištu daje veća ‘težina’ u distribuciji</li>
+<li><code>backup</code> direktiva znači da dati server ima težinu 0 osim ako ostali serveri nisu isključeni</li>
+</ul>
+</section>
+<section id="konfiguracija-za-balansiranje-1" class="slide level2">
+<h2>Konfiguracija za balansiranje</h2>
+<pre><code>server {
+    location / {
+        proxy_pass http://backend;
+    }
+}</code></pre>
+</section>
+<section id="konfiguracija-za-balansiranje-2" class="slide level2">
+<h2>Konfiguracija za balansiranje</h2>
+<ul>
+<li>Ovo definiše novi server koji sve zahteve koji stižu na korenski URI šalje dalje koristeći ‘backend’ grupu</li>
+<li>Ovo znači, naravno, da bi ovaj server mogao i da šalje zahteve različitim grupama u zavisnosti od putanje</li>
+</ul>
+</section>
+<section id="metode-podele" class="slide level2">
+<h2>Metode podele</h2>
+<ul>
+<li><code>Nginx</code> podržava veliki broj mehanizama za balansiranje:
+<ul>
+<li>Round robin</li>
+<li>Nanjmanje veza</li>
+<li>IP heširanje</li>
+<li>Opšti heš</li>
+<li>Najmanje vremena</li>
+<li>Nasumično</li>
+</ul></li>
+</ul>
+</section>
+<section id="round-robin" class="slide level2">
+<h2>Round robin</h2>
+<pre><code>upstream backend {
+   # Ovde ide specifikacija tipa podele, ali za round robin ne ide ništa
+   server backend1.example.com;
+   server backend2.example.com;
+}</code></pre>
+</section>
+<section id="najmanje-veza" class="slide level2">
+<h2>Najmanje veza</h2>
+<pre><code>upstream backend {
+    least_conn;
+    server backend1.example.com;
+    server backend2.example.com;
+}</code></pre>
+</section>
+<section id="najmanje-veza-1" class="slide level2">
+<h2>Najmanje veza</h2>
+<ul>
+<li>Ovo jednostavno raspoređuje zahteve onom serveru ka kome trenutno ima najmanji broj aktivnih veza (uzimajući težine servera u obzir, naravno)</li>
+</ul>
+</section>
+<section id="ip-heširanje" class="slide level2">
+<h2>IP heširanje</h2>
+<pre><code>upstream backend {
+    ip_hash;
+    server backend1.example.com;
+    server backend2.example.com;
+}</code></pre>
+</section>
+<section id="ip-heširanje-1" class="slide level2">
+<h2>IP heširanje</h2>
+<ul>
+<li>Ovde se rasponi heš vrednosti distribuiraju između servera tako da je svaki odgovoran za neki deo ukupnog heš prostora</li>
+<li>Ovo se najlakše može raditi modulo aritmetikom</li>
+<li>Zatim se prva tri okteta dolazeće IPv4 adrese, odn. cela IPv6 adresa hešraju i na osnovu toga se određuje koji server će obraditi zahtev</li>
+</ul>
+</section>
+<section id="ip-heširanje-2" class="slide level2">
+<h2>IP Heširanje</h2>
+<ul>
+<li>Uzimajući u pretpostavku da zahtevi dolaze uniformno sa različitih adresa, ovo se stara da distribucija bude ‘fer’</li>
+<li>Takođe, kao bonus, isto ishodište zahteva će uvek dobiti isti server, što je jasan bonus</li>
+</ul>
+</section>
+<section id="opšti-heš" class="slide level2">
+<h2>Opšti heš</h2>
+<pre><code>upstream backend {
+    hash $request_uri consistent;
+    server backend1.example.com;
+    server backend2.example.com;
+}</code></pre>
+</section>
+<section id="opšti-heš-1" class="slide level2">
+<h2>Opšti heš</h2>
+<ul>
+<li>Ovde je sve isto kao IP heš, ali se hešira nešto drugo (recimo URI zahteva)</li>
+<li><code>Consistent</code> znači da se koristi Ketama mehanizam koji omogućava da, kada serveri padnu, heš se adaptira</li>
+<li>Zašto bi ovo hteli?</li>
+</ul>
+</section>
+<section id="najmanje-vremena" class="slide level2">
+<h2>Najmanje vremena</h2>
+<pre><code>upstream backend {
+    least_time header;
+    server backend1.example.com;
+    server backend2.example.com;
+}</code></pre>
+</section>
+<section id="najmanje-vremena-1" class="slide level2">
+<h2>Najmanje vremena</h2>
+<ul>
+<li>Najmanje vremena je tehnika koja kao faktor distribucije uzima server sa najmanje veza <em>i</em> najkraćim kašnjenjem.</li>
+<li>Kašnjenje se može meriti na nekoliko načina:
+<ul>
+<li><code>header</code> - do dolaska prvog bajta zaglavlja odgovora</li>
+<li><code>last_byte</code> - do dolaska zadnjeg bajta punog odgovora</li>
+<li><code>last_byte inflight</code> - do punog odgovora, uzimajući u obzir nekompletne zahteve</li>
+</ul></li>
+</ul>
+</section>
+<section id="nasumično" class="slide level2">
+<h2>Nasumično</h2>
+<pre><code>upstream backend {
+    random two least_time=last_byte;
+    server backend1.example.com;
+    server backend2.example.com;
+    server backend3.example.com;
+    server backend4.example.com;
+}</code></pre>
+</section>
+<section id="nasumično-1" class="slide level2">
+<h2>Nasumično</h2>
+<ul>
+<li>Random direktiva određuje server nasumično</li>
+<li>Ovo je obično suviše haotično za stvarnu primenu, tako da se često koristi <code>two</code> pod-direktiva koja garantuje nasumičan odabir dva kandidata</li>
+<li>Između ta dva kandidata se bira jedan koji će primiti zahtev</li>
+</ul>
+</section>
+<section id="nasumično-2" class="slide level2">
+<h2>Nasumično</h2>
+<ul>
+<li>Odabir između dva kandidata može da bude po tri kriterijuma
+<ul>
+<li><code>least_conn</code></li>
+<li><code>least_time=header</code></li>
+<li><code>least_time=last_byte</code></li>
+</ul></li>
+</ul>
+</section>
+<section id="nasumično-3" class="slide level2">
+<h2>Nasumično</h2>
+<ul>
+<li>Nasumična distribucija, čak i uz modifikaciju <code>two</code> direktive je nepraktična za običnu primenu</li>
+<li>Koristi se u distribuiranim situacijama u kojima više balansera šalje zahteve istom skupu back-end čvorova.</li>
+<li>Ako imamo bolji uvid u situaciju sa pozicije centralnog sistema za balansiranje opterećenja, uvek ima boljih tehnika od ‘nasumično’</li>
+</ul>
+</section></section>
     </div>
   </div>
 
