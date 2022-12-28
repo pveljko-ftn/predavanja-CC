@@ -1282,6 +1282,160 @@
 <li>Koristi se u distribuiranim situacijama u kojima više balansera šalje zahteve istom skupu back-end čvorova.</li>
 <li>Ako imamo bolji uvid u situaciju sa pozicije centralnog sistema za balansiranje opterećenja, uvek ima boljih tehnika od ‘nasumično’</li>
 </ul>
+</section>
+<section id="load-balancing-primer-2---aws" class="slide level2">
+<h2>Load Balancing primer 2 - AWS</h2>
+<ul>
+<li>Amazon zove ovo ‘ELB’ odnosno ‘Elastic Load Balancing’ i nudi ovu uslugu u nekoliko različitih <em>nivoa</em></li>
+<li>Ovaj pristup sa nivoima ilustruje kompleksnu varijaciju koja postoji u tehnologijama balansiranja</li>
+<li>Ilustracije iz ove sekcije su povučene direktno sa AWS dokumentacije</li>
+</ul>
+</section>
+<section id="nivoi-balansiranja-u-elb" class="slide level2">
+<h2>Nivoi balansiranja u ELB</h2>
+<ul>
+<li>Gateway odn. Ruterski</li>
+<li>Network odn. Mrežni</li>
+<li>Application Load Balancer odn. Aplikativni</li>
+</ul>
+</section>
+<section id="gateway-nivo" class="slide level2">
+<h2>Gateway nivo</h2>
+<ul>
+<li>Ideja iza gateway nivoa balansiranja jeste balansiranje između individualnih IP-ova</li>
+<li>Ono što se distribuira su <em>paketi</em></li>
+<li>Efektivno, ovaj mehanizam stoji na mrežnim rutama između izvora zahteva i odredištima zahteva i nevidljivo menja putanje</li>
+</ul>
+</section>
+<section id="gateway-arhitektura" class="slide level2">
+<h2>Gateway arhitektura</h2>
+<p><img data-src="img/2022-12-28-05-25-59.png" /></p>
+</section>
+<section id="mrežni-nivo-pristupa" class="slide level2">
+<h2>Mrežni nivo pristupa</h2>
+<ul>
+<li>Mrežni nivo pristupa je pozicioniran jedan nivo više u OSI hijerarhiji</li>
+<li>Modifikacije se prave na nivou TCP/UDP veza</li>
+<li>Ono što se rutira su sada <em>veze</em> odnosno TCP segmenti i UDP datagrami</li>
+<li>Osim što podržava usmeravanje na tom nivou, može da se poveže i sa balansiranjem na nivou aplikacije</li>
+</ul>
+</section>
+<section id="mrežna-arhitektura" class="slide level2">
+<h2>Mrežna arhitektura</h2>
+<p><img data-src="img/2022-12-28-05-31-54.png" /></p>
+</section>
+<section id="aplikativni-nivo" class="slide level2">
+<h2>Aplikativni nivo</h2>
+<ul>
+<li>Aplikativni nivo balansira opterećenjem na način koji je svestan aplikacija koje se izvršavaju nad sistemom</li>
+<li>On je, dakle, na sedmom OSI sloju</li>
+<li>Podržava ulaze koji su HTTP/S, WebSocket, gRPC i usmerava te na sve od individualnih adresa do grupa za skaliranje</li>
+<li>Zbog toga što je svestan strukture aplikacije, tokovi saboraćaja se mogu kontrolisati na mnogo fleksibilniji način</li>
+</ul>
+</section>
+<section id="arhitektura-aplikativnog-nivoa" class="slide level2">
+<h2>Arhitektura aplikativnog nivoa</h2>
+<p><img data-src="img/2022-12-28-05-38-43.png" /></p>
+</section>
+<section id="primer-generisanja-konfiguracije-za-balanser-aplikativnog-nivoa" class="slide level2">
+<h2>Primer generisanja konfiguracije za balanser aplikativnog nivoa</h2>
+<pre><code>aws elbv2 create-load-balancer --name balanser0  \
+--subnets $SUBNET0 $SUBNET1 \
+--security-groups $SG0 --ip-address-type dualstack</code></pre>
+</section>
+<section id="primer-generisanja-konfiguracije-za-balanser-aplikativnog-nivoa-1" class="slide level2">
+<h2>Primer generisanja konfiguracije za balanser aplikativnog nivoa</h2>
+<ul>
+<li>elbv2 je samo odabir grupe funkcija koja se koristi, to je normalno</li>
+<li>Primetite da moramo definisati više javnih mreža; u skladu sa dokumentacijom one su javne i pripadaju različitim zonama dostupnosti</li>
+<li><code>dualstack</code> opcija nije neophodna, ona samo omogućava da se koristi i IPv4 i IPv6 istovremeno</li>
+<li>Ova komanda vraća ARN koji identifikuje ‘balanser0’ imaće oblik tipa <code>arn:aws:elasticloadbalancing:us-east-2:123456789012:loadbalancer/app/balanser0/1234567890123456</code></li>
+<li>Kada treba da je pomenemo, mi kažemo: $LBARN</li>
+</ul>
+</section>
+<section id="digresija-zone-dostupnosti" class="slide level2">
+<h2>Digresija: ‘zone dostupnosti’</h2>
+<ul>
+<li>Zone dostupnosti je AWS termin za relativno nezavisne grupacije serverskih resursa koje postoje u okviru nekog geografskog regiona.</li>
+<li>Služe da budu međusobno jako dobro povezane dok su istovremeno maksimalno nezavisne: ideja je ako eksplodira transformator ili tako nešto u jednoj, da druge mogu da nastave da rade nesmetano.</li>
+<li>Upotreba ovih zona je, predividivo, neophodna za istinski robusno korišćenje oblaka</li>
+<li>Amazon nije jedini koji ovo nudi, naravno.</li>
+</ul>
+</section>
+<section id="kreiranje-grupe-meta" class="slide level2">
+<h2>Kreiranje grupe meta</h2>
+<pre><code>aws elbv2 create-target-group --name moje-mete --protocol HTTP --port 80 \
+--vpc-id $VPC0 --ip-address-type ipv4</code></pre>
+</section>
+<section id="kreiranje-grupe-meta-1" class="slide level2">
+<h2>Kreiranje grupe meta</h2>
+<ul>
+<li>Ovde kreiramo mete na koje će biti usmereni zahtevi</li>
+<li>Primetite da su ovo zahtevi koji idu na port <em>80</em></li>
+<li>VPC0 je virtuelna mreža u kojoj se nalaze EC2 instance koje obrađuju zahteve</li>
+<li>Ovo će vratiti ARN koji zovemo $TARN</li>
+</ul>
+</section>
+<section id="kreiranje-grupe-meta-2" class="slide level2">
+<h2>Kreiranje grupe meta</h2>
+<pre><code>aws elbv2 register-targets --target-group-arn $TARN  \
+--targets Id=$INSTANCE0 Id=$INSTANCE1</code></pre>
+</section>
+<section id="kreiranje-grupe-meta-3" class="slide level2">
+<h2>Kreiranje grupe meta</h2>
+<ul>
+<li>Ovim se registruju odredišta za load balancing</li>
+<li>Ovde eksplicitno imenujemo (virtuelne) računare</li>
+<li>Mogli smo da imenujemo (preko odgovarajućeg ARN-a) i Lambda instance, ili da stavimo IP adrese direktno ili čak ARN-ove drugih balansera</li>
+<li>Da bi ovo integrisali sa auto-skaliranjem od ranije moramo da specificiramo povezivanje sa load balanserom tokom pravljenja grupe za autoskaliranje</li>
+</ul>
+</section>
+<section id="povezivanje-elb-a-i-grupe-meta" class="slide level2">
+<h2>Povezivanje ELB-a i grupe meta</h2>
+<pre><code>aws elbv2 create-listener --load-balancer-arn $LBARN \
+--protocol HTTP --port 80  \
+--default-actions Type=forward,TargetGroupArn=$TARN</code></pre>
+</section>
+<section id="https-podrška" class="slide level2">
+<h2>HTTPS podrška</h2>
+<ul>
+<li>Bezbednost je, naravno, ključna stvar kada se priča o podršci u oblaku</li>
+<li>Ovo stvara zanimljiv problem: ako imamo, potencijalno, 150 instanci koje uslužuju zahteve i ako želimo da koristimo HTTPS podršku sa klijentima (a danas, nema opravdanja da to ne činimo) gde se onda nalazi serverski sertifikat?</li>
+<li>Valja napomenuti da su serverski sertifikati <em>privatni ključevi</em> kojima potpisujemo naš saobraćaj napolje i koji spoljašnji klijenti koriste da verifikuju naš identitet</li>
+</ul>
+</section>
+<section id="menadžment-ključevima" class="slide level2">
+<h2>Menadžment ključevima</h2>
+<ul>
+<li>Da li onda ovo znači da naše unapred-spremne konfiguracije moraju da imaju, kao deo svega toga, privatan ključ u nekakvom fajlu?</li>
+<li>Ovo je bezbednosna noćna mora: odjednom je bukvalno najosetljiviji podatak koji imamo dostupan jako široko</li>
+<li>Još gore, u formi je <strong>fajla</strong> koji može da se očita, kopira, eksfiltrira…</li>
+<li>Nikada, ikada ne želimo da je naš ključ u obliku da može da se jednostavno pročita (Šta je alternativa?)</li>
+</ul>
+</section>
+<section id="https-offloading" class="slide level2">
+<h2>HTTPS offloading</h2>
+<ul>
+<li>Možda ste ranije videli na dijagramima odavde ovu frazu</li>
+<li>Ideja je da, kao deo vašeg ELB sistema takođe se postarate da odradite sve što treba za HTTPS transparentno</li>
+<li>Vaše instance onda mogu da žive u lepom, mirnom HTTP svetu (zato što je sav interni saobraćaj enkriptovan)</li>
+<li>A vi pristupate osetljivim kriptografskim podacima na jednom centralizovanom mestu</li>
+</ul>
+</section>
+<section id="podešavanje-https" class="slide level2">
+<h2>Podešavanje HTTPS</h2>
+<pre><code>aws elbv2 create-listener --load-balancer-arn $LBARN \
+--protocol HTTPS --port 443  \
+--certificates CertificateArn=$CARN \
+--default-actions Type=forward,TargetGroupArn=$TARN</code></pre>
+</section>
+<section id="odakle-vam-carn" class="slide level2">
+<h2>Odakle vam CARN?</h2>
+<ul>
+<li>Amazon ima mehanizam koji automatizovano generiše, upravlja sa, i obnavlja sertifikate (i povezane privatne ključeve, naravno) za vaše sajtove.</li>
+<li>Možete takođe koristiti ovu infrastrukturu da čuvate ključeve koje vam je neko drugi dao</li>
+<li>Čak možete da podignete vaš sopstveni rootCA i onda upravljate sertifikatima koje sami izdajete uz upotrebu CloudHSM mehanizma da bi ste čuvali vaš rootCA.</li>
+</ul>
 </section></section>
     </div>
   </div>
