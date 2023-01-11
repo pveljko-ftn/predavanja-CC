@@ -1437,6 +1437,239 @@
 <li>Čak možete da podignete vaš sopstveni rootCA i onda upravljate sertifikatima koje sami izdajete uz upotrebu CloudHSM mehanizma da bi ste čuvali vaš rootCA.</li>
 </ul>
 </section></section>
+<section>
+<section id="menadžment-bezbednošću-sa-harverskom-potporom" class="title-slide slide level1">
+<h1>Menadžment bezbednošću sa harverskom potporom</h1>
+<p>‘Skupa’ bezbednost</p>
+</section>
+<section id="terminologija" class="slide level2">
+<h2>Terminologija</h2>
+<ul>
+<li>Menadžment bezbednošću sa hardverskom potporom je generički termin za familiju tehnologija gde se poseban bezbednosni hardver koristi za posebne funkcije bezbednosti.</li>
+<li>Ovo se razlikuje od toga što je hardver neophodan da bi računar imao <em>bilo kakve</em> mehanizme bezbednosti, budući da sve to zavisi od harvera dizajniranog za tu svrhu.</li>
+<li>Ovde govorimo o hardveru koji pruža funkcije bezbednosti koje su nezavisne od i na neki način ‘iznad’ npr. procesora.</li>
+</ul>
+</section>
+<section id="lokus-kontrole" class="slide level2">
+<h2>Lokus kontrole</h2>
+<ul>
+<li>Još jedna ključna razlika je u lokusu kontrole: ko ima kontrolu nad uređajem i kodom koji se izvršava na njemu.</li>
+<li>Tehnike klasične bezbednosti već razdvajaju kod: po virtuelnim mašinama ili kao privilegovan i neprivilegovan kod, vlasnik hardvera ima apsolutnu kontrolu nad tim šta se izvršava gde.</li>
+<li>Kod hardverskih bezbednosnih komponenti o kojima hoćemo da pričamo, u pitanju je <em>proizvođač</em> koji ima lokus kontrole ili, često, ne čak ni proizvođač no lokus pripada samom uređaju koji ima gvozdena pravila o tome šta sme kako da se izvršava i ko sme šta da vidi i to što mi imamo hardver nam ne dozvoljava da biramo šta će da se izvršava.</li>
+</ul>
+</section>
+<section id="problem-predpostavke-poverenja" class="slide level2">
+<h2>Problem predpostavke poverenja</h2>
+<ul>
+<li>Ovo znači da, ako koristimo ovakve sisteme (a ako koristimo CC, koristimo ih, ovako ili onako) ti uređaji izvršavaju kod o kome mi ništa ne znamo, i nad kojim nemamo kontrolu.</li>
+<li>Najosetljivije operacije našeg računara onda postanu stvar neprozirne crne kutije.</li>
+<li>Ovo je potencijalno veliki problem iz tri glavna razloga:
+<ul>
+<li>Institucijalna uverenost</li>
+<li>Akrecija poverenja</li>
+<li>SPOF</li>
+</ul></li>
+</ul>
+</section>
+<section id="uverenost" class="slide level2">
+<h2>Uverenost</h2>
+<ul>
+<li>Često je slučaj da ne samo što moramo da učinimo računarski sistem bezbednim na način da smo mi zadovoljni ili da su naši klijenti zadovoljni, no možda moramo da dokažemo bezbednost nekoj trećoj strani.</li>
+<li>Ta treća strana može (i često ima) veoma specifične standarde koji određuju šta je to, tačno, ‘bezbedno’</li>
+<li>Veliki deo ovog ‘uveravanja’ jeste da postoji ogromna transparentnost oko toga kako sistem radi: gotovo uvek to znači da će kod biti deljen da bi mogla da se radi nezavisna provera bezbednosti.</li>
+<li>Ako ključni elementi bezbednosti žive u crnoj kutiji, uveravanje će ići mnogo teže.</li>
+</ul>
+</section>
+<section id="akrecija-poverenja" class="slide level2">
+<h2>Akrecija poverenja</h2>
+<ul>
+<li>Ako proizvođač hardverskog bezbednosnog sistema ima kontrolu nad njim (što nije uvek slučaj) i ako ta kontrola se odražava u posedovanju određenih tajni, kriptografskih i drugačijih, onda je nužno da se veruje da proizvođač:</li>
+<li>Nikad neće zloupotrebiti te podatke</li>
+<li>Nikada neće prodati te podatke</li>
+<li>Nikad neće biti pravnim putem prinuđen da oda te podatke</li>
+<li>Nikad neće, nehatom, ‘procureti’ podatke</li>
+<li>Ovo je puno poverenja da se stavi u jedan entitet</li>
+</ul>
+</section>
+<section id="spof" class="slide level2">
+<h2>SPOF</h2>
+<ul>
+<li>Kratko rečeno: ako je sva bezbednost podređena hardverskom sistemu i taj jedan sistem je provaljen, onda je ceo ostatak bezbednosnog sistema i sistema koji vrši upravljanjem rizika u slučaju bezbednosnog proboja nebitan.</li>
+<li>Za nekakve sisteme ovo je sasvim neprihvatljivo.</li>
+</ul>
+</section>
+<section id="prednosti" class="slide level2">
+<h2>Prednosti</h2>
+<ul>
+<li>Ako imamo sve ove probleme, što koristimo ovo?</li>
+<li>Zato što ima stvari koje ne možemo da uradimo bez njih.</li>
+<li>U slučaju jednog računara predstavljaju jedinu moguću odbranu od ‘zla sobarica’ napada</li>
+<li>Anatomija direktnog pristupa.</li>
+</ul>
+</section>
+<section id="prednosti-u-cc-okruženju" class="slide level2">
+<h2>Prednosti u CC okruženju</h2>
+<ul>
+<li>U CC okruženju to da neka treća strana ima pristup našem hardveru je data stvar</li>
+<li>Plus, jednako ‘data’ je i stvar da će naš hardver da dele drugi korisnici, a ma koji od njih mogu biti maliciozni.</li>
+<li>Ponekad hardverska bezbednost je sve što možemo uraditi.</li>
+</ul>
+</section>
+<section id="šta-to-tačno-radi-hardverkski-uređaj-bezbednosti" class="slide level2">
+<h2>Šta to tačno radi hardverkski uređaj bezbednosti?</h2>
+<ul>
+<li>Glavna funkcija ovakvih uređaja jeste da se stvori nekakva particija računarskog sistema, virtuelizovanog ili ne, koja igra po sopstvenim pravilima.</li>
+<li>Zamislimo, recimo, da imamo ‘particiju’ koja čuva naše ključeve u regionu memorije kome se ne može čak ni <strong>teoretski</strong> pristupiti.</li>
+<li>Onda ne moramo da se plašimo da će neko ukrasti ključ: ne može a da fizički ne iščupa komad hardvera iz našeg računarskog sistema, a to bi primetili.</li>
+<li>Kako bi izgledao hardverski uređaj bezbednosti koji nas štiti od ‘zle sobarice?’</li>
+</ul>
+</section>
+<section id="kriptografski-moduli" class="slide level2">
+<h2>Kriptografski moduli</h2>
+<ul>
+<li>Centralna ideja za kripto-modul dolazi iz vrlo ozbiljnog problema čuvanja nekakve kriptografske tajne</li>
+<li>Ako je tajna kompromitovana, naročito ako o tome nije svestan vlasnik tajne, sva buduća upotreba kripto-sistema koji se oslanja na tu tajnu je kompromitovana.</li>
+<li>Problem je što na konvencionalnom računarskom sistemu tok podataka je <strong>namerno</strong> maksimalno lak: ako možemo da nešto šifrujemo, onda možemo da pristupimo ključu da bi ga čitali, a onda moramo da možemo i da ga ukrademo.</li>
+</ul>
+</section>
+<section id="kriptografski-moduli-1" class="slide level2">
+<h2>Kriptografski moduli</h2>
+<ul>
+<li>Ako implementiramo, onda, kriptografiju kroz običan softver tajne koje koriste moraju biti negde na disku i negde u memoriji i to znači da ovako ili onako mogu da budu ekstrahovane.</li>
+<li>Ovo je veoma često neprihvatljivo</li>
+<li>Kao rezultat kriptografkse operacije se često implementiraju u posebnim integrisanim kolima</li>
+<li>Ta integrisana kola (najčešće nekakva kartica ili tako što) se zovu ‘kriptografski modul’ ili ‘hardverski bezbednosni modul’</li>
+<li>Ozbiljni provajderi cloud usluga će vam iznajmiti ekskluzivan pristup ovakvim uređajima ako to želite.</li>
+</ul>
+</section>
+<section id="što-kripto-modul" class="slide level2">
+<h2>Što kripto modul?</h2>
+<ul>
+<li>Izolacija algoritma</li>
+<li>Izolacija tajni</li>
+<li>Performanse</li>
+<li>Otpornost na subverziju</li>
+<li>Evidentnost subverzije</li>
+</ul>
+</section>
+<section id="izolacija-algoritma" class="slide level2">
+<h2>Izolacija algoritma</h2>
+<ul>
+<li>Vrlo je teško napisati dobru implementaciju kripto-sistema kao što smo dobro i sami saznali</li>
+<li>Imati implementaciju koja je već prošla rigoroznu validaciju je dobra stvar, ali naravno, i dobra biblioteka čini isto</li>
+<li>Ali ima i dublja prednost u izolaciji</li>
+</ul>
+</section>
+<section id="izolacija-algoritma-1" class="slide level2">
+<h2>Izolacija algoritma</h2>
+<ul>
+<li>Naš kriptografski kod, bilo da smo ga sami pisali ili da koristimo kvalitetnu biblioteku se izvršava na istom mestu kao i sav drugi kod</li>
+<li>Sav taj drugi kod, u modernom programerskom svetu, verovatno ima čitavu ‘šumu’ paketa i modula od kojih zavisi</li>
+<li>Ti paketi i moduli, sa druge strane, zavise od druge šume paketa i modula</li>
+<li>Kontrola ovoga, naročito ako uzmete to kako se menjaju verzije je <em>jako</em> teška.</li>
+</ul>
+</section>
+<section id="izolacija-algoritma-2" class="slide level2">
+<h2>Izolacija algoritma</h2>
+<ul>
+<li>Sve ove zavisnosti pružaju kataklizmično ogromnu površinu za napade ili kroz ranjivosti i greške u samim tim dodatnim modulima koje možda dozvoljavaju nekakavu lukavu tehniku pristupa sa strane memoriji koju koristimo za kriptografiju</li>
+<li>Stvar je još gora: maliciozni paketi omogućavaju da se lansira napad iz <em>unutrašnjosti</em> našeg koda: odatle je pristup kriptografskim tajnama direktan i trenutan.</li>
+</ul>
+</section>
+<section id="flatmap-stream" class="slide level2">
+<h2><code>flatmap-stream</code></h2>
+<ul>
+<li>U novembru 2018 je oktriveno da je napadač pruzeo ulogu održavanja na FOSS paketu <code>flatmap-stream</code> koji je u okviru <code>npm</code> sistema bio dependency jako puno korišćene <code>event-stream</code> biblioteke.</li>
+<li>Kada su preuzeli kontrolu, napadač je objavio novu verziju, 3.3.6 koja je bila ista kao i prethodna samo što je još i krala kripto-valutu (<em>naravno</em> da jeste)</li>
+<li>Napad je bio potpuno socijalan: napadač je ubedio ljude da će biti odgovoran vlasnik tog projekta</li>
+</ul>
+</section>
+<section id="post-hoc-trojanski-konj" class="slide level2">
+<h2>Post-hoc trojanski konj</h2>
+<ul>
+<li>Sav kod u okviru jedne aplikacije se izvršava sa istim privilegijama i deli isti memorijski prostor</li>
+<li>To znači da ako neko uspe da infiltrira maliciozni dependency u sistem već ima <em>potpunu kontrolu.</em></li>
+<li>Nema potrebe ništa drugo da radi, već je vlasnik vašeg sistema.</li>
+</ul>
+</section>
+<section id="post-hoc-trojanski-konj-napad" class="slide level2">
+<h2>Post-hoc trojanski konj napad</h2>
+<ol type="1">
+<li>Napisati korisnu biblioteku na nekom velikom javnom repozitorijumu: npm, pypi, NuGet… ili preuzeti postojeću kroz socijalni inženjering.</li>
+<li>Sačekati da ta biblioteka postane široko korišćena, idealno kao dependency nečega još popularnijeg.</li>
+<li>Modifikovati biblioteku tako da radi nešto maliciozno</li>
+</ol>
+</section>
+<section id="post-hoc-trojanski-konj-napad-1" class="slide level2">
+<h2>Post-hoc trojanski konj napad</h2>
+<ul>
+<li>Tačno se ovo i desilo popularnoj bibloteci <code>electron-native-notify</code></li>
+<li>A ne samo i njoj nego i još par drugih NPM paketa</li>
+</ul>
+</section>
+<section id="par" class="slide level2">
+<h2>…par…</h2>
+<ul>
+<li>Axioss</li>
+<li>Axios-http</li>
+<li>Body-parse-xml</li>
+<li>Sparkies</li>
+<li>Js-regular</li>
+<li>File-logging</li>
+<li>Mysql-koa</li>
+<li>Import-mysql</li>
+<li>Mogodb</li>
+<li>Mogobd</li>
+<li>Mogoose</li>
+<li>Mogodb-core</li>
+<li>Node-ftp</li>
+<li>Serializes</li>
+<li>Serilize</li>
+<li>Kao-body-parse</li>
+<li>Node-spdy</li>
+</ul>
+</section>
+<section id="joj" class="slide level2">
+<h2>Joj</h2>
+<ul>
+<li>Ovo je samo jedan prolaz kroz arhive koji je već zastareo</li>
+<li><em>Ekstremna</em> pažnja je neophodna da se obezbedi programersko ogruženje</li>
+</ul>
+</section>
+<section id="izolacija-tajni" class="slide level2">
+<h2>Izolacija tajni</h2>
+<ul>
+<li>Već pomenuto: sve što je u memoriji je, teoretski, čitljivo</li>
+<li>Čak i ako je nešto u memoriji drugog procesa ili druge virtuelne mašine, postoji <em>nekakva</em> sekvenca koraka koja tu memoriju iščitava: tu je, na istim je adresnim linijama.</li>
+<li>HSM-ovi mogu da čuvaju tajne u posebnoj memoriji koju samo oni mogu da čitaju</li>
+<li>Alternativa je još ozbiljnija: memorija koja se <em>fizički</em> ne može kopirati</li>
+</ul>
+</section>
+<section id="memorija-koja-se-ne-može-kopirati" class="slide level2">
+<h2>Memorija koja se ne može kopirati</h2>
+<ul>
+<li>Klasičan HSM pristup jeste da se jednostavno napravi obična memorija koju samo sme da čita specijalizovan čip kome je naređeno da nikome ne oda sadržaj i koja je inženjerisana tako da se samouništi u slučaju da neko pokuša da manipuliše uređajem</li>
+<li>Mučna ranija istorija je pokazala da nismo baš… 100% kada je u pitanju pravljenje ovakvih uređaja.</li>
+<li>Alternativa je nešto što, štagod da se desilo, <em>ne može</em> da se kopira.</li>
+</ul>
+</section>
+<section id="fizički-neklonabilne-funkcije" class="slide level2">
+<h2>Fizički neklonabilne funkcije</h2>
+<ul>
+<li>Fizički neklonabilne funkcije uzimaju nesavršenosti i pretvaraju ih u prednost</li>
+<li>Svako integrisano kolo ima malecne varijacije u ponašanju</li>
+<li>Te malecne varijacije su manje-više jedinstvene i nasumične (proističu iz defekta u proizvodnji) i ako bi pokušali da ih kopiramo, uništili bi tokom analize baš te tanane varijacije koje te razlike stvaraju.</li>
+<li>PUF uzima te nesavršenosti i pojačava ih do nivoa da ih je lako iščitati.</li>
+</ul>
+</section>
+<section id="primer-puf-a" class="slide level2">
+<h2>Primer PUF-a</h2>
+<p><img data-src="img/2023-01-11-06-29-56.png" /></p>
+</section>
+<section id="primer-puf-a-1" class="slide level2">
+<h2>Primer PUF-a</h2>
+<p>Slika iz: Mostafa, A., Lee, S. J., &amp; Peker, Y. K. (2020). Physical Unclonable Function and Hashing Are All You Need to Mutually Authenticate IoT Devices. Sensors (Basel, Switzerland), 20(16), 4361. https://doi.org/10.3390/s20164361 Creative Commons Attribution License</p>
+</section></section>
     </div>
   </div>
 
