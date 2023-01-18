@@ -1,0 +1,543 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="generator" content="pandoc">
+  <meta name="author" content="Veljko Petrović">
+  <title>Arhitekture CC</title>
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
+  <link rel="stylesheet" href="https://unpkg.com/reveal.js@^4//dist/reset.css">
+  <link rel="stylesheet" href="https://unpkg.com/reveal.js@^4//dist/reveal.css">
+  <style>
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    span.underline{text-decoration: underline;}
+    div.column{display: inline-block; vertical-align: top; width: 50%;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    ul.task-list{list-style: none;}
+  </style>
+  <link rel="stylesheet" href="https://unpkg.com/reveal.js@^4//dist/theme/night.css" id="theme">
+  <link rel="stylesheet" href="slides.css"/>
+</head>
+<body>
+  <div class="reveal">
+    <div class="slides">
+
+<section id="title-slide">
+  <h1 class="title">Arhitekture CC</h1>
+  <p class="author">Veljko Petrović</p>
+  <p class="date">Januar, 2023</p>
+</section>
+
+<section id="arhitekture-cloud-computing" class="title-slide slide level1">
+<h1>Arhitekture  Cloud Computing </h1>
+<p>Načini organizacije resursa</p>
+</section>
+
+<section>
+<section id="osnovne-arhitekture-cc" class="title-slide slide level1">
+<h1>Osnovne arhitekture CC</h1>
+
+</section>
+<section id="arhitektura-distribucije-posla" class="slide level2">
+<h2>Arhitektura distribucije posla</h2>
+<ul>
+<li>Workload distribution architecture</li>
+<li>Ovo je bazična inkarnacija onoga što već neko vreme radimo</li>
+<li>Replikacija resursa i load balancer ispred svega toga</li>
+</ul>
+</section>
+<section id="arhitektura-kombinacije-resursa" class="slide level2">
+<h2>Arhitektura kombinacije resursa</h2>
+<ul>
+<li>Resource pooling architecture</li>
+<li>Još jedna fundamentalna stvar koju smo obradili</li>
+<li>Ovde je situacija kada želimo da kombinujemo više resursa u jednu celinu i onda uzimamo koliko treba</li>
+<li>Ovo je jako bitan element CC arhitekture</li>
+</ul>
+</section>
+<section id="arhitektura-kombinacije-resursa-1" class="slide level2">
+<h2>Arhitektura kombinacije resursa</h2>
+<ul>
+<li>Možemo da kombinujemo više stvari
+<ul>
+<li>Fizičke servere</li>
+<li>Virtuelne servere</li>
+<li>Resurse za smeštanje podataka</li>
+<li>Resurse za prenos podataka</li>
+<li>CPU/Memoriju</li>
+</ul></li>
+<li>Šta kombinujemo zavisi od mehanizama koje koristimo</li>
+</ul>
+</section>
+<section id="arhitektura-dinamičke-skalabilnosti" class="slide level2">
+<h2>Arhitektura dinamičke skalabilnosti</h2>
+<ul>
+<li>Dynamic scalability architecture</li>
+<li>Još jedna stvar koju smo pokrili: ovo je kada se konfiguracija našeg sistema menja kada se promene uslovi</li>
+<li>Ovde arhitektura zahteva sve što ima arhitektura distribucije posla plus još mehanzime za merenje uslova i skaliranje resursa</li>
+</ul>
+</section>
+<section id="arhitektura-dinamičke-skalabilnosti-1" class="slide level2">
+<h2>Arhitektura dinamičke skalabilnosti</h2>
+<ul>
+<li>Skaliranje može doći u mnogo oblika
+<ul>
+<li>Dinamičko horizontalno skaliranje
+<ul>
+<li>Kada dodajemo još repliciranih resursa da bi olakšali posao</li>
+</ul></li>
+<li>Dinamičko vertikalno skaliranje
+<ul>
+<li>Kada dodajemo još resursa <em>postojećim instancama</em> automatski</li>
+</ul></li>
+<li>Dinamička relokacija
+<ul>
+<li>Kada same podatke pomeramo sa jednih resursa na druge da bi modifikovali karakteristiku performansi.</li>
+</ul></li>
+</ul></li>
+</ul>
+</section>
+<section id="arihtektura-elastičnog-kapaciteta-resursa" class="slide level2">
+<h2>Arihtektura elastičnog kapaciteta resursa</h2>
+<ul>
+<li>Ovo je povezano sa prethodnim, samo što se modifikuje sistem skaliranja tako da se resursi ne samo automatski alociraju nego se i automatski oslobađaju.</li>
+<li>Skaliranje, dakle, radi i na gore i na dole.</li>
+<li>Ovo je ono što smo istraživali ponajviše kroz to kako AWS to radi, uprkos tome valja napomenuti: to je danas manje-više fundamentalna osobina svih provajdera ove usluge, nije jedinstvena za AWS.</li>
+</ul>
+</section>
+<section id="arhitektura-balansa-opterećenja-servisa" class="slide level2">
+<h2>Arhitektura balansa opterećenja servisa</h2>
+<ul>
+<li>Ovo je arhitektura koja nastaje kompozicijom i modifikacijom ranije pomenjenih elementarnih arhitektonskih obrazaca</li>
+<li>Specifično nastaje kada se arhitektura rasporeda rada kombinuje sa dinamičkom skalabilnošću ili elastičnom arhitekturom i modifikuje da još više odgovara servisu koji je dominantno baziran u oblaku.</li>
+<li>Sepcifična modifkacija ulkjučuje i redudantne računarske resurse čime se ne modifikuju performanse no robustnost sistema.</li>
+</ul>
+</section>
+<section id="arhitektura-proboja" class="slide level2">
+<h2>Arhitektura proboja</h2>
+<ul>
+<li> Cloud bursting architecture </li>
+<li>Ovo je posebna varijanta skaliranja namenjena da radi u hibridnom režimu</li>
+<li>Hibridni režim u ovom kontekstu znači da se većinu vremena radi na računarima koje su lokalna instalacija nekakve institucije, ali u slučajevima iznimnog opterećenja se skaliranje vrši na oblak, tj. sistem <em>probije</em> na oblak.</li>
+<li>Ovo je dobar način da se ojača lokalna instalacija koja dobro radi i ne treba joj migracija na oblak.</li>
+</ul>
+</section>
+<section id="arhitektura-proboja-1" class="slide level2">
+<h2>Arhitektura proboja</h2>
+<ul>
+<li>Proboj može da se radi i na razne druge načine</li>
+<li>U zadnje vreme je popularna tehnika izmeštanja radnih stanica sa teškim opterećenjem na oblak, kada je u pitanju recimo AI ili razvoj računarskih igara</li>
+<li>Video igre već neko vreme pokušavaju da implementiraju arhitekturu proboja</li>
+</ul>
+</section>
+<section id="arhitektura-elastične-provizije-diskova" class="slide level2">
+<h2>Arhitektura elastične provizije diskova</h2>
+<ul>
+<li>Ovo je izuzetno specijalizovana arhitektura gde se količina alociranih resursa za čuvanje podataka varira u skladu sa potrebom.</li>
+<li>To znači da se alocira još memorije kada treba ili, paralelno, se nema potrebe, se oslobađa prostor.</li>
+<li>Ovo naravno samo radi ako ima arhitektura kombinacije resursa u pozadini koja pruža te resurse</li>
+<li>Uglavnom služi da minimizuje troškove koji su obično naplaćeni u odnosu na angažovan kapacitet, ne na korišćen.</li>
+</ul>
+</section>
+<section id="arhitektura-skladištenja-podataka-sa-redudantnošću" class="slide level2">
+<h2>Arhitektura skladištenja podataka sa redudantnošću</h2>
+<ul>
+<li>Ovo je varijacija na elastično skaliranje postavnjeno nad arhitekturu elastične provizije diskova</li>
+<li>Efektivno: želimo da implementiramo nešto vrlo kao RAID samo nad individualnim resursima u oblaku, a ne na individualnim diskovima</li>
+<li>To znači da je ovo mehanizam automarizovane replikacije podataka na više resursa ne bi li se povećala robusnost</li>
+<li>Ovo može biti <em>simetrično</em> gde se replicira po identičnim instancama ali naročito zanimljivo jeste ako ovo uradimo <em>asimetrično</em> odnosno repliciramo stvari po instancama sa različitim karakteristikama</li>
+</ul>
+</section>
+<section id="arhitektura-skladištenja-podataka-sa-redudantnošću-1" class="slide level2">
+<h2>Arhitektura skladištenja podataka sa redudantnošću</h2>
+<ul>
+<li>Primer ovoga (koji bi sam po sebi bio neka vrsta napredne arhitekture) je situacija gde imamo tri moguća načina skladištenja podataka:
+<ul>
+<li>Skladište A - Brzo ali jako nepouzdano i skupo</li>
+<li>Skladište B - Sporije ali razumno pouzdano i razumne cene</li>
+<li>Skladište C - Izuzetno sporo ali jako pouzdano i jeftino</li>
+</ul></li>
+<li>Onda na skladište A stavimo stvari sa kojima se trenutno radi, ali se ne uzdamo u njih i brzo ih vraćamo na skladište B gde je autoritativna kopija podataka, dok je skladište C rezervna kopija svega.</li>
+<li>A, B, i C, mogu odgovarati memorijskom kešu, SSD-u, i arhiviranju na magnetnim trakama.</li>
+</ul>
+</section></section>
+<section>
+<section id="napredne-arhitekture" class="title-slide slide level1">
+<h1>Napredne arhitekture</h1>
+<p>Rezultat kompozicije i ekstenzije</p>
+</section>
+<section id="arhitektura-klasterovanja-kroz-hipervizor" class="slide level2">
+<h2>Arhitektura klasterovanja kroz hipervizor</h2>
+<ul>
+<li>Ovo je jako često korišćena arhitektura danas, naročito kod servisa koji pružaju CC usluge.</li>
+<li>Ideja je da se koristi kombinacija elastičnosti i objedinjenja resursa da bi se kreirao glatko skalirajući broj virtuelnih mašina</li>
+<li>Arhitekrura uzme određeni broj fizičkih servera (pre ili kasnije sve mora da počiva na nekakvom fizičkom računaru koji nešto radi) i nad svakim podigne hipervizor</li>
+</ul>
+</section>
+<section id="arhitektura-klasterovanja-kroz-hipervizor-1" class="slide level2">
+<h2>Arhitektura klasterovanja kroz hipervizor</h2>
+<ul>
+<li>Svaki od računara nad kojima je podignut hipervizor može da na sebi ima ma koju virtuelnu mašinu</li>
+<li>To znači da smo u velikoj meri objedinili resurse svih fizičkih računara u jedno i možemo da ih delimo na virtuelne mašine</li>
+<li>Sledeći korak jeste da se provizionisanje virtulenih mašina napravi tako da je robusno, to jest, neosetljivo na otkaze fizičke opreme.</li>
+</ul>
+</section>
+<section id="arhitektura-klasterovanja-kroz-hipervizor-2" class="slide level2">
+<h2>Arhitektura klasterovanja kroz hipervizor</h2>
+<ul>
+<li>Postoji uvek menadžment sistem koji kontroliše ovaj sistem hipervizora</li>
+<li>Deo tog sistema je podsistem za nadzor koji prati tkzv. ‘otkucaj srca’ signal koji funkcionalne virtuelne mašine i, ključno, hipervizori redovno šalju</li>
+<li>Izostanak signala je indikator otkaza</li>
+<li>U slučaju otkaza dinamički se alocira neki drugi hipervizor na nekom drugom fizičkom računaru</li>
+</ul>
+</section>
+<section id="arhitektura-virtualnog-balansiranja-instanci" class="slide level2">
+<h2>Arhitektura Virtualnog Balansiranja Instanci</h2>
+<ul>
+<li>Ovo je arhitektonska ekstenzija i modifikacija balansiranja opterećenja koja se fokusira na balansiranje opterećenja nad fizičkim instancama koje preko hipervizora predstavljaju domaćine virtuelnim instancama</li>
+<li>Kreiranjem novih virtuelnih instanci ili vertikalnim skaliranjem tih instanci i usmeravanjem zahteva intelegentno je moguće ravno izbalansirati opterećenje nad svim virtuelnim instancama.</li>
+<li>Ali ovo ništa neće pomoći ako 10 od naših 150 fizičkih računara pokreću sve VM instance: neophodno je pametno distribuirati i opterećenje fizičkih resursa.</li>
+</ul>
+</section>
+<section id="arhitektura-virtualnog-balansiranja-instanci-1" class="slide level2">
+<h2>Arhitektura Virtualnog Balansiranja Instanci</h2>
+<ul>
+<li>Ovo se radi tako što mehanizma za upravljanje uzima u obzir opterećenost fizičkih instanci (što je moguće skupljati kroz telemetriju) kada pravi nove instance</li>
+<li>Takođe bitno je operacija rebalansa gde se rasterećuju opterećeni fizički serveri tako što se neke njihove virtuelne mašine migriraju na druga mesta.</li>
+</ul>
+</section>
+<section id="arhitektura-realokacije-servisa-bez-prekida" class="slide level2">
+<h2>Arhitektura realokacije servisa bez prekida</h2>
+<ul>
+<li>Ovo je ključan element za robusnost baš kao i za virtualno balansiranje instanci</li>
+<li>Ideja je da se virtuelna mašina može premestiti iz jednog hipervizora na drugi dinamički tokom rada sistema na način koji ne prekida pružanje usluge</li>
+<li>Naravno ovo samo radi ako servis nije doživeo otkaz pre migracije (mada videti sledeću arhitekturu)</li>
+</ul>
+</section>
+<section id="arhitektura-realokacije-servisa-bez-prekida-1" class="slide level2">
+<h2>Arhitektura realokacije servisa bez prekida</h2>
+<ul>
+<li>Tehnika se svodi na fundamentalnu osobinu virtuelnih mašina: ako repliciramo disk i VM konfiguraciju replicirali smo mašinu do na restart</li>
+<li>Ako repliciramo i memoriju onda možemo mašinu replicirati maltene do na instrukciju</li>
+<li>Tipično se ne ide tako daleko: umesto napravi se nova instanca koja je pokrenuta kao i prva i dovedena u stanje da može da obrađuje zahteve</li>
+<li>Onda se zahtevi preusmere na nju a prva se onda bezbedno terminira: sa tačke gledišta korisnika ništa se nije desilo.</li>
+</ul>
+</section>
+<section id="arhitektura-realokacije-servisa-bez-prekida-2" class="slide level2">
+<h2>Arhitektura realokacije servisa bez prekida</h2>
+<ul>
+<li>Relokacija radi još bolje kada su svi podaci već na nekakvom (repliciranom) sistemu za skladištenje podataka</li>
+<li>Onda je moguće koristiti, npr. mehanizam sa copy-on-write semantikom ili štagod slično za gotovo trenutno kopiranje</li>
+<li>Sa druge strane ako se koriste tehnike virtualizacije sa direktnim I/O pristupom (više o tome kasnije) onda relokacija nije moguća: VM-ovi su vezani za svoj hardver.</li>
+<li>Naravno, uvek je moguće zaustaviti instancu i pokrenuti je drugde, ali prava relokacija neće raditi tako glatko.</li>
+</ul>
+</section>
+<section id="arhitektura-sa-nultim-vremenom-otkaza" class="slide level2">
+<h2>Arhitektura sa nultim vremenom otkaza</h2>
+<ul>
+<li>Ovo je arhitektonski šablon koji služi da, u slučaju otkaza, kranji korisnik ne primeti da je do njega došlo</li>
+<li>U pitanju je kombinacija balansiranja i replikacije sa relokacijom</li>
+<li>Ako već imamo balansiranje i virtuelno i između fizičkih instanci, onda nema problema: sve je već replicirano i balansirano.</li>
+</ul>
+</section>
+<section id="arhitektura-sa-nultim-vremenom-otkaza-1" class="slide level2">
+<h2>Arhitektura sa nultim vremenom otkaza</h2>
+<ul>
+<li>Ali šta ako imamo samo jedan jedini server koji nije horizontalno skaliran, zar to onda nije SPOF?</li>
+<li>Ne ako imamo server koji je kopija prvog (realokacija) i koji se izvršava na drugom fizičkom računaru (balansiranje) i prema kome u slučaju detekcije otkaza (klasterovanje hipervizorom) će balanaser (balansiranje) usmeriti zahteve.</li>
+<li>Ovo znači da u slučaju da se vidi otkaz, posao prelazi na identičan već-spreman sistem koji se istog trenutka i sam replicira u slučaju da on otkaže.</li>
+</ul>
+</section>
+<section id="arhitektura-balansa-nad-oblacima" class="slide level2">
+<h2>Arhitektura balansa nad oblacima</h2>
+<ul>
+<li>Kao što imamo balans nad virtuelnim instancama i balans nad fizičkim instancama možemo imati balans i nad različitim oblacima.</li>
+<li>Ovo ima nekoliko svrha:
+<ul>
+<li>Obrada ogromnog broja zahteva</li>
+<li>Geografska efikasnost</li>
+<li>Ekstremna robusnost</li>
+</ul></li>
+<li>Ovi oblaci mogu biti drugi provajderi ili nezavisni regioni postojećih provajdera</li>
+</ul>
+</section>
+<section id="arhitektura-rezervisanja-resursa" class="slide level2">
+<h2>Arhitektura rezervisanja resursa</h2>
+<ul>
+<li>Arhitektura rezervisanja resursa služi da se izbegne problem gde tokom rada sistema dođe do konflikta oko resursa što može nastati ili zato što jednostavno nema više slobodnih sistemskih resursa (jednostavno nijedan fizički računar na raspolaganju nema dovoljno memorije, recimo) ili zato što se radi sa ne-objedinjenim resursima koji se ‘pozajmljuju’ za ekskluzivnu upotrebu i više entiteta se ‘bore’ oko ograničenog broja resursa ili neki entitet resurs ne vraća na vreme.</li>
+<li>Ova struktura se može rešiti kroz mehanizam alokacije unapred.</li>
+</ul>
+</section>
+<section id="arhitektura-rezervisanja-resursa-1" class="slide level2">
+<h2>Arhitektura rezervisanja resursa</h2>
+<ul>
+<li>Alokacija resursa unapred samo znači da se neki deo resursa ili neki poseban resurs za neko vreme ili za stalno dodeli nekim servisima koji se izvršavaju u okruženju na oblaku.</li>
+<li>Ovo je nešto što se javlja i kod oblak rešenja koje sami pravite i kada koristite usluge provajdera CC</li>
+<li>Razlika je u što je u prvom slučaju to više akt balansiranja ograničenim hardverskim resursima i lepo se kombinuje sa arhitekturama proboja</li>
+<li>U drugom slučaju, to je više ekonomska odluka: pitanje nije toliko da li će nestati resursa koliko je pitanje koliko ste voljni da platite za garantovan pristup dodatnim resursima i koliko vam takvih resursa treba.</li>
+</ul>
+</section>
+<section id="arhitektura-dinamičke-detekcije-i-prevencije-otkaza" class="slide level2">
+<h2>Arhitektura dinamičke detekcije i prevencije otkaza</h2>
+<ul>
+<li>Mi smo se bavili detekcijom i prevencijom otkaza ranije kada smo pričali o arhitekturi sa nultim vremenom otkaza</li>
+<li>Ali to je ograničen, specijalizovan slučaj: ovo može biti znatno kompleksnije</li>
+<li>Možemo da imamo mnogo više softiciran sistem koji detektuje različite forme otkaza i preuzima adekvatne metode da se nešto povodom toga odradi</li>
+<li>Ovo može biti sve od logovanja pa do automatskih operacija oporavka.</li>
+</ul>
+</section>
+<section id="arhitektura-provizionisanja-golog-metala" class="slide level2">
+<h2>Arhitektura provizionisanja ‘golog metala’</h2>
+<ul>
+<li>‘Go metal’ je žargonski termin koji se koristi za fizičke instance kojima upravlja korisnik sa onoliko kontrole koliko tipično ima nad fizičkim računarom</li>
+<li>Ovo znači da umesto da se alocira virtuelna mašina se umesto alocira fizički računar</li>
+<li>Takav računar se može kontrolisati preko posebnog ROM-baziranog menadžment rešenja koje omogućava da se na takvu mašinu postavi bilo koji željeni operativni sistem.</li>
+<li>Što bi želeli ovako nešto?</li>
+</ul>
+</section>
+<section id="arhitektura-brzog-provizionisanja" class="slide level2">
+<h2>Arhitektura brzog provizionisanja</h2>
+<ul>
+<li>Veoma čest je scenario gde je neophodno izuzetno brzo reagovati na željene promene u sistemu</li>
+<li>Znate iz ličnog iskustva koliko zahteva instalacija i podešavanja računarskog sistema</li>
+<li>Kada bi vam dao prazan laptop i tražio da rekonstruišete okruženje u kome većinu vremena radite, koliko bi vam trebalo vremena?</li>
+</ul>
+</section>
+<section id="arhitektura-brzog-provizionisanja-1" class="slide level2">
+<h2>Arhitektura brzog provizionisanja</h2>
+<ul>
+<li>Ovo je neprihvatljivo za veliki broj računara stoga se proces automatizuje</li>
+<li>Šabloni</li>
+<li>Slike</li>
+<li>Skripte za konfiguraciju</li>
+<li>Sistemi za menadžment softverom/paketima</li>
+<li><strong>Kontejnerizacija</strong></li>
+</ul>
+</section>
+<section id="arhitektura-za-menadžment-opterećenja-skladišta-podataka" class="slide level2">
+<h2>Arhitektura za menadžment opterećenja skladišta podataka</h2>
+<ul>
+<li>Ovo je visoko specijalizovana arhitektura koja radi balansiranje nad fizičkim/virtualnim instancama ali fokusirana na specifično mehanizme za skladištenje podataka.</li>
+<li>Ovde nije samo far fer raspodele fajlova što se tiče prostora nego i raspodele <em>zahteva.</em></li>
+<li>To znači da se oportunistički kopiraju fajlovi ili delovi fajlova ili LUNovi ili štagod da je jedinica transfera na više ili manje mesta u zavisnosti od obrazca zahteva.</li>
+<li>Primer vrlo robusnog rešenja je IPFS.</li>
+</ul>
+</section></section>
+<section>
+<section id="specijalizovane-arhitekture" class="title-slide slide level1">
+<h1>Specijalizovane arhitekture</h1>
+<p>Arhitekture posebne namene</p>
+</section>
+<section id="arhitektura-direktnog-pristupa-ui" class="slide level2">
+<h2>Arhitektura direktnog pristupa U/I</h2>
+<ul>
+<li>Ovo je arhitektura koja omogućava da se direktno pristupa ulazno-izlaznim mehanizmima računara koji se koristi da bude domaćin virtuelne mašine.</li>
+<li>Performanse su bitne, ali mnogo bitnije je to što ovo omogućava da se prosledi specijalizovan hardver koji je teže virtualizovati.</li>
+<li>Za današnje mašine ovo je u velikom broju slučajeva GPU.</li>
+</ul>
+</section>
+<section id="arhitektura-dinamičke-normalizacije-podataka" class="slide level2">
+<h2>Arhitektura dinamičke normalizacije podataka</h2>
+<ul>
+<li>Redudantnost podataka je jako moćna <em>kada nam treba.</em></li>
+<li>Kada nam ne treba predstavlja čisto traćenje novca</li>
+<li>Stoga, ovakva arhitektura se može integrisati u ceo mehanizam skladištenja podataka da radi deduplikaciju.</li>
+<li>Deduplikacija može na nivou podataka u bazi, fajlova, ili čak samih blokova.</li>
+<li>Određeni sistemi skladištenja podataka (oni adresabilni sadržajem) rade implicitnu deduplikaciju kao recimo IPFS.</li>
+</ul>
+</section>
+<section id="arihtektura-elastičnog-kapaciteta-mreže" class="slide level2">
+<h2>Arihtektura elastičnog kapaciteta mreže</h2>
+<ul>
+<li>Ako možemo dinamički da alociramo računarske resurse da pokrijemo neplanirano veliki zahtev prema računarskim resursima, što ne isto sa mrežom?</li>
+<li>Ovo obuhvata alociranje mrežnih linkova kada zafali protoka</li>
+<li>Kompozitovano sa arhitekturama proboja može da se koristi kao lukava zaštita od (D)DOS napada.</li>
+</ul>
+</section></section>
+    </div>
+  </div>
+
+  <script src="https://unpkg.com/reveal.js@^4//dist/reveal.js"></script>
+
+  <!-- reveal.js plugins -->
+  <script src="https://unpkg.com/reveal.js@^4//plugin/notes/notes.js"></script>
+  <script src="https://unpkg.com/reveal.js@^4//plugin/search/search.js"></script>
+  <script src="https://unpkg.com/reveal.js@^4//plugin/zoom/zoom.js"></script>
+  <script src="https://unpkg.com/reveal.js@^4//plugin/math/math.js"></script>
+
+  <script>
+
+      // Full list of configuration options available at:
+      // https://revealjs.com/config/
+      Reveal.initialize({
+        // Display controls in the bottom right corner
+        controls: true,
+
+        // Help the user learn the controls by providing hints, for example by
+        // bouncing the down arrow when they first encounter a vertical slide
+        controlsTutorial: true,
+
+        // Determines where controls appear, "edges" or "bottom-right"
+        controlsLayout: 'bottom-right',
+
+        // Visibility rule for backwards navigation arrows; "faded", "hidden"
+        // or "visible"
+        controlsBackArrows: 'faded',
+
+        // Display a presentation progress bar
+        progress: true,
+
+        // Display the page number of the current slide
+        slideNumber: false,
+
+        // 'all', 'print', or 'speaker'
+        showSlideNumber: 'all',
+
+        // Add the current slide number to the URL hash so that reloading the
+        // page/copying the URL will return you to the same slide
+        hash: false,
+
+        // Start with 1 for the hash rather than 0
+        hashOneBasedIndex: false,
+
+        // Flags if we should monitor the hash and change slides accordingly
+        respondToHashChanges: true,
+
+        // Push each slide change to the browser history
+        history: false,
+
+        // Enable keyboard shortcuts for navigation
+        keyboard: true,
+
+        // Enable the slide overview mode
+        overview: true,
+
+        // Disables the default reveal.js slide layout (scaling and centering)
+        // so that you can use custom CSS layout
+        disableLayout: false,
+
+        // Vertical centering of slides
+        center: true,
+
+        // Enables touch navigation on devices with touch input
+        touch: true,
+
+        // Loop the presentation
+        loop: false,
+
+        // Change the presentation direction to be RTL
+        rtl: false,
+
+        // see https://revealjs.com/vertical-slides/#navigation-mode
+        navigationMode: 'default',
+
+        // Randomizes the order of slides each time the presentation loads
+        shuffle: false,
+
+        // Turns fragments on and off globally
+        fragments: true,
+
+        // Flags whether to include the current fragment in the URL,
+        // so that reloading brings you to the same fragment position
+        fragmentInURL: true,
+
+        // Flags if the presentation is running in an embedded mode,
+        // i.e. contained within a limited portion of the screen
+        embedded: false,
+
+        // Flags if we should show a help overlay when the questionmark
+        // key is pressed
+        help: true,
+
+        // Flags if it should be possible to pause the presentation (blackout)
+        pause: true,
+
+        // Flags if speaker notes should be visible to all viewers
+        showNotes: false,
+
+        // Global override for autoplaying embedded media (null/true/false)
+        autoPlayMedia: null,
+
+        // Global override for preloading lazy-loaded iframes (null/true/false)
+        preloadIframes: null,
+
+        // Number of milliseconds between automatically proceeding to the
+        // next slide, disabled when set to 0, this value can be overwritten
+        // by using a data-autoslide attribute on your slides
+        autoSlide: 0,
+
+        // Stop auto-sliding after user input
+        autoSlideStoppable: true,
+
+        // Use this method for navigation when auto-sliding
+        autoSlideMethod: null,
+
+        // Specify the average time in seconds that you think you will spend
+        // presenting each slide. This is used to show a pacing timer in the
+        // speaker view
+        defaultTiming: null,
+
+        // Enable slide navigation via mouse wheel
+        mouseWheel: false,
+
+        // The display mode that will be used to show slides
+        display: 'block',
+
+        // Hide cursor if inactive
+        hideInactiveCursor: true,
+
+        // Time before the cursor is hidden (in ms)
+        hideCursorTime: 5000,
+
+        // Opens links in an iframe preview overlay
+        previewLinks: false,
+
+        // Transition style (none/fade/slide/convex/concave/zoom)
+        transition: 'slide',
+
+        // Transition speed (default/fast/slow)
+        transitionSpeed: 'default',
+
+        // Transition style for full page slide backgrounds
+        // (none/fade/slide/convex/concave/zoom)
+        backgroundTransition: 'fade',
+
+        // Number of slides away from the current that are visible
+        viewDistance: 3,
+
+        // Number of slides away from the current that are visible on mobile
+        // devices. It is advisable to set this to a lower number than
+        // viewDistance in order to save resources.
+        mobileViewDistance: 2,
+
+        math: {
+          mathjax: 'https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js',
+          config: 'TeX-AMS_HTML-full',
+          tex2jax: {
+            inlineMath: [['\\(','\\)']],
+            displayMath: [['\\[','\\]']],
+            balanceBraces: true,
+            processEscapes: false,
+            processRefs: true,
+            processEnvironments: true,
+            preview: 'TeX',
+            skipTags: ['script','noscript','style','textarea','pre','code'],
+            ignoreClass: 'tex2jax_ignore',
+            processClass: 'tex2jax_process'
+          },
+        },
+
+        // reveal.js plugins
+        plugins: [
+          RevealMath,
+          RevealNotes,
+          RevealSearch,
+          RevealZoom
+        ]
+      });
+    </script>
+    </body>
+</html>
