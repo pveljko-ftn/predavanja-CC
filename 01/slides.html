@@ -11,12 +11,20 @@
   <link rel="stylesheet" href="https://unpkg.com/reveal.js@^4//dist/reset.css">
   <link rel="stylesheet" href="https://unpkg.com/reveal.js@^4//dist/reveal.css">
   <style>
+    .reveal .sourceCode {  /* see #7635 */
+      overflow: visible;
+    }
     code{white-space: pre-wrap;}
     span.smallcaps{font-variant: small-caps;}
-    span.underline{text-decoration: underline;}
-    div.column{display: inline-block; vertical-align: top; width: 50%;}
+    div.columns{display: flex; gap: min(4vw, 1.5em);}
+    div.column{flex: auto; overflow-x: auto;}
     div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
     ul.task-list{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
   </style>
   <link rel="stylesheet" href="https://unpkg.com/reveal.js@^4//dist/theme/night.css" id="theme">
   <link rel="stylesheet" href="slides.css"/>
@@ -28,7 +36,7 @@
 <section id="title-slide">
   <h1 class="title">Uvod</h1>
   <p class="author">Veljko Petrović</p>
-  <p class="date">Oktobar, 2022</p>
+  <p class="date">Oktobar, 2023</p>
 </section>
 
 <section>
@@ -41,59 +49,78 @@
 <ul>
 <li>Veljko Petrović</li>
 <li>Sedim u NTP 330 kancelariji</li>
-<li>Termin konsultacija je za sada Sreda u 10:00</li>
-<li>Uvek je dobro najaviti se na konsultacije</li>
+<li>Termin konsultacija je za sada Sreda u 16:15, odmah posle ovih
+predavanja.</li>
+<li>Uvek je dobro najaviti se na konsultacije — to može i na ovom
+času.</li>
 <li>Konsultacije mogu i po posebnom dogovoru kada je potrebno</li>
 <li>Možemo da se čujemo i online, naravno.</li>
-<li>Da li vama i dalje prave naloge na Teams platformi?</li>
 </ul>
 </section>
 <section id="kontaktiranje---elektronska-pošta" class="slide level2">
 <h2>Kontaktiranje - elektronska pošta</h2>
 <ul>
 <li>Najbolje me je tražiti na pveljko@uns.ac.rs</li>
-<li>Vodite računa da neretko dobijam čitav <em>tsunami</em> elektronske pošte, možda vašu ne vidim ili ne vidim na vreme.</li>
-<li>Ako ste zabrinuti da vam nisam video poruku, slobodno je šaljite opet.</li>
-<li>Ako želite da dobijete odmah odgovor (makar on bio samo ‘video’) molim stavite reč HITNO u subject poruke.</li>
+<li>Vodite računa da neretko dobijam čitav <em>tsunami</em> elektronske
+pošte, možda vašu ne vidim ili ne vidim na vreme.</li>
+<li>Ako ste zabrinuti da vam nisam video poruku, slobodno je šaljite
+opet.</li>
+<li>Ako želite da dobijete odmah odgovor (makar on bio samo ‘video’)
+molim stavite reč HITNO u subject poruke.</li>
 </ul>
 </section>
 <section id="šta-je-računarstvo-u-oblaku" class="slide level2">
 <h2>Šta je Računarstvo u Oblaku</h2>
 <ul>
 <li>U pitanju je kalk engleskog ‘Cloud Computing.’</li>
-<li>Očekujte da koristimo ‘Cloud Computing’ u velikoj meri ovde i još češće skraćenicu CC</li>
+<li>Očekujte da koristimo ‘Cloud Computing’ u velikoj meri ovde i još
+češće skraćenicu CC</li>
 <li>Kakav oblak?
 <ul>
-<li>Na mrežnim dijagramima se često spoljašnja mreža, najčešće internet, predstavlja kao stilizovani crtež oblaka.</li>
+<li>Na mrežnim dijagramima se često spoljašnja mreža, najčešće internet,
+predstavlja kao stilizovani crtež oblaka.</li>
 </ul></li>
-<li>Odatle je oblak postao neka vrsta metonimije za računarske sisteme koji su, fizički, ‘tamo negde’ i povezani spoljašnjom mrežom.</li>
+<li>Odatle je oblak postao neka vrsta metonimije za računarske sisteme
+koji su, fizički, ‘tamo negde’ i povezani spoljašnjom mrežom.</li>
 </ul>
 </section>
 <section id="šta-je-cilj-predmeta" class="slide level2">
 <h2>Šta je cilj predmeta</h2>
 <ul>
-<li>Cilj predmeta nije toliko da naučite da koristite nečiji servis CC-a</li>
-<li>Na tržištu ima neverovatan broj ‘oblaka’ i svaki ima svoje specifičnosti i svoju dokumentaciju</li>
+<li>Cilj predmeta nije toliko da naučite da koristite nečiji servis
+CC-a</li>
+<li>Na tržištu ima neverovatan broj ‘oblaka’ i svaki ima svoje
+specifičnosti i svoju dokumentaciju</li>
 <li>Nas to ovde toliko ne zanima</li>
-<li>Umesto toga trudimo se da naučimo, koliko možemo, kako funkcionišu oblaci i opštije kako pisati sisteme koji su ekstremno distribuirani.</li>
+<li>Umesto toga trudimo se da naučimo, koliko možemo, kako funkcionišu
+oblaci i opštije kako pisati sisteme koji su ekstremno
+distribuirani.</li>
 </ul>
 </section>
 <section id="literatura" class="slide level2">
 <h2>Literatura</h2>
 <ul>
-<li>Dokumentacija, ovi slajdovi, i beleške sa predavanja bi trebali da budu sasvim dovoljni.</li>
+<li>Dokumentacija, ovi slajdovi, i beleške sa predavanja bi trebali da
+budu sasvim dovoljni.</li>
 </ul>
 </section>
 <section id="o-slajdovima" class="slide level2">
 <h2>O slajdovima</h2>
 <ul>
-<li>Slajdovi su novi za ovu generaciju i predstavljaju proširenu verziju slajdova ranijih godina</li>
-<li>Promenila se i tehnologija slajdova koji se sada generišu u dve forme, statičan PDF i interaktivna HTML prezentacija</li>
-<li>PDF prezentacija će biti na ACS repozitorijumu, dok će HTML verzija biti dostupna online
+<li>Slajdovi su novi za ovu generaciju i predstavljaju proširenu verziju
+slajdova ranijih godina</li>
+<li>Promenila se i tehnologija slajdova koji se sada generišu u dve
+forme, statičan PDF i interaktivna HTML prezentacija</li>
+<li>PDF prezentacija će biti na ACS repozitorijumu, dok će HTML verzija
+biti dostupna online
 <ul>
-<li>PDF prezentacija će biti u dokumentacionoj formi, tj. umesto da bude u slajdovima, biće sav sadržaj slajdova u dokumentu koji bi trebao da bude lakši za čitanje i eventualnu štampu.</li>
+<li>PDF prezentacija će biti u dokumentacionoj formi, tj. umesto da bude
+u slajdovima, biće sav sadržaj slajdova u dokumentu koji bi trebao da
+bude lakši za čitanje i eventualnu štampu.</li>
 </ul></li>
-<li>Možete pratiti prezentaciju dok je slušate preko online verzije. Ovo bi trebalo da se nalazi na [https://pveljko-ftn.github.io/predavanja-CC/01/slides.html]</li>
+<li>Možete pratiti prezentaciju dok je slušate preko online verzije. Ovo
+bi trebalo da se nalazi na
+[https://pveljko-ftn.github.io/predavanja-CC/01/slides.html]</li>
 </ul>
 </section>
 <section id="kako-se-polaže" class="slide level2">
@@ -102,32 +129,39 @@
 <li>Predispitne obaveze nose 70 bodova</li>
 <li>Kako te bodove stičete čućete na vežbama</li>
 <li>Ispit nosi 30 bodova</li>
-<li>Te bodove stičete na klasičnom ispitu koji će gotovo sigurno biti usmen i pokrivaće gradivo koje ste radili na predmetu.</li>
+<li>Te bodove stičete na klasičnom ispitu koji će gotovo sigurno biti
+usmen i pokrivaće gradivo koje ste radili na predmetu.</li>
 </ul>
 </section>
 <section id="infrastruktura" class="slide level2">
 <h2>Infrastruktura</h2>
 <ul>
-<li>Budući da je predmet zahtevan, nemamo baš najbolju moguću podršku u laboratorijama fakulteta</li>
-<li>Trebaće vam Linux, idealno najsvežija Fedora ili Ubuntu bilo direktno instaliran, bilo u virtuelnoj mašini.</li>
+<li>Budući da je predmet zahtevan, nemamo baš najbolju moguću podršku u
+laboratorijama fakulteta</li>
+<li>Trebaće vam Linux, idealno najsvežija Fedora ili Ubuntu bilo
+direktno instaliran, bilo u virtuelnoj mašini.</li>
 <li>Dosta posla će se raditi iz komandne linije.</li>
 <li>Naš primarni jezik će uglavnom biti Python</li>
 <li>Najvažniji alati su Docker, Vagrant, i QEMU</li>
-<li>Sav naš alat će biti  Open Source </li>
+<li>Sav naš alat će biti Open Source </li>
 </ul>
 </section></section>
 <section>
-<section id="pogled-na-cc-sa-visine-od-10km" class="title-slide slide level1">
+<section id="pogled-na-cc-sa-visine-od-10km"
+class="title-slide slide level1">
 <h1>Pogled na CC sa visine od 10km</h1>
 <p>O čemu u stvari govorimo?</p>
 </section>
 <section id="od-čega-počinjemo" class="slide level2">
 <h2>Od čega počinjemo</h2>
 <ul>
-<li>Najbolje se može razumeti šta je ova tehnologija osmišljena da reši ako se posmatra problem</li>
+<li>Najbolje se može razumeti šta je ova tehnologija osmišljena da reši
+ako se posmatra problem</li>
 <li>Zamislite da pravimo nekakvu aplikaciju koja radi online</li>
-<li>Da bi ta aplikacija radila potrebani su nam nekakvi računari na kojima se izvršava njen kod</li>
-<li>Prirodno rešenje je da kupimo <span class="math inline">\(X\)</span> računara, i podesimo ih kako nam odgovara.</li>
+<li>Da bi ta aplikacija radila potrebani su nam nekakvi računari na
+kojima se izvršava njen kod</li>
+<li>Prirodno rešenje je da kupimo <span class="math inline">\(X\)</span>
+računara, i podesimo ih kako nam odgovara.</li>
 <li>Šta je problem ovde?</li>
 </ul>
 </section>
@@ -144,52 +178,76 @@
 <section id="problem-google-a" class="slide level2">
 <h2>Problem Google-a</h2>
 <ul>
-<li>Zamislite da morate da osmislite sistem koji služi da drži u životu glavnu stranicu internet pretraživača Google</li>
-<li>Pustite pretragu i sve te komplikacije: treba da samo prikažete logo, polje za unos, i par dugmića.</li>
-<li>Da li ima ijednog računara na svetu koji može da izdrži 95 000 zahteva za pretragom svake sekunde?</li>
+<li>Zamislite da morate da osmislite sistem koji služi da drži u životu
+glavnu stranicu internet pretraživača Google</li>
+<li>Pustite pretragu i sve te komplikacije: treba da samo prikažete
+logo, polje za unos, i par dugmića.</li>
+<li>Da li ima ijednog računara na svetu koji može da izdrži 95 000
+zahteva za pretragom svake sekunde?</li>
 </ul>
 </section>
 <section id="o-čemu-maštamo" class="slide level2">
 <h2>O čemu maštamo</h2>
 <ul>
 <li>Da naši računari nikada ne zastarevaju i nikad se ne kvare.</li>
-<li>Da kad nema korisnika imamo malo računara, a kad je navala imamo mnogo.</li>
-<li>Da nam se vreme odziva glatko skalira bez obzira koliko zahteva imamo.</li>
+<li>Da kad nema korisnika imamo malo računara, a kad je navala imamo
+mnogo.</li>
+<li>Da nam se vreme odziva glatko skalira bez obzira koliko zahteva
+imamo.</li>
 <li>Da računari nisu nigde posebno negu su nekako <em>svuda.</em></li>
-<li>Da su računari imuni na nestanke struje ili elementarne nepogode.</li>
+<li>Da su računari imuni na nestanke struje ili elementarne
+nepogode.</li>
 </ul>
 </section>
 <section id="idejno-rešenje" class="slide level2">
 <h2>Idejno rešenje</h2>
 <ul>
-<li>Da li je moguće da se nekako okupe računari širom sveta, a da mi zakupimo ili na neki drugi način dobijemo pristup taman onom delu tih računara koji nam treba da bi izvršavali naš posao?</li>
+<li>Da li je moguće da se nekako okupe računari širom sveta, a da mi
+zakupimo ili na neki drugi način dobijemo pristup taman onom delu tih
+računara koji nam treba da bi izvršavali naš posao?</li>
 <li><em>Baš to</em> je idejno rešenje računarstva u oblaku.</li>
 </ul>
 </section>
 <section id="tehničke-prepreke" class="slide level2">
 <h2>Tehničke prepreke</h2>
 <ul>
-<li><strong>Spajanje.</strong> Treba nekako da nam se mnogo računara ponaša kao jedan integrisan sistem.</li>
-<li><strong>Razdvajanje.</strong> Treba nam nekako da jedan računar tretiramo kao mnogo računara.</li>
-<li><strong>Fleksibilnost.</strong> Treba nam neki način da sistemu možemo dodati ili oduzeti računare dok on radi.</li>
-<li><strong>Konzistentnost.</strong> Treba dan nam se svi podaci u rarzuđenom sistemu ‘slažu’</li>
+<li><strong>Spajanje.</strong> Treba nekako da nam se mnogo računara
+ponaša kao jedan integrisan sistem.</li>
+<li><strong>Razdvajanje.</strong> Treba nam nekako da jedan računar
+tretiramo kao mnogo računara.</li>
+<li><strong>Fleksibilnost.</strong> Treba nam neki način da sistemu
+možemo dodati ili oduzeti računare dok on radi.</li>
+<li><strong>Konzistentnost.</strong> Treba dan nam se svi podaci u
+rarzuđenom sistemu ‘slažu’</li>
 </ul>
 </section>
 <section id="skica-tehničkog-rešenja" class="slide level2">
 <h2>Skica tehničkog rešenja</h2>
 <ul>
-<li>Uzmemo brdo računara instaliranih u centre sa podacima širom sveta</li>
-<li>Koristeću tehnike <em>virtualizacije</em> i <em>kontejnerizacije</em> podelimo te individualne računare u mnogo, mnogo, <em>mnogo</em> virtuelnih malih računara.</li>
-<li>Kad name treba više računarske moći ‘zavrtimo’ još virtuenih malih računara i time skaliramo angažovanost sistema</li>
-<li>Ti računari se fizički nalaze na mnogim individualnim računarima širom sveta, te u slučaju prekida veze ili nestanka struje ili bilo kakve kataklizme, samo deo sistema je pogođen</li>
-<li>Koristeći kompleksne forme komunikacije i tehnologiju poznatu kao  <em>load balancing.</em>  postaramo se da zahtevi ka sistemu idu različitim čvorovima.</li>
+<li>Uzmemo brdo računara instaliranih u centre sa podacima širom
+sveta</li>
+<li>Koristeću tehnike <em>virtualizacije</em> i
+<em>kontejnerizacije</em> podelimo te individualne računare u mnogo,
+mnogo, <em>mnogo</em> virtuelnih malih računara.</li>
+<li>Kad name treba više računarske moći ‘zavrtimo’ još virtuenih malih
+računara i time skaliramo angažovanost sistema</li>
+<li>Ti računari se fizički nalaze na mnogim individualnim računarima
+širom sveta, te u slučaju prekida veze ili nestanka struje ili bilo
+kakve kataklizme, samo deo sistema je pogođen</li>
+<li>Koristeći kompleksne forme komunikacije i tehnologiju poznatu kao
+<em>load balancing.</em> postaramo se da zahtevi ka sistemu idu
+različitim čvorovima.</li>
 </ul>
 </section>
 <section id="skica-tehničkog-rešenja-1" class="slide level2">
 <h2>Skica tehničkog rešenja</h2>
 <ul>
-<li>Koristeći kompleksan sistem čuvanja podataka koji podržava sinhronizaciju održavamo deljeno stanje unutar sistema</li>
-<li>Koristeći posebne tehnike projektovanja softvera kao što su, na primer, mikroservisi napravimo arhitekturu aplikacije kojoj se trivijalno dodaju novi čvorovi ili uklanjaju oni koji nisu potrebni.</li>
+<li>Koristeći kompleksan sistem čuvanja podataka koji podržava
+sinhronizaciju održavamo deljeno stanje unutar sistema</li>
+<li>Koristeći posebne tehnike projektovanja softvera kao što su, na
+primer, mikroservisi napravimo arhitekturu aplikacije kojoj se
+trivijalno dodaju novi čvorovi ili uklanjaju oni koji nisu
+potrebni.</li>
 </ul>
 </section>
 <section id="važna-istina" class="slide level2">
@@ -201,61 +259,95 @@
 <ul>
 <li>Ovo što je do sada opisano je klasičano računarstvo u oblaku.</li>
 <li>Ovo nije jedini pristup problemu</li>
-<li>Ovo je optimizovano za jednu, fundamentalno centralizovanu, aplikaciju koja radi jednu stvar pod kontrolom jednog entiteta.</li>
-<li>Drugim rečima, iako je tehnički distribuiran, ovaj sistem je fundamentalno <em>centralizovan.</em></li>
+<li>Ovo je optimizovano za jednu, fundamentalno centralizovanu,
+aplikaciju koja radi jednu stvar pod kontrolom jednog entiteta.</li>
+<li>Drugim rečima, iako je tehnički distribuiran, ovaj sistem je
+fundamentalno <em>centralizovan.</em></li>
 <li>Kako izgleda decentralizovan cloud?</li>
 </ul>
 </section>
 <section id="hpc-naučna-varijanta" class="slide level2">
 <h2>HPC naučna varijanta</h2>
 <ul>
-<li>Neretko, naučnici se nađu suočeni sa računarskim problemom koji zahteva divovske kapacitete računanja ali se, srećom, jako lako paralelizuje.</li>
-<li>U tim situacijama, profitabilnim se pokazalo da se generiše za potrebe tog proračuna ogroman decentralizovan oblak</li>
-<li>Tu obični korisnici mogu, kada god žele, donirati procesorski kapacitet svog računara</li>
-<li>Ovo je oblak bez centralne organizacije (mada sa centralnim zadatkom!) i u kome se čvorovi nepredvidivo aktiviraju i deaktiviraju</li>
+<li>Neretko, naučnici se nađu suočeni sa računarskim problemom koji
+zahteva divovske kapacitete računanja ali se, srećom, jako lako
+paralelizuje.</li>
+<li>U tim situacijama, profitabilnim se pokazalo da se generiše za
+potrebe tog proračuna ogroman decentralizovan oblak</li>
+<li>Tu obični korisnici mogu, kada god žele, donirati procesorski
+kapacitet svog računara</li>
+<li>Ovo je oblak bez centralne organizacije (mada sa centralnim
+zadatkom!) i u kome se čvorovi nepredvidivo aktiviraju i
+deaktiviraju</li>
 </ul>
 </section>
 <section id="decentralizacija-bez-poverenja" class="slide level2">
 <h2>Decentralizacija bez poverenja</h2>
 <ul>
-<li>U svetu kriptografskih protokola za komunikaciju osobina ‘bez poverenja’ (odnosno  trustless  je jako poželjna</li>
-<li>Ideja je da nema nijednog entiteta u sistemu kome se posebno veruje da će delovati u interesu sistema a ne svom interesu.</li>
-<li>Šta ako želimo ‘trustless’ oblak? Gde bilo koji proračun ili posao želimo da poverimo bilo kojoj skupini korisnika sistema bez potrebe da im verujemo?</li>
-<li>Ovo postoji u dve forme: forma zasnovana na heš-baziranim strukturama podataka i algoritmima konsenzusa, i forma kriptografskog prikrivanja komputacija</li>
+<li>U svetu kriptografskih protokola za komunikaciju osobina ‘bez
+poverenja’ (odnosno trustless je jako poželjna</li>
+<li>Ideja je da nema nijednog entiteta u sistemu kome se posebno veruje
+da će delovati u interesu sistema a ne svom interesu.</li>
+<li>Šta ako želimo ‘trustless’ oblak? Gde bilo koji proračun ili posao
+želimo da poverimo bilo kojoj skupini korisnika sistema bez potrebe da
+im verujemo?</li>
+<li>Ovo postoji u dve forme: forma zasnovana na heš-baziranim
+strukturama podataka i algoritmima konsenzusa, i forma kriptografskog
+prikrivanja komputacija</li>
 </ul>
 </section>
-<section id="heš-bazirane-strukture-podataka-i-konsenzus" class="slide level2">
+<section id="heš-bazirane-strukture-podataka-i-konsenzus"
+class="slide level2">
 <h2>Heš bazirane strukture podataka i konsenzus</h2>
 <ul>
-<li>Ovo je mnogo poznatije pod (blago netačnim) terminom <em>blokčejn</em></li>
-<li>Ova tehnologija omogućava da se prozivoljni broj čvorova od kojih je (neki) broj možda nepošten slože oko stanja sistema, pravila za modifikaciju tog stanja, i izemna stanja po tim pravilma.</li>
-<li>Metod kojim se ovo slaganje postiže se zove ‘algoritam konsenzusa.’</li>
-<li>Blokčejn je vama poznat isključivo kao <em>finansijska</em> tehnologija</li>
+<li>Ovo je mnogo poznatije pod (blago netačnim) terminom
+<em>blokčejn</em></li>
+<li>Ova tehnologija omogućava da se prozivoljni broj čvorova od kojih je
+(neki) broj možda nepošten slože oko stanja sistema, pravila za
+modifikaciju tog stanja, i izemna stanja po tim pravilma.</li>
+<li>Metod kojim se ovo slaganje postiže se zove ‘algoritam
+konsenzusa.’</li>
+<li>Blokčejn je vama poznat isključivo kao <em>finansijska</em>
+tehnologija</li>
 <li>Otkud on ovde?</li>
 </ul>
 </section>
 <section id="the-world-computer" class="slide level2">
 <h2> The World Computer </h2>
 <ul>
-<li>Ako su vaši podaci deo stanja blokčejna, a vaša logika je deo tkzv. pametnih ugovora koji takav sistem napajaju, onda u velikoj meri blokčej predstavlja distribuiran, robustan, i bezbedan računarski sistem pristup kojem vi iznajmljujete na neverovatno granularan način.</li>
-<li>Blokčejn zna da naplaćuje uslugu na nivou individualne <em>instrukcije</em> i <em>bajta.</em></li>
-<li>Dakle, blokčejn se može tretirati kao još jedna forma ‘oblaka’ mada neobična i često veoma skupa forma oblaka.</li>
+<li>Ako su vaši podaci deo stanja blokčejna, a vaša logika je deo tkzv.
+pametnih ugovora koji takav sistem napajaju, onda u velikoj meri blokčej
+predstavlja distribuiran, robustan, i bezbedan računarski sistem pristup
+kojem vi iznajmljujete na neverovatno granularan način.</li>
+<li>Blokčejn zna da naplaćuje uslugu na nivou individualne
+<em>instrukcije</em> i <em>bajta.</em></li>
+<li>Dakle, blokčejn se može tretirati kao još jedna forma ‘oblaka’ mada
+neobična i često veoma skupa forma oblaka.</li>
 </ul>
 </section>
-<section id="kriptografsko-prikrivanje-informacija" class="slide level2">
+<section id="kriptografsko-prikrivanje-informacija"
+class="slide level2">
 <h2>Kriptografsko prikrivanje informacija</h2>
 <ul>
-<li>Veliki problem sa bločkejn pristupom (osim cene i problema komunikacije i Oracle problem i…) jeste problem tajnosti</li>
-<li>Zbog toga kako blokčejn radi, nemoguće je prikriti podatke koje on mora da obrađuje</li>
-<li>Ako bilo ko može da se pridruži, onda bilo ko mora da može da podatke i pregleda u celosti</li>
-<li>U slučaju klasičnog pristupa CC-u ne mogu <em>svi</em> da vide, ali vi implicitno verujete vašm provajderu usluga oblaka.</li>
+<li>Veliki problem sa bločkejn pristupom (osim cene i problema
+komunikacije i Oracle problem i…) jeste problem tajnosti</li>
+<li>Zbog toga kako blokčejn radi, nemoguće je prikriti podatke koje on
+mora da obrađuje</li>
+<li>Ako bilo ko može da se pridruži, onda bilo ko mora da može da
+podatke i pregleda u celosti</li>
+<li>U slučaju klasičnog pristupa CC-u ne mogu <em>svi</em> da vide, ali
+vi implicitno verujete vašm provajderu usluga oblaka.</li>
 <li>Šta ako sui vaši prohtevi prema bezbednosti veći?</li>
 </ul>
 </section>
-<section id="kriptografsko-prikrivanje-informacija-1" class="slide level2">
+<section id="kriptografsko-prikrivanje-informacija-1"
+class="slide level2">
 <h2>Kriptografsko prikrivanje informacija</h2>
 <ul>
-<li>Ono što nam treba jeste nekakav način da odradimo proračun nad nekakvim podacima na takav način da entiteti koji nam rade taj proračun niti mogu da ‘privire’ u podatke koje obrađuju niti mogu da maliciozno vrate pogrešan rezultat.</li>
+<li>Ono što nam treba jeste nekakav način da odradimo proračun nad
+nekakvim podacima na takav način da entiteti koji nam rade taj proračun
+niti mogu da ‘privire’ u podatke koje obrađuju niti mogu da maliciozno
+vrate pogrešan rezultat.</li>
 <li>Postoji nekoliko pristupa ovome:
 <ul>
 <li>Potpuno Homomorfna Enkripcija</li>
@@ -267,8 +359,12 @@
 <section id="potpuno-homomorfna-enkripcija" class="slide level2">
 <h2>Potpuno Homomorfna Enkripcija</h2>
 <ul>
-<li>Poptuno Homomotfna Enkripcija, na engleskom  Fully Homomorphic Encryption  je tehnika za šifrovanja takva da, kada izvršite proračune nad šifrovanom formom podataka dobijete rezultat koji, kada se dešifruje, bude rezultat operacije nad podacima.</li>
-<li>Nešto formalnije <span class="math inline">\(E(x)\)</span> je homomorfno akko: <span class="math display">\[
+<li>Poptuno Homomotfna Enkripcija, na engleskom Fully Homomorphic
+Encryption je tehnika za šifrovanja takva da, kada izvršite proračune
+nad šifrovanom formom podataka dobijete rezultat koji, kada se
+dešifruje, bude rezultat operacije nad podacima.</li>
+<li>Nešto formalnije <span class="math inline">\(E(x)\)</span> je
+homomorfno akko: <span class="math display">\[
 (\forall x \in D) (\forall f, f: D \to D)\\E^{-1}(f(E(x))) = f(x)
 \]</span> Za neki domen D</li>
 </ul>
@@ -276,74 +372,121 @@
 <section id="potpuno-homomorfna-enkripcija-1" class="slide level2">
 <h2>Potpuno Homomorfna Enkripcija</h2>
 <ul>
-<li>Praktičan sistem za FHE onda omogućava da šifrujemo naše podatke, pošaljemo ih nekome ko ih obradi po specifikacijama, i vrati obrađeno bez mogućnosti da zna šta su ulazi ili šta znači izlaz.</li>
-<li>To omogućava privatnost poruka, a i znači da je nemoguće ‘namestiti’ rezultat pošto bi to zahtevalo da se poruka adekvatno enkriptuje.</li>
-<li>Naravno, izazov je naći ovakvu šemu za enkripciju koja još podržava željene transformacije, i ne zahteva gotovo beskonačno računarsko vreme.</li>
+<li>Praktičan sistem za FHE onda omogućava da šifrujemo naše podatke,
+pošaljemo ih nekome ko ih obradi po specifikacijama, i vrati obrađeno
+bez mogućnosti da zna šta su ulazi ili šta znači izlaz.</li>
+<li>To omogućava privatnost poruka, a i znači da je nemoguće ‘namestiti’
+rezultat pošto bi to zahtevalo da se poruka adekvatno enkriptuje.</li>
+<li>Naravno, izazov je naći ovakvu šemu za enkripciju koja još podržava
+željene transformacije, i ne zahteva gotovo beskonačno računarsko
+vreme.</li>
 </ul>
 </section>
 <section id="enklave-i-računarstvo-od-poverenja" class="slide level2">
 <h2>Enklave i Računarstvo od Poverenja</h2>
 <ul>
-<li>Alternativa ovome jeste da se sistem implementira ne kroz kriptografski pristup, no kroz eksplicitnu hardversku podršku.</li>
-<li>Zamislite da računar koji iznajmljujete ima u sebi drugi računar, odvojen potpuno od prvog, i takav da ima interne podatke koji su potpuno tajni: u sebe integrisanu, tajnu memoriju.</li>
-<li>Recimo da je jedan od tih podataka par ključeva za asimetričnu kriptografiju takav da se ne može ekstrahovati.</li>
-<li>Recimo, takođe, da taj javni ključ poseduje potpis proizvođača što omogućava da se autentičnog uređaja validira.</li>
+<li>Alternativa ovome jeste da se sistem implementira ne kroz
+kriptografski pristup, no kroz eksplicitnu hardversku podršku.</li>
+<li>Zamislite da računar koji iznajmljujete ima u sebi drugi računar,
+odvojen potpuno od prvog, i takav da ima interne podatke koji su potpuno
+tajni: u sebe integrisanu, tajnu memoriju.</li>
+<li>Recimo da je jedan od tih podataka par ključeva za asimetričnu
+kriptografiju takav da se ne može ekstrahovati.</li>
+<li>Recimo, takođe, da taj javni ključ poseduje potpis proizvođača što
+omogućava da se autentičnog uređaja validira.</li>
 </ul>
 </section>
 <section id="enklave-i-računarstvo-od-poverenja-1" class="slide level2">
 <h2>Enklave i Računarstvo od Poverenja</h2>
 <ul>
-<li>Onda bi mogli da kada želimo da zatražimo ključ takve ‘enklave’ u računaru, validiramo autentičnost, i njime šifrujemo svoj algoritam, podatke, kao i svoj javni ključ (koji šifrujemo da bi izbegli mogućnost MITM napada).</li>
-<li>Enklava izvrši sve što smo zatražili, radeći operacije interno (u tajnoj memoriji) a koristeći glavnu memoriju računara samo da čuva podatke koji su šifrovani ključem koji se čuva u tajnoj memoriji.</li>
+<li>Onda bi mogli da kada želimo da zatražimo ključ takve ‘enklave’ u
+računaru, validiramo autentičnost, i njime šifrujemo svoj algoritam,
+podatke, kao i svoj javni ključ (koji šifrujemo da bi izbegli mogućnost
+MITM napada).</li>
+<li>Enklava izvrši sve što smo zatražili, radeći operacije interno (u
+tajnoj memoriji) a koristeći glavnu memoriju računara samo da čuva
+podatke koji su šifrovani ključem koji se čuva u tajnoj memoriji.</li>
 <li>Onda pošalje šifrovan odgovor nama.</li>
-<li>Ovo je naravno sporo, ali ako se glavni računar koristi za ne-ključne stvari, a enklava za bezbednosno-kritične stvari, dobar nivo performansi i bezbednosti su mogući.</li>
+<li>Ovo je naravno sporo, ali ako se glavni računar koristi za
+ne-ključne stvari, a enklava za bezbednosno-kritične stvari, dobar nivo
+performansi i bezbednosti su mogući.</li>
 </ul>
 </section>
 <section id="enklave-i-računarstvo-od-poverenja-2" class="slide level2">
 <h2>Enklave i Računarstvo od Poverenja</h2>
 <ul>
-<li>Prethodno je samo skica rešenja (stvarnost je kao i obično drugačija i kompleksnija, ali ovo prenosi centralnu ideju), i iz toga je već moguće videti dva problema sa ovim pristupom</li>
-<li>Prvo je da bilo koji bezbednosni sistem implementiran u hardveru može imati greške i ako su te greške teške dovoljno, garancije ovog sistema padaju u vodu trenutno.</li>
-<li>Drugo je da poverenje nije distribuirano no je centralizovano: u proizvođača procesora.</li>
+<li>Prethodno je samo skica rešenja (stvarnost je kao i obično drugačija
+i kompleksnija, ali ovo prenosi centralnu ideju), i iz toga je već
+moguće videti dva problema sa ovim pristupom</li>
+<li>Prvo je da bilo koji bezbednosni sistem implementiran u hardveru
+može imati greške i ako su te greške teške dovoljno, garancije ovog
+sistema padaju u vodu trenutno.</li>
+<li>Drugo je da poverenje nije distribuirano no je centralizovano: u
+proizvođača procesora.</li>
 </ul>
 </section>
 <section id="dokazi-nultog-znanja" class="slide level2">
 <h2>Dokazi Nultog Znanja</h2>
 <ul>
-<li>Za razliku od dve prethodno navedene stavke, dokazi nultog znanja (eng.  Zero Knowledge Proof  ne mogu da se koriste da u potpunosti reše problem.</li>
-<li>Uprkos tome, DNZ-ovi imaju svoju funkciju u konstrukciji ovih sistema.</li>
-<li>Centralna ideja iza DNZ-a jeste da jedna strana (koju možemo zvati ‘dokazivač’) može da demonstrira nekakvu činjenicu (recimo da zna nekakvu tajnu, ili da nekakav podatak koji zna ima nekakvu osobinu) nekome drugom (tu osobu možemo zvati ‘revizor’) na način koji odaje <em>nula znanja.</em></li>
+<li>Za razliku od dve prethodno navedene stavke, dokazi nultog znanja
+(eng. Zero Knowledge Proof ne mogu da se koriste da u potpunosti reše
+problem.</li>
+<li>Uprkos tome, DNZ-ovi imaju svoju funkciju u konstrukciji ovih
+sistema.</li>
+<li>Centralna ideja iza DNZ-a jeste da jedna strana (koju možemo zvati
+‘dokazivač’) može da demonstrira nekakvu činjenicu (recimo da zna
+nekakvu tajnu, ili da nekakav podatak koji zna ima nekakvu osobinu)
+nekome drugom (tu osobu možemo zvati ‘revizor’) na način koji odaje
+<em>nula znanja.</em></li>
 </ul>
 </section>
 <section id="dokazi-nultog-znanja-1" class="slide level2">
 <h2>Dokazi Nultog Znanja</h2>
 <ul>
-<li>Primer primene DNZ metoda, doduše idealizovan, jeste da zamislite da dokazivač zna rešenje nekakve teške matematičke zagonetke.</li>
-<li>Revizor želi da kupi to rešenje, ali neće da plati dok ne vidi dokaz da dokazivač zaista ima validno rešenje.</li>
-<li>Naravno, dokazivač ne želi da podeli rešenje (što bi definitivno dokazalo da ga ima) zato što onda ne može da proda pristup njemu.</li>
-<li>Stoga, koristeći DNZ protkol može da dokaže da poseduje tajnu koja ima matematičku osobinu da rešava tu zagonetku, ali na takav način da ne oda ništa o toj tajni.</li>
+<li>Primer primene DNZ metoda, doduše idealizovan, jeste da zamislite da
+dokazivač zna rešenje nekakve teške matematičke zagonetke.</li>
+<li>Revizor želi da kupi to rešenje, ali neće da plati dok ne vidi dokaz
+da dokazivač zaista ima validno rešenje.</li>
+<li>Naravno, dokazivač ne želi da podeli rešenje (što bi definitivno
+dokazalo da ga ima) zato što onda ne može da proda pristup njemu.</li>
+<li>Stoga, koristeći DNZ protkol može da dokaže da poseduje tajnu koja
+ima matematičku osobinu da rešava tu zagonetku, ali na takav način da ne
+oda ništa o toj tajni.</li>
 </ul>
 </section>
 <section id="dokazi-nultog-znanja-2" class="slide level2">
 <h2>Dokazi Nultog Znanja</h2>
 <ul>
-<li>DNZ ne može da se koristi sam po sebi na način kao što se FHE može koristiti ili enklave.</li>
-<li>Ono što može uraditi jeste, na primer, postarati se da nekakav eksteran skup validatora može da proveri proračun koji je provajder usluge proračuna obavio validan bez toga da u stvari mora da pristupi podacima proračuna.</li>
-<li>Ovakva kontrola pristupa se može uspešno koristiti da se implementiraju ekstremno distribuirani sistemi sa kompleksnim garancijama bezbednosti i privatnosti.</li>
+<li>DNZ ne može da se koristi sam po sebi na način kao što se FHE može
+koristiti ili enklave.</li>
+<li>Ono što može uraditi jeste, na primer, postarati se da nekakav
+eksteran skup validatora može da proveri proračun koji je provajder
+usluge proračuna obavio validan bez toga da u stvari mora da pristupi
+podacima proračuna.</li>
+<li>Ovakva kontrola pristupa se može uspešno koristiti da se
+implementiraju ekstremno distribuirani sistemi sa kompleksnim
+garancijama bezbednosti i privatnosti.</li>
 </ul>
 </section></section>
 <section>
-<section id="klasično-računarstvo-u-oblaku" class="title-slide slide level1">
+<section id="klasično-računarstvo-u-oblaku"
+class="title-slide slide level1">
 <h1>Klasično Računarstvo u Oblaku</h1>
 <p>Odlike i organizacija</p>
 </section>
 <section id="samousluga-po-potrebi" class="slide level2">
 <h2>Samousluga po potrebi</h2>
 <ul>
-<li>Jedna ključna osobina klasičnog CC pristupa jeste samouslužnost po potrebi</li>
-<li>To znači, jednostavno rečeno, da klijent pružača te usluge je slobodan da odabere šta god želi od resursa, u zavisnosti od potrebe, i da to alocira za upotrebu</li>
-<li>Ovo se dramatično razlikuje od, recimo, kupovine fizičkog računarskog uređaja: takav uređaj ima određene sposobnosti i sve te sposobnosti su dostupne od samog početka.</li>
-<li>To što nešto nije potrebno ili što je potrebno više ne utiče na situaciju.</li>
+<li>Jedna ključna osobina klasičnog CC pristupa jeste samouslužnost po
+potrebi</li>
+<li>To znači, jednostavno rečeno, da klijent pružača te usluge je
+slobodan da odabere šta god želi od resursa, u zavisnosti od potrebe, i
+da to alocira za upotrebu</li>
+<li>Ovo se dramatično razlikuje od, recimo, kupovine fizičkog
+računarskog uređaja: takav uređaj ima određene sposobnosti i sve te
+sposobnosti su dostupne od samog početka.</li>
+<li>To što nešto nije potrebno ili što je potrebno više ne utiče na
+situaciju.</li>
 </ul>
 </section>
 <section id="mrežna-orijentisanost" class="slide level2">
@@ -352,176 +495,285 @@
 <li>Mreže i CC su vezane neraskidivo.</li>
 <li>Pristup CC servisima je uvek mrežni</li>
 <li>Najčešće, gotovo uvek, u stvari, to je pristup preko Interneta</li>
-<li>To nije neophodno: moglo bi se pristupiti i preko nekakvog direktnog linka.</li>
+<li>To nije neophodno: moglo bi se pristupiti i preko nekakvog direktnog
+linka.</li>
 </ul>
 </section>
 <section id="unificiranje-resursa" class="slide level2">
 <h2>Unificiranje resursa</h2>
 <ul>
 <li>CC sistemi unificiraju resurse računarskih sistema</li>
-<li>Unificiranje ovde je dvostruka operacija koja obuhvata i grupisanje (recimo ako imamo stotinu diskova kapaciteta 2TB onda naš sistem u stvari ima 200 TB na raspolaganju) ali i razdvajanje (sistem može da razlikuje i posebno prati SSD diskove, hard diskove, ili hard diskove koji su normalno u stanju niske energije i ne rotiraju, hard diskove koji nisu ni zakačeni i moraju se robotski povezati, i podatke koji su na magnetnim trakama sekvencijalnog pristupa koje se moraju učitati u slučaju potrebe).</li>
-<li>Raznoridni hardver se objedini, a onda se po kvalitetu usluge i drugim osobinama ceo sistem podeli.</li>
+<li>Unificiranje ovde je dvostruka operacija koja obuhvata i grupisanje
+(recimo ako imamo stotinu diskova kapaciteta 2TB onda naš sistem u
+stvari ima 200 TB na raspolaganju) ali i razdvajanje (sistem može da
+razlikuje i posebno prati SSD diskove, hard diskove, ili hard diskove
+koji su normalno u stanju niske energije i ne rotiraju, hard diskove
+koji nisu ni zakačeni i moraju se robotski povezati, i podatke koji su
+na magnetnim trakama sekvencijalnog pristupa koje se moraju učitati u
+slučaju potrebe).</li>
+<li>Raznorodni hardver se objedini, a onda se po kvalitetu usluge i
+drugim osobinama ceo sistem podeli.</li>
 </ul>
 </section>
 <section id="unificiranje-resursa-1" class="slide level2">
 <h2>Unificiranje resursa</h2>
 <ul>
-<li>Unificiranje resursa je neophodno ne bi li skaliranje i samousluga po potrebi bili mogući.</li>
-<li>Bez mogućnosti da se resursi objedine i rasloje po potrebi, granularnost alokacije bi bila ravna jednoj fizičkoj mašini nekakve, fiksne, konfiguracije.</li>
-<li>Ova unifikacije nije uvek stvar proste aritmetike: unificirana memorija dovodi do nepredvidivih ograničenja programiranja sa NUMA arhitekturama, unificiran disk multiplicira šansu gubitka podataka bez nekakvog mehanizma za redudansu…</li>
+<li>Unificiranje resursa je neophodno ne bi li skaliranje i samousluga
+po potrebi bili mogući.</li>
+<li>Bez mogućnosti da se resursi objedine i rasloje po potrebi,
+granularnost alokacije bi bila ravna jednoj fizičkoj mašini nekakve,
+fiksne, konfiguracije.</li>
+<li>Ova unifikacije nije uvek stvar proste aritmetike: unificirana
+memorija dovodi do nepredvidivih ograničenja programiranja sa NUMA
+arhitekturama, unificiran disk multiplicira šansu gubitka podataka bez
+nekakvog mehanizma za redudansu…</li>
 </ul>
 </section>
 <section id="brzo-i-elastično-skaliranje" class="slide level2">
 <h2>Brzo i elastično skaliranje</h2>
 <ul>
-<li>CC ne može da reši probleme ako je onaj samouslužni odabir resursa (koji su unificirani i raslojeni) po meri ne može da se menja u oba smera tokom izvršavanja nekakvog projekta.</li>
-<li>To je skaliranje: da komputacioni resursi odgovaraju dimenzijama problema</li>
-<li>Ako na naš servis bude navala, mi povećamo alokaciju onih resursa koji nam nedostaju.</li>
-<li>Elastičnost znači da kada imamo višak komputacionih resursa, ono što nam ne trebe se de-alocira (i ne plaća)</li>
+<li>CC ne može da reši probleme ako je onaj samouslužni odabir resursa
+(koji su unificirani i raslojeni) po meri ne može da se menja u oba
+smera tokom izvršavanja nekakvog projekta.</li>
+<li>To je skaliranje: da komputacioni resursi odgovaraju dimenzijama
+problema</li>
+<li>Ako na naš servis bude navala, mi povećamo alokaciju onih resursa
+koji nam nedostaju.</li>
+<li>Elastičnost znači da kada imamo višak komputacionih resursa, ono što
+nam ne trebe se de-alocira (i ne plaća)</li>
 </ul>
 </section>
 <section id="merljivost-i-naplativost" class="slide level2">
 <h2>Merljivost i naplativost</h2>
 <ul>
-<li>CC zahteva da se upotreba računara precizno meri ne bi li se jednako precizno naplaćivala</li>
-<li>Ta preciznost u naplaćivanju služi ne bi li pružila ekonomsku incentivu za upotrebu elastičnosti servisa</li>
-<li>Ako je cena ista bez obzira da li angažujemo 1 jezgro ili 10, nema incentive da se neupotrebljena jezgra ne koriste i dealociraju.</li>
+<li>CC zahteva da se upotreba računara precizno meri ne bi li se jednako
+precizno naplaćivala</li>
+<li>Ta preciznost u naplaćivanju služi ne bi li pružila ekonomsku
+incentivu za upotrebu elastičnosti servisa</li>
+<li>Ako je cena ista bez obzira da li angažujemo 1 jezgro ili 10, nema
+incentive da se neupotrebljena jezgra ne koriste i dealociraju.</li>
 </ul>
 </section>
 <section id="merljivost-i-naplativost-1" class="slide level2">
 <h2>Merljivost i naplativost</h2>
 <ul>
-<li>Sa jedne strane, individualne računarske instance se mogu naplaćivati po satu, minutu, ili sekundi rada</li>
-<li>Drugim rečima, naš sistem od CC provajdera dobija apstraktno-virtualizovane računarske sisteme nominalnih performansi i plaća za to u skladu sa garantovanim performansama.</li>
-<li>Sa druge, moguće je naplaćivati precizno procesorsko vreme, alokaciju memorije na nivou bajta, prostor na disku, i mrežni protok.</li>
+<li>Sa jedne strane, individualne računarske instance se mogu
+naplaćivati po satu, minutu, ili sekundi rada</li>
+<li>Drugim rečima, naš sistem od CC provajdera dobija
+apstraktno-virtualizovane računarske sisteme nominalnih performansi i
+plaća za to u skladu sa garantovanim performansama.</li>
+<li>Sa druge, moguće je naplaćivati precizno procesorsko vreme,
+alokaciju memorije na nivou bajta, prostor na disku, i mrežni
+protok.</li>
 </ul>
 </section></section>
 <section>
-<section id="istorija-koncepta-računarstva-u-oblaku" class="title-slide slide level1">
+<section id="istorija-koncepta-računarstva-u-oblaku"
+class="title-slide slide level1">
 <h1>Istorija koncepta Računarstva u Oblaku</h1>
 <p>Kako smo ovde stigli?</p>
 </section>
-<section id="rani-dani-i-centralizovano-računarstvo" class="slide level2">
+<section id="rani-dani-i-centralizovano-računarstvo"
+class="slide level2">
 <h2>Rani dani i centralizovano računarstvo</h2>
 <ul>
-<li>U najranijim danima računarstva ništa <em>slično</em> računarstvu u oblaku nije bilo moguće</li>
-<li>Računari su bili deljeni resursi, ali je njihova podeljenost bila vremenska</li>
-<li>Programi su se izvršavali ne-interaktivno i obrađivali su se, jedan po jedan, i svaki je, dok se izvršavao, imao svu snagu računara (ne mnogo u tim vremenima)</li>
+<li>U najranijim danima računarstva ništa <em>slično</em> računarstvu u
+oblaku nije bilo moguće</li>
+<li>Računari su bili deljeni resursi, ali je njihova podeljenost bila
+vremenska</li>
+<li>Programi su se izvršavali ne-interaktivno i obrađivali su se, jedan
+po jedan, i svaki je, dok se izvršavao, imao svu snagu računara (ne
+mnogo u tim vremenima)</li>
 </ul>
 </section>
 <section id="prva-podela-računara" class="slide level2">
 <h2>Prva podela računara</h2>
 <ul>
-<li>Prve podele računara su nastale sa povećanom željom za interaktivnim računarskim sistemima</li>
-<li>Prvi interaktivni računari su bile mašine kao što je TX-0 i PDP-1 koje su korišćene kao lični računari (deljeni na nivou sata upotrebe)</li>
-<li>To se pokazalo neefikasnim, a moćniji računari su sugerisali šanse da više ljudi koristi računar u isto vreme</li>
-<li>Prvi operativni sistemi koji podržavaju  time sharing  kako se to zvalo se pojavljuju</li>
+<li>Prve podele računara su nastale sa povećanom željom za interaktivnim
+računarskim sistemima</li>
+<li>Prvi interaktivni računari su bile mašine kao što je TX-0 i PDP-1
+koje su korišćene kao lični računari (deljeni na nivou sata
+upotrebe)</li>
+<li>To se pokazalo neefikasnim, a moćniji računari su sugerisali šanse
+da više ljudi koristi računar u isto vreme</li>
+<li>Prvi operativni sistemi koji podržavaju time sharing kako se to
+zvalo se pojavljuju</li>
 </ul>
 </section>
 <section id="rani-mainframe-računar" class="slide level2">
 <h2>Rani mainframe računar</h2>
 <ul>
-<li>Ovo je neizbežno dovelo do generacije ogromnih centralizovanih računara koji su uspešno obavili unificiranje resursa (zato što su se sve finansije slivale u kupovinu jedne maksimalno moćne mašine)</li>
-<li>Ovakav računar izvršava poslove više korisnika paralelno tako što deli procesorsko vreme na kratke vremenske segmente, a memoriju na zaštićene i disjunktne adresne prostore procesa.</li>
-<li>Sam računar se koristi kroz <em>terminale</em>, kombinacije tastature i monitora (u ranijim modelima, teleprintere) koji služe da se izdaju komande i čita rezultat.</li>
+<li>Ovo je neizbežno dovelo do generacije ogromnih centralizovanih
+računara koji su uspešno obavili unificiranje resursa (zato što su se
+sve finansije slivale u kupovinu jedne maksimalno moćne mašine)</li>
+<li>Ovakav računar izvršava poslove više korisnika paralelno tako što
+deli procesorsko vreme na kratke vremenske segmente, a memoriju na
+zaštićene i disjunktne adresne prostore procesa.</li>
+<li>Sam računar se koristi kroz <em>terminale</em>, kombinacije
+tastature i monitora (u ranijim modelima, teleprintere) koji služe da se
+izdaju komande i čita rezultat.</li>
 </ul>
 </section>
 <section id="zanimljivo-pitanje" class="slide level2">
 <h2>Zanimljivo pitanje</h2>
-<p>Danas, znamo da se Cloud Computing ne obavlja na nivou procesa, no na nivou virtuelnih mašina.</p>
+<p>Danas, znamo da se Cloud Computing ne obavlja na nivou procesa, no na
+nivou virtuelnih mašina.</p>
 <p>Zašto?</p>
 </section>
 <section id="utility-computing" class="slide level2">
 <h2> Utility Computing </h2>
 <ul>
-<li>Ovakav pristup koji manifestuje neke elemente  Cloud Computing  filozofije (resursi su unificirani pa deljeni, postoje elementi elastičnosti) je dove do generalizacije ideje u koncept koji se zove  Utility Computing </li>
-<li>Ideja je bila da će postojati mrežno povezani masivni računari koji će svoje usluge naplaćivati bilo kome ko želi da ih koristi</li>
-<li>U vreme kada je ovo osmišljeno, samo su ogromne institucije mogle da plate da imaju računar - ovo je izgledao kao jedini smislen način da svako ima pristup računarskom vremenu.</li>
+<li>Ovakav pristup koji manifestuje neke elemente Cloud Computing
+filozofije (resursi su unificirani pa deljeni, postoje elementi
+elastičnosti) je dove do generalizacije ideje u koncept koji se zove
+Utility Computing </li>
+<li>Ideja je bila da će postojati mrežno povezani masivni računari koji
+će svoje usluge naplaćivati bilo kome ko želi da ih koristi</li>
+<li>U vreme kada je ovo osmišljeno, samo su ogromne institucije mogle da
+plate da imaju računar - ovo je izgledao kao jedini smislen način da
+svako ima pristup računarskom vremenu.</li>
 </ul>
 </section>
 <section id="beg-na-lični-računar" class="slide level2">
 <h2>Beg na lični računar</h2>
 <ul>
 <li>Pojava mikroprocesora je pokvarila ovu viziju</li>
-<li>Prvi lični računari su bili više igračke nego ozbiljne mašine, ali to nije potrajalo</li>
-<li>U ovom novom dobu, velika količina procesorske moći je dostupna individualnom korisniku na individualnom računaru</li>
-<li>Napredak se sastoji u centralizaciji obrade na individualnom računaru i razmeni samo podataka preko mreže</li>
+<li>Prvi lični računari su bili više igračke nego ozbiljne mašine, ali
+to nije potrajalo</li>
+<li>U ovom novom dobu, velika količina procesorske moći je dostupna
+individualnom korisniku na individualnom računaru</li>
+<li>Napredak se sastoji u centralizaciji obrade na individualnom
+računaru i razmeni samo podataka preko mreže</li>
 </ul>
 </section>
 <section id="pojava-oblaka" class="slide level2">
 <h2>Pojava oblaka</h2>
 <ul>
-<li>Kako se povećavala upotreba broadband interneta, tako je bila sve veća potreba za podacima dostupnim odasvud i pojavila se veća potreba za servisima koji se pružaju preko Interneta.</li>
-<li>Ovo, sa druge strane, je dovelo do sve veće potrebe za održavanjem servera koji opslužuju zahteve</li>
-<li>Za korisnike ovo je bio momenat kada je oblak stigao, ali za provajdere tih usluga, ovo je i dalje bilo vreme individualnih serverskih soba za svaki servis</li>
+<li>Kako se povećavala upotreba broadband interneta, tako je bila sve
+veća potreba za podacima dostupnim odasvud i pojavila se veća potreba za
+servisima koji se pružaju preko Interneta.</li>
+<li>Ovo, sa druge strane, je dovelo do sve veće potrebe za održavanjem
+servera koji opslužuju zahteve</li>
+<li>Za korisnike ovo je bio momenat kada je oblak stigao, ali za
+provajdere tih usluga, ovo je i dalje bilo vreme individualnih
+serverskih soba za svaki servis</li>
 </ul>
 </section>
-<section id="migracija-na-oblak-i-totalna-cena-vlasništva" class="slide level2">
+<section id="migracija-na-oblak-i-totalna-cena-vlasništva"
+class="slide level2">
 <h2>Migracija na oblak i totalna cena vlasništva</h2>
 <ul>
-<li>Totalna cena vlasništva (eng.  Total Cost of Ownership - TCO  je strahovito bitan faktor u komercijalnoj eksploataciji računarskih sistema</li>
-<li>TCO je cena nekakvog sistema koja uključuje <em>sve</em> elemente cene, ne samo koliko je koštao sistem i njegov softver, no i koliko košta struja, održavanje, periodična modernizacija, opravke…</li>
-<li>TCO može da pretvori neke naizgled jeftine stvari u neobično skupe</li>
-<li>Ispostavilo se da je, ekonomski gledano, TCO održavanja serverske sobe veoma nezgodan .</li>
+<li>Totalna cena vlasništva (eng. Total Cost of Ownership - TCO je
+strahovito bitan faktor u komercijalnoj eksploataciji računarskih
+sistema</li>
+<li>TCO je cena nekakvog sistema koja uključuje <em>sve</em> elemente
+cene, ne samo koliko je koštao sistem i njegov softver, no i koliko
+košta struja, održavanje, periodična modernizacija, opravke…</li>
+<li>TCO može da pretvori neke naizgled jeftine stvari u neobično
+skupe</li>
+<li>Ispostavilo se da je, ekonomski gledano, TCO održavanja serverske
+sobe veoma nezgodan problem.</li>
 </ul>
 </section>
 <section id="tco-klasične-serverske-sobe" class="slide level2">
 <h2>TCO Klasične serverske sobe</h2>
 <ul>
-<li>Problem sa održavanjem sopstvenih servera jeste da neobično puno posla odlazi na menadžment konfiguracijom softvera, ažuriranjem verzija, održavanjem konfiguracija, i sličnim poslovima</li>
-<li>Čak i kada se to uzme u obzir, tu su takođe i troškovi kvarova i održvanja koji mogu, za veliku instalaciju, da postanu dramatični</li>
-<li>Konačno, istinski robusna serverska soba mora da bude spremna za razne egzotične scenarije u razna vremena dana i noći, što znači da verovatno mnogo skupe opreme i skupih eksperata sede naokolo u tri smene i ne rade, uglavnom, ništa.</li>
+<li>Problem sa održavanjem sopstvenih servera jeste da neobično puno
+posla odlazi na menadžment konfiguracijom softvera, ažuriranjem verzija,
+održavanjem konfiguracija, i sličnim poslovima</li>
+<li>Čak i kada se to uzme u obzir, tu su takođe i troškovi kvarova i
+održvanja koji mogu, za veliku instalaciju, da postanu dramatični</li>
+<li>Konačno, istinski robusna serverska soba mora da bude spremna za
+razne egzotične scenarije u razna vremena dana i noći, što znači da
+verovatno mnogo skupe opreme i skupih eksperata sede naokolo u tri smene
+i ne rade, uglavnom, ništa.</li>
 </ul>
 </section>
 <section id="prednosti-povećanja-skale" class="slide level2">
 <h2>Prednosti povećanja skale</h2>
 <ul>
-<li>Sa druge strane, istinski <em>divovska</em> instalacija može da deli svu tu skupu opremu i eksperte između jako velikog broja računara što znači da je manje vremena traćeno i da se veliki troškovi isplate.</li>
-<li>Malo koja kompanija zaista mora da ima tako veliku instalaciju, ali one koje jesu imale su otkrile da višak mogu veoma lako da prodaju</li>
-<li>Ovo se naročito rascvetalo usled znatnog napretka tehnologija virtuelizacije o kojima više kasnije.</li>
+<li>Sa druge strane, istinski <em>divovska</em> instalacija može da deli
+svu tu skupu opremu i eksperte između jako velikog broja računara što
+znači da je manje vremena traćeno i da se veliki troškovi isplate.</li>
+<li>Malo koja kompanija zaista mora da ima tako veliku instalaciju, ali
+one koje jesu imale su otkrile da višak mogu veoma lako da prodaju</li>
+<li>Ovo se naročito rascvetalo usled znatnog napretka tehnologija
+virtuelizacije o kojima više kasnije.</li>
 </ul>
 </section>
-<section id="razvoj-računarstva-u-oblaku-prvi-stadijum" class="slide level2">
+<section id="razvoj-računarstva-u-oblaku-prvi-stadijum"
+class="slide level2">
 <h2>Razvoj računarstva u oblaku, prvi stadijum</h2>
 <ul>
-<li>U ovom stadijumu postoji određeni broj fizičkih servera u serverskoj sobi i administratori (umesto da poslove razdvajaju kao procese na serveru) ih razdvajaju kao više raznih virtuelnih mašina.</li>
-<li>Ovo olakšava rad i efikasnije koristi resurse zato što omogućava da, npr. ‘server za baze podataka’ u stvari bez problema opslužuje više baza podataka nekompatibilnog tipa više projekata.</li>
+<li>U ovom stadijumu postoji određeni broj fizičkih servera u serverskoj
+sobi i administratori (umesto da poslove razdvajaju kao procese na
+serveru) ih razdvajaju kao više raznih virtuelnih mašina.</li>
+<li>Ovo olakšava rad i efikasnije koristi resurse zato što omogućava da,
+npr. ‘server za baze podataka’ u stvari bez problema opslužuje više baza
+podataka nekompatibilnog tipa više projekata.</li>
 </ul>
 </section>
-<section id="razvoj-računarstva-u-oblaku-drugi-stadijum" class="slide level2">
+<section id="razvoj-računarstva-u-oblaku-drugi-stadijum"
+class="slide level2">
 <h2>Razvoj računarstva u oblaku, drugi stadijum</h2>
 <ul>
-<li>U ovom stadijumu sistem evoluira da bude mnogo više automatizovan</li>
-<li>Umesto da se VM-ovi stvaraju rukom, oni se konfigurišu i aktiviraju automatski</li>
-<li>Pristup podacima je potpuno softverski definisan gde se preko apstrakcionog sloja pristupa unificiranim resursima čuvanja podataka</li>
-<li>Mreža između računara je nezavisna od fizičke mreže između njih i softverski je definisana, formirajući virtuelne mreže između računara koji su fizički možda na istom procesoru, a možda na drugom kontinentu</li>
+<li>U ovom stadijumu sistem evoluira da bude mnogo više
+automatizovan</li>
+<li>Umesto da se VM-ovi stvaraju rukom, oni se konfigurišu i aktiviraju
+automatski</li>
+<li>Pristup podacima je potpuno softverski definisan gde se preko
+apstrakcionog sloja pristupa unificiranim resursima čuvanja
+podataka</li>
+<li>Mreža između računara je nezavisna od fizičke mreže između njih i
+softverski je definisana, formirajući virtuelne mreže između računara
+koji su fizički možda na istom procesoru, a možda na drugom
+kontinentu</li>
 </ul>
 </section>
-<section id="razdvoj-računarstva-u-oblaku-treći-stadijum" class="slide level2">
+<section id="razdvoj-računarstva-u-oblaku-treći-stadijum"
+class="slide level2">
 <h2>Razdvoj računarstva u oblaku, treći stadijum</h2>
 <ul>
-<li>U ovom stadijumu ide se ka apsolutnoj fleksibilnosti prema resursima</li>
-<li>Sve je elastično, sve je skalabilno, svaki zamisliv resurs je unificiran i može se kupiti ‘na kilo’</li>
-<li>Da bi se ovo podržalo, aplikacije se konstruišu kao mikroservisi (više za sekundu) tako da aplikacije mogu da se skaliraju anizotropno</li>
-<li>U softverske sisteme se integriše više SaaS rešenja što povlači za svobom komunikaciju između oblaka</li>
+<li>U ovom stadijumu ide se ka apsolutnoj fleksibilnosti prema
+resursima</li>
+<li>Sve je elastično, sve je skalabilno, svaki zamisliv resurs je
+unificiran i može se kupiti ‘na kilo’</li>
+<li>Da bi se ovo podržalo, aplikacije se konstruišu kao mikroservisi
+(više za sekundu) tako da aplikacije mogu da se skaliraju
+anizotropno</li>
+<li>U softverske sisteme se integriše više SaaS rešenja što povlači za
+svobom komunikaciju između oblaka</li>
 </ul>
 </section>
 <section id="mikroservisi" class="slide level2">
 <h2>Mikroservisi?</h2>
 <ul>
-<li>U mnogo čemu mikroservisi su adaptacija u dizajnu softvera na računarstvo u oblaku</li>
+<li>U mnogo čemu mikroservisi su adaptacija u dizajnu softvera na
+računarstvo u oblaku</li>
 <li>Imaćemo posebno predavanje o ovome, ali evo par detalja</li>
-<li>Mikroservisi su mehanizam kojim se aplikacija ne implementira kao jedan tehnološki stek nego kao međusobno komunicirajuća mreža nezavisnih mikro-aplikacija, svaka od kojih implementira nekakvu svoju funkcionalnost.</li>
-<li>Ova aplikacije mogu biti <em>potpuno</em> heterogene, a ne moraju biti</li>
+<li>Mikroservisi su mehanizam kojim se aplikacija ne implementira kao
+jedan tehnološki stek nego kao međusobno komunicirajuća mreža nezavisnih
+mikro-aplikacija, svaka od kojih implementira nekakvu svoju
+funkcionalnost.</li>
+<li>Ova aplikacije mogu biti <em>potpuno</em> heterogene, a ne moraju
+biti</li>
 </ul>
 </section>
 <section id="mikroservisi-1" class="slide level2">
 <h2>Mikroservisi?</h2>
 <ul>
-<li>Mikroservisi su povezani tako da je stepen povezivanja onoliko labav koliko je to moguće i često se oslanjaju na kanale poruka, implementiraju  service discovery  mehanizme, i slične napredne tehnike organizacije komunikacionih linija aplikacije.</li>
-<li>Ideja je u tome da je svaki mikroservis, osim svog API-ja ka spoljašnjem svetu, svoja priča i da se ne samo može razvijati posebno nego i <em>skalirati</em> posebno</li>
-<li>Drugim rečima, ako je u aplikaciji navala na login sistem, onda nema potrebe da se skalira ceo sistem uključujući i logiku za filtriranje podataka ili tako nešo.</li>
-<li>Može se skalirati samo login mikroservis onoliko koliko je potrebno</li>
+<li>Mikroservisi su povezani tako da je stepen povezivanja onoliko labav
+koliko je to moguće i često se oslanjaju na kanale poruka,
+implementiraju service discovery mehanizme, i slične napredne tehnike
+organizacije komunikacionih linija aplikacije.</li>
+<li>Ideja je u tome da je svaki mikroservis, osim svog API-ja ka
+spoljašnjem svetu, svoja priča i da se ne samo može razvijati posebno
+nego i <em>skalirati</em> posebno</li>
+<li>Drugim rečima, ako je u aplikaciji navala na login sistem, onda nema
+potrebe da se skalira ceo sistem uključujući i logiku za filtriranje
+podataka ili tako nešo.</li>
+<li>Može se skalirati samo login mikroservis onoliko koliko je
+potrebno</li>
 </ul>
 </section></section>
     </div>
@@ -565,7 +817,7 @@
 
         // Add the current slide number to the URL hash so that reloading the
         // page/copying the URL will return you to the same slide
-        hash: false,
+        hash: true,
 
         // Start with 1 for the hash rather than 0
         hashOneBasedIndex: false,
