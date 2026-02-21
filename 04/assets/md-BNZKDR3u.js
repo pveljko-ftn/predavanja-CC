@@ -1,0 +1,10 @@
+import{_ as o}from"./slidev/CodeBlockWrapper.vue_vue_type_script_setup_true_lang-Cr7Phpda.js";import{b as p,o as c,w as s,g as a,e as u,m,ad as e,v as d,x as g,T as t}from"./modules/vue-B--U7SYg.js";import{I as f}from"./slidev/default-CQxGvXav.js";import{u as k,f as _}from"./slidev/context-BiCOxD9u.js";import"./modules/unplugin-icons-Dafapu7P.js";import"./index-DFFwPUXm.js";import"./modules/shiki-0kOzWxKF.js";const P={__name:"04.md__slidev_75",setup(v){const{$clicksContext:l,$frontmatter:r}=k();return l.setup(),(j,n)=>{const i=o;return c(),p(f,d(g(t(_)(t(r),74))),{default:s(()=>[n[1]||(n[1]=a("h2",null,"Primer upravljanja sa koracima",-1)),u(i,m({},{title:"",ranges:[]}),{default:s(()=>[...n[0]||(n[0]=[a("pre",{class:"shiki shiki-themes vitesse-dark vitesse-light slidev-code",style:{"--shiki-dark":"#dbd7caee","--shiki-light":"#393a34","--shiki-dark-bg":"#121212","--shiki-light-bg":"#ffffff"}},[a("code",{class:"language-text"},[a("span",{class:"line"},[a("span",null,"aws autoscaling put-scaling-policy \\")]),e(`
+`),a("span",{class:"line"},[a("span",null,"  --auto-scaling-group-name moja-grupa  \\")]),e(`
+`),a("span",{class:"line"},[a("span",null,"  --policy-name korak-skaliranje-na-gore \\")]),e(`
+`),a("span",{class:"line"},[a("span",null,"  --policy-type StepScaling \\")]),e(`
+`),a("span",{class:"line"},[a("span",null,"  --adjustment-type PercentChangeInCapacity \\")]),e(`
+`),a("span",{class:"line"},[a("span",null,"  --metric-aggregation-type Average \\")]),e(`
+`),a("span",{class:"line"},[a("span",null,"  --step-adjustments MetricIntervalLowerBound=0.0,MetricIntervalUpperBound=15.0,ScalingAdjustment=10 \\")]),e(`
+`),a("span",{class:"line"},[a("span",null,"                     MetricIntervalLowerBound=15.0,MetricIntervalUpperBound=25.0,ScalingAdjustment=20 \\")]),e(`
+`),a("span",{class:"line"},[a("span",null,"                     MetricIntervalLowerBound=25.0,ScalingAdjustment=30 \\")]),e(`
+`),a("span",{class:"line"},[a("span",null,"  --min-adjustment-magnitude 1")])])],-1)])]),_:1},16)]),_:1},16)}}};export{P as default};

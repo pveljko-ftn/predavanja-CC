@@ -1,0 +1,7 @@
+import{_ as o}from"./slidev/CodeBlockWrapper.vue_vue_type_script_setup_true_lang-Cr7Phpda.js";import{b as p,o as c,w as n,g as s,e as m,ad as e,m as d,v as u,x as f,T as t}from"./modules/vue-B--U7SYg.js";import{I as k}from"./slidev/default-CQxGvXav.js";import{u as g,f as _}from"./slidev/context-BiCOxD9u.js";import"./modules/unplugin-icons-Dafapu7P.js";import"./index-DFFwPUXm.js";import"./modules/shiki-0kOzWxKF.js";const w={__name:"04.md__slidev_120",setup(h){const{$clicksContext:l,$frontmatter:r}=g();return l.setup(),(x,a)=>{const i=o;return c(),p(k,u(f(t(_)(t(r),119))),{default:n(()=>[a[1]||(a[1]=s("h2",null,[s("code",null,"Nginx"),e(" konfiguracija za balansiranje")],-1)),m(i,d({},{title:"",ranges:[]}),{default:n(()=>[...a[0]||(a[0]=[s("pre",{class:"shiki shiki-themes vitesse-dark vitesse-light slidev-code",style:{"--shiki-dark":"#dbd7caee","--shiki-light":"#393a34","--shiki-dark-bg":"#121212","--shiki-light-bg":"#ffffff"}},[s("code",{class:"language-text"},[s("span",{class:"line"},[s("span",null,"http {")]),e(`
+`),s("span",{class:"line"},[s("span",null,"    upstream backend {")]),e(`
+`),s("span",{class:"line"},[s("span",null,"        server backend1.example.com weight=5;")]),e(`
+`),s("span",{class:"line"},[s("span",null,"        server backend2.example.com;")]),e(`
+`),s("span",{class:"line"},[s("span",null,"        server 192.0.0.1 backup;")]),e(`
+`),s("span",{class:"line"},[s("span",null,"    }")]),e(`
+`),s("span",{class:"line"},[s("span",null,"}")])])],-1)])]),_:1},16)]),_:1},16)}}};export{w as default};
